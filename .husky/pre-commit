@@ -1,1 +1,2 @@
+vitest run --silent
 npx lint-staged
