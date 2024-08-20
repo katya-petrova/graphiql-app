@@ -36,7 +36,7 @@ const Signup: React.FC = () => {
       return;
     }
     if (user) router.push('/restclient');
-  }, [user, loading]);
+  }, [user, loading, router]);
 
   return (
     <>
