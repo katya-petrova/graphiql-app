@@ -6,7 +6,7 @@ const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
   title: 'REST/GraphiQL Client',
-  description: 'About REST/GraphiQL Client',  
+  description: 'About REST/GraphiQL Client',
   icons: {
     icon: '/favicon.png',
   },

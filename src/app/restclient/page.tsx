@@ -1,17 +1,21 @@
 import React from 'react';
 import { Metadata } from 'next';
-import Signin from '@/components/Signin';
+import Restclient from '@/components/Restclient';
 
 export const metadata: Metadata = {
-  title: 'Sign In',
-  description: 'Sign in to your account.',
+  title: 'RESTfull Client',
+  description: 'About RESTfull Client',
   icons: {
     icon: '/favicon.png',
   },
 };
 
 const SigninPage: React.FC = () => {
-  return <Signin />;
+  return (
+    <>
+      <Restclient />
+    </>
+  );
 };
 
 export default SigninPage;
