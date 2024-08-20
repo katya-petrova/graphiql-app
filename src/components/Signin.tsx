@@ -18,7 +18,7 @@ const Signin: React.FC = () => {
       return;
     }
     if (user) router.push('/restclient');
-  }, [user, loading]);
+  }, [user, loading, router]);
 
   const login = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

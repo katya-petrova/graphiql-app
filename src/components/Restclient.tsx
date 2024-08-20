@@ -11,7 +11,7 @@ const Restclient: React.FC = () => {
 
   useEffect(() => {
     if (!user) router.push('/signin');
-  }, [user]);
+  }, [user, router]);
 
   const handleSignOut = async () => {
     try {
