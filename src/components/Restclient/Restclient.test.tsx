@@ -6,7 +6,6 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 import { useRouter } from 'next/navigation';
 import { logout } from '@/utils/firebase/authService';
 
-// Мокаем зависимости
 vi.mock('react-firebase-hooks/auth', () => ({
   useAuthState: vi.fn(),
 }));
@@ -27,14 +26,12 @@ const mockLogout = logout as jest.Mock;
 
 describe('Restclient Component', () => {
   beforeEach(() => {
-    // Сброс мокаций перед каждым тестом
     mockUseAuthState.mockClear();
     mockPush.mockClear();
     mockLogout.mockClear();
   });
 
   it('renders the Rest Client title and button', () => {
-    // Настраиваем, что пользователь есть
     mockUseAuthState.mockReturnValue([{}]);
 
     render(<Restclient />);
@@ -46,7 +43,6 @@ describe('Restclient Component', () => {
   });
 
   it('calls logout function when Sign Out button is clicked', async () => {
-    // Настраиваем, что пользователь есть
     mockUseAuthState.mockReturnValue([{}]);
 
     render(<Restclient />);
