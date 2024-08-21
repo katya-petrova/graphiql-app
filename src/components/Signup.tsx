@@ -7,12 +7,14 @@ import { auth, registerWithEmailAndPassword } from '../firebase';
 import { useRouter } from 'next/navigation';
 import Loader from './Loader/Loader';
 import { validateSignupForm } from '@/utils/validation';
+import { toast } from 'react-toastify';
+import ToastContainer from '@/components/ToastContainer';
 
 const Signup: React.FC = () => {
   const [name, setName] = useState<string>('');
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
-  const [user, loading, error] = useAuthState(auth);
+  const [user, loading] = useAuthState(auth);
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
 
   const router = useRouter();
@@ -24,15 +26,21 @@ const Signup: React.FC = () => {
 
     if (!isValid) {
       setErrors(errors);
+      Object.values(errors).forEach((msg) => toast.error(msg));
+      return;
+    }
+
+    if (!navigator.onLine) {
+      toast.error(
+        'You are currently offline. Please check your internet connection.'
+      );
       return;
     }
 
     try {
       await registerWithEmailAndPassword(name, email, password);
-
-      router.push('/restclient');
     } catch (error) {
-      console.log(error);
+      toast.error('An unexpected error occurred. Please try again.');
     }
   };
 
@@ -93,6 +101,7 @@ const Signup: React.FC = () => {
         </div>
         <Button type="submit">Sign Up</Button>
       </Form>
+      <ToastContainer />
     </>
   );
 };

@@ -6,6 +6,8 @@ import { auth, logInWithEmailAndPassword } from '../firebase';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useRouter } from 'next/navigation';
 import Loader from './Loader/Loader';
+import { toast } from 'react-toastify';
+import ToastContainer from './ToastContainer';
 
 const Signin: React.FC = () => {
   const [email, setEmail] = useState<string>('');
@@ -20,8 +22,14 @@ const Signin: React.FC = () => {
   const login = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (!email) alert('Please enter email'); //
-    console.log(email, password);
+    if (!email) alert('Please enter email');
+
+    if (!navigator.onLine) {
+      toast.error(
+        'You are currently offline. Please check your internet connection.'
+      );
+      return;
+    }
 
     try {
       await logInWithEmailAndPassword(email, password);
@@ -64,6 +72,7 @@ const Signin: React.FC = () => {
         </div>
         <Button type="submit">Sign In</Button>
       </Form>
+      <ToastContainer />
     </>
   );
 };
