@@ -38,7 +38,7 @@ const Signin: React.FC = () => {
 
   return (
     <>
-      <h1 className="text-2xl font-bold mb-4 text-center">Sign In</h1>
+      <h1 className="text-3xl font-bold mb-6 text-center">Sign In</h1>
       <Form onSubmit={login}>
         <div className="flex flex-col mb-4">
           <label htmlFor="email" className="mb-2 text-gray-700">
