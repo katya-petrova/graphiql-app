@@ -2,7 +2,7 @@
 import React, { useEffect } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useRouter } from 'next/navigation';
-import { Button } from './Button';
+import { Button } from './Button/Button';
 import { auth } from '@/utils/firebase/firebaseConfig';
 import { logout } from '@/utils/firebase/authService';
 
