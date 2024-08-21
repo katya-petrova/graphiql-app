@@ -1,6 +1,7 @@
 import React from 'react';
 import { Metadata } from 'next';
 import Signup from '@/components/Signup';
+import ToastContainer from '@/components/ToastContainer';
 
 export const metadata: Metadata = {
   title: 'Sign Up',
@@ -11,7 +12,12 @@ export const metadata: Metadata = {
 };
 
 const SignupPage: React.FC = () => {
-  return <Signup />;
+  return (
+    <>
+      <Signup />
+      <ToastContainer />
+    </>
+  );
 };
 
 export default SignupPage;
