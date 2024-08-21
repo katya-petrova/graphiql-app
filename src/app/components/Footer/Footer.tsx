@@ -13,7 +13,7 @@ export const Footer = () => {
             height={32}
           />
         </a>
-        <p>© 2024 GraphiQL</p>
+        <p className="leading-8">© 2024 GraphiQL</p>
         <a className="px-5 rounded-md" href="https://rs.school/">
           <Image
             src="/rss-logo.svg"

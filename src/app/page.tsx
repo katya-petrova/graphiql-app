@@ -2,7 +2,7 @@ import { Link } from './components/Link';
 
 export default function Welcome() {
   return (
-    <main className="flex flex-col items-center justify-between p-24">
+    <>
       <section className="max-w-2xl text-lg text-gray-400 space-y-6">
         <h1>Welcome to GraphiQL!</h1>
         <p>
@@ -26,6 +26,6 @@ export default function Welcome() {
         <Link href="/sign-in">Sign In</Link>
         <Link href="/sign-up">Sign Up</Link>
       </div>
-    </main>
+    </>
   );
 }
