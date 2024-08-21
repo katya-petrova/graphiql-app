@@ -3,12 +3,11 @@ import React, { useEffect, useState } from 'react';
 import { Button } from './Button';
 import { Form } from './Form';
 import { useAuthState } from 'react-firebase-hooks/auth';
-import { auth, registerWithEmailAndPassword } from '../firebase';
+import { auth, registerWithEmailAndPassword } from '../utils/firebaseConfig';
 import { useRouter } from 'next/navigation';
 import Loader from './Loader/Loader';
 import { validateSignupForm } from '@/utils/validation';
 import { toast } from 'react-toastify';
-import ToastContainer from '@/components/ToastContainer';
 
 const Signup: React.FC = () => {
   const [name, setName] = useState<string>('');
@@ -101,7 +100,6 @@ const Signup: React.FC = () => {
         </div>
         <Button type="submit">Sign Up</Button>
       </Form>
-      <ToastContainer />
     </>
   );
 };

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Metadata } from 'next';
 import Signin from '@/components/Signin';
+import ToastContainer from '@/components/ToastContainer';
 
 export const metadata: Metadata = {
   title: 'Sign In',
@@ -11,7 +12,12 @@ export const metadata: Metadata = {
 };
 
 const SigninPage: React.FC = () => {
-  return <Signin />;
+  return (
+    <>
+      <Signin />
+      <ToastContainer />
+    </>
+  );
 };
 
 export default SigninPage;

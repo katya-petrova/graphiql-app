@@ -1,3 +1,4 @@
+import { toast } from 'react-toastify';
 import { initializeApp } from 'firebase/app';
 import {
   GoogleAuthProvider,
@@ -62,7 +63,7 @@ const signInWithGoogle = async (): Promise<void> => {
     }
   } catch (err: any) {
     console.error(err);
-    alert(err.message);
+    toast.error(err.message);
   }
 };
 
@@ -74,7 +75,7 @@ const logInWithEmailAndPassword = async (
     await signInWithEmailAndPassword(auth, email, password);
   } catch (err: any) {
     console.error(err);
-    alert(err.message);
+    toast.error(err.message);
   }
 };
 
@@ -98,17 +99,17 @@ const registerWithEmailAndPassword = async (
     });
   } catch (err: any) {
     console.error(err);
-    alert(err.message);
+    toast.error(err.message);
   }
 };
 
 const sendPasswordReset = async (email: string): Promise<void> => {
   try {
     await sendPasswordResetEmail(auth, email);
-    alert('Password reset link sent!');
+    toast.success('Password reset link sent!');
   } catch (err: any) {
     console.error(err);
-    alert(err.message);
+    toast.error(err.message);
   }
 };
 

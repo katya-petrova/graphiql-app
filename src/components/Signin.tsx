@@ -2,12 +2,11 @@
 import React, { useEffect, useState } from 'react';
 import { Button } from './Button';
 import { Form } from './Form';
-import { auth, logInWithEmailAndPassword } from '../firebase';
+import { auth, logInWithEmailAndPassword } from '../utils/firebaseConfig';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useRouter } from 'next/navigation';
 import Loader from './Loader/Loader';
 import { toast } from 'react-toastify';
-import ToastContainer from './ToastContainer';
 
 const Signin: React.FC = () => {
   const [email, setEmail] = useState<string>('');
@@ -72,7 +71,6 @@ const Signin: React.FC = () => {
         </div>
         <Button type="submit">Sign In</Button>
       </Form>
-      <ToastContainer />
     </>
   );
 };
