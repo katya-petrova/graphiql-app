@@ -11,11 +11,7 @@ export const metadata: Metadata = {
 };
 
 const SigninPage: React.FC = () => {
-  return (
-    <>
-      <Restclient />
-    </>
-  );
+  return <Restclient />;
 };
 
 export default SigninPage;
