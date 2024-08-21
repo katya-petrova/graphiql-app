@@ -1,13 +1,13 @@
 'use client';
 import React, { useEffect, useState } from 'react';
-import { Button } from './Button/Button';
-import { Form } from './Form/Form';
+import { Form } from '../Form/Form';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useRouter } from 'next/navigation';
-import Loader from './Loader/Loader';
+import Loader from '../Loader/Loader';
 import { toast } from 'react-toastify';
 import { auth } from '@/utils/firebase/firebaseConfig';
 import { logInWithEmailAndPassword } from '@/utils/firebase/authService';
+import { Button } from '../Button/Button';
 
 const Signin: React.FC = () => {
   const [email, setEmail] = useState<string>('');
