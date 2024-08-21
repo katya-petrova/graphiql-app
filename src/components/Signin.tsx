@@ -5,6 +5,7 @@ import { Form } from './Form';
 import { auth, logInWithEmailAndPassword } from '../firebase';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useRouter } from 'next/navigation';
+import Loader from './Loader/Loader';
 
 const Signin: React.FC = () => {
   const [email, setEmail] = useState<string>('');
@@ -13,10 +14,6 @@ const Signin: React.FC = () => {
   const router = useRouter();
 
   useEffect(() => {
-    if (loading) {
-      // maybe trigger a loading screen
-      return;
-    }
     if (user) router.push('/restclient');
   }, [user, loading, router]);
 
@@ -27,14 +24,18 @@ const Signin: React.FC = () => {
     console.log(email, password);
 
     try {
-      logInWithEmailAndPassword(email, password);
+      await logInWithEmailAndPassword(email, password);
+
+      setEmail('');
+      setPassword('');
     } catch (error) {
       console.log(error);
     }
-
-    setEmail('');
-    setPassword('');
   };
+
+  if (loading) {
+    return <Loader />;
+  }
 
   return (
     <>

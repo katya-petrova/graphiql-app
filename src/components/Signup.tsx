@@ -5,6 +5,7 @@ import { Form } from './Form';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth, registerWithEmailAndPassword } from '../firebase';
 import { useRouter } from 'next/navigation';
+import Loader from './Loader/Loader';
 
 const Signup: React.FC = () => {
   const [name, setName] = useState<string>('');
@@ -20,23 +21,24 @@ const Signup: React.FC = () => {
     console.log(name, email, password);
 
     try {
-      registerWithEmailAndPassword(name, email, password);
+      await registerWithEmailAndPassword(name, email, password);
+
+      setName('');
+      setEmail('');
+      setPassword('');
+      router.push('/restclient');
     } catch (error) {
       console.log(error);
     }
-
-    setName('');
-    setEmail('');
-    setPassword('');
   };
 
   useEffect(() => {
-    if (loading) {
-      // maybe trigger a loading screen
-      return;
-    }
     if (user) router.push('/restclient');
   }, [user, loading, router]);
+
+  if (loading) {
+    return <Loader />;
+  }
 
   return (
     <>
