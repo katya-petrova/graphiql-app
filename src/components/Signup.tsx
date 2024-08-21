@@ -1,7 +1,7 @@
 'use client';
 import React, { useEffect, useState } from 'react';
 import { Button } from './Button/Button';
-import { Form } from './Form';
+import { Form } from './Form/Form';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useRouter } from 'next/navigation';
 import Loader from './Loader/Loader';
