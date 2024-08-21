@@ -5,10 +5,10 @@ import { Form } from './Form/Form';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useRouter } from 'next/navigation';
 import Loader from './Loader/Loader';
-import { validateSignupForm } from '@/utils/validation';
 import { toast } from 'react-toastify';
 import { auth } from '@/utils/firebase/firebaseConfig';
 import { registerWithEmailAndPassword } from '@/utils/firebase/authService';
+import { validateSignupForm } from '@/utils/validation/validateSignupForm';
 
 const Signup: React.FC = () => {
   const [name, setName] = useState<string>('');
