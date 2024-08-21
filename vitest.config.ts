@@ -11,5 +11,6 @@ export default defineConfig({
       provider: 'istanbul',
       include: ['src/**/*.{ts,tsx}'],
     },
+    setupFiles: './vitest.setup.ts',
   },
 });
