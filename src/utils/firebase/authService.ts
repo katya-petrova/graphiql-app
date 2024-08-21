@@ -1,8 +1,6 @@
 import { toast } from 'react-toastify';
-import { initializeApp } from 'firebase/app';
 import {
   GoogleAuthProvider,
-  getAuth,
   signInWithPopup,
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
@@ -10,41 +8,11 @@ import {
   signOut,
   UserCredential,
 } from 'firebase/auth';
-import {
-  getFirestore,
-  query,
-  getDocs,
-  collection,
-  where,
-  addDoc,
-  Firestore,
-  DocumentData,
-  QuerySnapshot,
-} from 'firebase/firestore';
+import { auth } from './firebaseConfig';
+import { db } from './firebaseConfig';
+import { collection, query, getDocs, where, addDoc } from 'firebase/firestore';
 
-// Define the Firebase configuration type
-interface FirebaseConfig {
-  apiKey: string;
-  authDomain: string;
-  projectId: string;
-  storageBucket: string;
-  messagingSenderId: string;
-  appId: string;
-}
-
-// Your web app's Firebase configuration
-const firebaseConfig = {
-  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY!,
-  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN!,
-  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID!,
-  storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET!,
-  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID!,
-  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID!,
-};
-
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db: Firestore = getFirestore(app);
+// Initialize Google Auth Provider
 const googleProvider = new GoogleAuthProvider();
 
 const signInWithGoogle = async (): Promise<void> => {
@@ -52,7 +20,7 @@ const signInWithGoogle = async (): Promise<void> => {
     const res: UserCredential = await signInWithPopup(auth, googleProvider);
     const user = res.user;
     const q = query(collection(db, 'users'), where('uid', '==', user.uid));
-    const docs: QuerySnapshot<DocumentData> = await getDocs(q);
+    const docs = await getDocs(q);
     if (docs.docs.length === 0) {
       await addDoc(collection(db, 'users'), {
         uid: user.uid,
@@ -118,8 +86,6 @@ const logout = (): void => {
 };
 
 export {
-  auth,
-  db,
   signInWithGoogle,
   logInWithEmailAndPassword,
   registerWithEmailAndPassword,

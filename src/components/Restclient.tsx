@@ -1,9 +1,10 @@
 'use client';
 import React, { useEffect } from 'react';
-import { auth, logout } from '../utils/firebaseConfig';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useRouter } from 'next/navigation';
 import { Button } from './Button';
+import { auth } from '@/utils/firebase/firebaseConfig';
+import { logout } from '@/utils/firebase/authService';
 
 const Restclient: React.FC = () => {
   const [user] = useAuthState(auth);
