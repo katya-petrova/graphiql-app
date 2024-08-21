@@ -22,8 +22,6 @@ const Signin: React.FC = () => {
   const login = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (!email) alert('Please enter email');
-
     if (!navigator.onLine) {
       toast.error(
         'You are currently offline. Please check your internet connection.'

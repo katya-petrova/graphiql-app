@@ -9,6 +9,7 @@ export default defineConfig({
     passWithNoTests: true,
     coverage: {
       provider: 'istanbul',
+      include: ['src/**/*.{ts,tsx}'],
     },
   },
 });
