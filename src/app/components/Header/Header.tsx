@@ -1,6 +1,7 @@
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import Image from 'next/image';
 import { Link } from '../Link';
+import { LanguageSwitcher } from '../LanguageSwitcher';
 
 type HeaderProps = {
   isSignedIn: boolean;
@@ -37,11 +38,11 @@ export const Header = ({
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 px-3 bg-blue-600 text-white transition-all duration-300 z-50 ${
-        isSticky ? 'py-1' : 'py-4'
+      className={`fixed top-0 left-0 right-0 content-center px-3 bg-blue-600 text-white transition-all duration-300 z-50 ${
+        isSticky ? 'py-1.5' : 'py-5'
       }`}
     >
-      <nav className="w-full text-center flex justify-between">
+      <nav className="w-full text-center flex justify-between items-center">
         <Link href="/">
           <Image
             src="/graphql-logo.svg"
@@ -51,9 +52,7 @@ export const Header = ({
             height={32}
           />
         </Link>
-        <button className="px-5 py-2 rounded-md hover:bg-gray-600">
-          Language Toggle
-        </button>
+        <LanguageSwitcher />
         {isSignedIn ? (
           <Link onClick={() => setIsSignedIn?.(false)} href="/">
             Sign out
