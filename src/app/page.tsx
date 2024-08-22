@@ -3,7 +3,7 @@ import { Link } from './components/Link';
 export default function Welcome() {
   return (
     <>
-      <section className="max-w-2xl text-lg text-gray-400 space-y-6">
+      <section className="max-w-2xl text-base md:text-lg text-gray-400 space-y-6">
         <h1>Welcome to GraphiQL!</h1>
         <p>
           Here, you can explore the world of GraphQL APIs with ease. Experiment

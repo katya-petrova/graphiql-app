@@ -38,8 +38,8 @@ export const Header = ({
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 content-center px-3 bg-blue-600 text-white transition-all duration-300 z-50 ${
-        isSticky ? 'py-1.5' : 'py-5'
+      className={`fixed top-0 left-0 right-0 content-center px-2 md:px-3 bg-blue-600 text-white transition-all duration-300 z-50 ${
+        isSticky ? 'py-1 md:py-1.5' : 'py-3 md:py-5'
       }`}
     >
       <nav className="w-full text-center flex justify-between items-center">
@@ -47,7 +47,7 @@ export const Header = ({
           <Image
             src="/graphql-logo.svg"
             alt="GraphQL Logo"
-            className="dark:invert"
+            className="invert"
             width={32}
             height={32}
           />

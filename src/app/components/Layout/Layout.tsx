@@ -20,7 +20,7 @@ export const Layout = ({
       />
       <main
         style={{ marginTop: headerHeight }}
-        className="flex flex-col items-center justify-between p-24"
+        className="flex flex-col items-center justify-between p-12 md:p-24"
       >
         {children}
       </main>

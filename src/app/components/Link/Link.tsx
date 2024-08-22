@@ -11,7 +11,7 @@ export const Link = ({ href, children, onClick }: LinkProps) => {
   return (
     <_Link
       href={href}
-      className="px-5 py-2 leading-8 rounded-md hover:bg-gray-600"
+      className="px-3 py-1 text-sm  md:px-5 md:py-2 md:text-base rounded-md hover:bg-gray-600"
       onClick={onClick}
     >
       {children}
