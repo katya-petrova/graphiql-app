@@ -45,7 +45,7 @@ export const Header = ({
       <nav className="w-full text-center flex justify-between items-center">
         <Link href="/">
           <Image
-            src="/graphql-logo.svg"
+            src="/logos/graphql-logo.svg"
             alt="GraphQL Logo"
             className="invert"
             width={32}

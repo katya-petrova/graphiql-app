@@ -6,7 +6,7 @@ export const Footer = () => {
       <div className="px-2 md:px-3 w-full text-center flex justify-between items-center">
         <a className="px-5 rounded-md" href="https://github.com/">
           <Image
-            src="/github-logo.svg"
+            src="/logos/github-logo.svg"
             alt="GitHub Logo"
             className="dark:invert"
             width={32}
@@ -16,7 +16,7 @@ export const Footer = () => {
         <p className="text-sm md:text-base">© 2024 GraphiQL</p>
         <a className="px-5 rounded-md" href="https://rs.school/">
           <Image
-            src="/rss-logo.svg"
+            src="/logos/rss-logo.svg"
             alt="RSS Logo"
             width={32}
             height={32}
