@@ -6,8 +6,11 @@ import { Layout } from './components/Layout';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'GraqhiQL Client',
-  description: 'REST API GraphQL client',
+  title: 'REST/GraphiQL Client',
+  description: 'About REST/GraphiQL Client',
+  icons: {
+    icon: '/favicon.png',
+  },
 };
 
 export default function RootLayout({
