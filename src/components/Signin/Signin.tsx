@@ -16,7 +16,7 @@ const Signin: React.FC = () => {
   const router = useRouter();
 
   useEffect(() => {
-    if (user) router.push('/restclient');
+    if (user) router.push('/main');
   }, [user, loading, router]);
 
   const login = async (e: React.FormEvent<HTMLFormElement>) => {

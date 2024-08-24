@@ -1,22 +1,20 @@
-import { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { Link } from '../Link';
 import { LanguageSwitcher } from '../LanguageSwitcher';
+import { useAuth } from '@/context/AuthContext';
+import { toast } from 'react-toastify';
+import { logout } from '@/utils/firebase/authService';
 
-type HeaderProps = {
-  isSignedIn: boolean;
-  setIsSignedIn?: Dispatch<SetStateAction<boolean>>;
-  setHeaderHeight: (height: string) => void;
-};
-
-export const Header_Height = '80px';
+export const Header_Height = '60px';
 
 export const Header = ({
-  isSignedIn,
-  setIsSignedIn,
   setHeaderHeight,
-}: HeaderProps) => {
+}: {
+  setHeaderHeight: (height: string) => void;
+}) => {
   const [isSticky, setIsSticky] = useState(false);
+  const { isSignedIn } = useAuth();
 
   useEffect(() => {
     setHeaderHeight(Header_Height);
@@ -30,11 +28,16 @@ export const Header = ({
     };
 
     window.addEventListener('scroll', handleScroll);
-
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
+    return () => window.removeEventListener('scroll', handleScroll);
   }, [setHeaderHeight]);
+
+  const handleSignOut = async () => {
+    try {
+      logout();
+    } catch (error) {
+      toast.error(` Sign out error: ${error}`);
+    }
+  };
 
   return (
     <header
@@ -52,17 +55,16 @@ export const Header = ({
         </Link>
         <LanguageSwitcher />
         {isSignedIn ? (
-          <Link onClick={() => setIsSignedIn?.(false)} href="/">
+          <button
+            className="px-3 py-1 text-sm  md:px-5 md:py-2 md:text-base rounded-md hover:bg-gray-600"
+            onClick={handleSignOut}
+          >
             Sign out
-          </Link>
+          </button>
         ) : (
           <div className="flex space-x-2">
-            <Link onClick={() => setIsSignedIn?.(true)} href="/sign-in">
-              Sign in
-            </Link>
-            <Link onClick={() => setIsSignedIn?.(true)} href="/sign-up">
-              Sign up
-            </Link>
+            <Link href="/signin">Sign in</Link>
+            <Link href="/signup">Sign up</Link>
           </div>
         )}
       </nav>

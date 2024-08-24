@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { Button } from '../Button/Button';
 import { auth } from '@/utils/firebase/firebaseConfig';
 import { logout } from '@/utils/firebase/authService';
+import { toast } from 'react-toastify';
 
 const Restclient: React.FC = () => {
   const [user] = useAuthState(auth);
@@ -18,7 +19,7 @@ const Restclient: React.FC = () => {
     try {
       logout();
     } catch (error) {
-      console.log(error);
+      toast.error(` Sign out error: ${error}`);
     }
   };
 

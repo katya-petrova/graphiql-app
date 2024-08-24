@@ -45,7 +45,7 @@ const Signup: React.FC = () => {
   };
 
   useEffect(() => {
-    if (user) router.push('/restclient');
+    if (user) router.push('/main');
   }, [user, loading, router]);
 
   if (loading) {
