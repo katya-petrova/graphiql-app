@@ -1,4 +1,4 @@
-import { Link } from './components/Link';
+import Link from 'next/link';
 
 export default function Welcome() {
   return (
@@ -23,8 +23,12 @@ export default function Welcome() {
         </p>
       </section>
       <div className="flex mt-20">
-        <Link href="/sign-in">Sign In</Link>
-        <Link href="/sign-up">Sign Up</Link>
+        <Link
+          href="/sign-up"
+          className="border border-blue-500 rounded px-4 py-2 hover:border-blue-700 text-blue-500 hover:text-blue-700 transition ease-in-out duration-150 hover:bg-transparent w-full text-center"
+        >
+          Get started
+        </Link>
       </div>
     </>
   );

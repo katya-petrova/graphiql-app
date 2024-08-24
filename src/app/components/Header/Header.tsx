@@ -38,9 +38,7 @@ export const Header = ({
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 content-center px-2 md:px-3 bg-blue-600 text-white transition-all duration-300 z-50 ${
-        isSticky ? 'py-1 md:py-1.5' : 'py-3 md:py-5'
-      }`}
+      className={`fixed top-0 left-0 right-0 content-center px-2 md:px-3 bg-blue-600 text-white transition-all duration-300 z-50 ${isSticky ? 'py-1 md:py-1.5' : 'py-3 md:py-5'}`}
     >
       <nav className="w-full text-center flex justify-between items-center">
         <Link href="/">
@@ -58,9 +56,14 @@ export const Header = ({
             Sign out
           </Link>
         ) : (
-          <Link onClick={() => setIsSignedIn?.(true)} href="/sign-up">
-            Sign in
-          </Link>
+          <div className="flex space-x-2">
+            <Link onClick={() => setIsSignedIn?.(true)} href="/sign-in">
+              Sign in
+            </Link>
+            <Link onClick={() => setIsSignedIn?.(true)} href="/sign-up">
+              Sign up
+            </Link>
+          </div>
         )}
       </nav>
     </header>
