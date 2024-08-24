@@ -12,7 +12,6 @@ import { auth } from './firebaseConfig';
 import { db } from './firebaseConfig';
 import { collection, query, getDocs, where, addDoc } from 'firebase/firestore';
 
-// Initialize Google Auth Provider
 const googleProvider = new GoogleAuthProvider();
 
 const signInWithGoogle = async (): Promise<void> => {
