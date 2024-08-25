@@ -5,6 +5,7 @@ import { match } from '@formatjs/intl-localematcher';
 let locales = ['en', 'ru'];
 let defaultLocale = 'en';
 const cookieName = 'i18nlang';
+const PUBLIC_FILE = /\.(.*)$/;
 
 function getLocale(request: NextRequest) {
   if (request.cookies.has(cookieName)) {
@@ -19,6 +20,10 @@ function getLocale(request: NextRequest) {
 }
 
 export function middleware(request: NextRequest) {
+  if (PUBLIC_FILE.test(request.nextUrl.pathname)) {
+    return;
+  }
+
   if (request.nextUrl.pathname.startsWith('/_next')) return NextResponse.next();
 
   const { pathname } = request.nextUrl;
