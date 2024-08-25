@@ -1,0 +1,11 @@
+{
+  "welcome": {
+    "title": "Welcome to GraphiQL!",
+    "description": [
+      "Here, you can explore the world of GraphQL APIs with ease. Experiment with different endpoints, craft and test your queries, manage variables and headers, and see the results of your work instantly.",
+      "GraphiQL Playground is built for simplicity and understanding. With its intuitive interface, navigating the power of GraphQL becomes a seamless experience. Your queries will be more straightforward, and the results more accessible.",
+      "Join us in uncovering the potential of GraphQL. GraphiQL Playground is your reliable partner in mastering and using GraphQL APIs. Enjoy the journey with confidence and ease!"
+    ],
+    "link": "Get started"
+  }
+}
