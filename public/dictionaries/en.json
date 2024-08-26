@@ -7,5 +7,12 @@
       "Join us in uncovering the potential of GraphQL. GraphiQL Playground is your reliable partner in mastering and using GraphQL APIs. Enjoy the journey with confidence and ease!"
     ],
     "link": "Get started"
+  },
+  "notFound": {
+    "title": "404 Page not found",
+    "description": "Could not found requested resource",
+    "links": {
+      "home": "Home"
+    }
   }
 }
