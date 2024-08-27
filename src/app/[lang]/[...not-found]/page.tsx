@@ -6,7 +6,7 @@ export default async function NotFound({
 }: {
   params: { lang: Locale };
 }) {
-  const t = await getDictionary(lang);
+  const { notFound } = await getDictionary(lang);
 
-  return <NotFoundClient t={t} />;
+  return <NotFoundClient t={notFound} />;
 }
