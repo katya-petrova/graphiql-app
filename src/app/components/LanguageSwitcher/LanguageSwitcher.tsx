@@ -49,6 +49,7 @@ export const LanguageSwitcher = () => {
   return (
     <div ref={rootRef} className="relative">
       <button
+        data-testid="language-button"
         className="flex items-center hover:shadow-[0_8px_10px_theme('colors.blue.800')] font-semibold p-1.5 px-2 rounded-lg border border-white border-1 transition-shadow"
         onClick={() => setIsOpen(!isOpen)}
       >
