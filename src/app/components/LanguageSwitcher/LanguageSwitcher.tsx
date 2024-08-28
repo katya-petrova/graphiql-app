@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
+import { usePathname, useRouter } from 'next/navigation';
 
 type LanguageOption = {
   code: string;
@@ -17,6 +18,9 @@ export const LanguageSwitcher = () => {
   const [selectedLanguage, setSelectedLanguage] = useState<LanguageOption>(
     languages[0]
   );
+
+  const router = useRouter();
+  const pathname = usePathname();
 
   const rootRef = useRef<HTMLDivElement>(null);
 
@@ -36,6 +40,8 @@ export const LanguageSwitcher = () => {
   }, []);
 
   const handleLanguageChange = (language: LanguageOption) => {
+    const newPathname = `/${language.code}${pathname.substring(3)}`;
+    router.replace(newPathname);
     setSelectedLanguage(language);
     setIsOpen(false);
   };
