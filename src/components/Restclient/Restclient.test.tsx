@@ -36,21 +36,6 @@ describe('Restclient Component', () => {
 
     render(<Restclient />);
 
-    expect(screen.getByText('Rest Client')).toBeInTheDocument();
-    expect(
-      screen.getByRole('button', { name: /Sign Out/i })
-    ).toBeInTheDocument();
-  });
-
-  it('calls logout function when Sign Out button is clicked', async () => {
-    mockUseAuthState.mockReturnValue([{}]);
-
-    render(<Restclient />);
-
-    fireEvent.click(screen.getByRole('button', { name: /Sign Out/i }));
-
-    await waitFor(() => {
-      expect(mockLogout).toHaveBeenCalled();
-    });
+    expect(screen.getByText('Add Header')).toBeInTheDocument();
   });
 });

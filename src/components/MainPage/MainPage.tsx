@@ -21,7 +21,7 @@ const MainPage = () => {
           <p>Welcome to our platform. Choose the tool you need:</p>
           <div className="flex flex-col md:flex-row space-y-4 md:space-x-4 md:space-y-0 mt-8">
             <Link
-              href="/rest-client"
+              href="/restclient"
               className="border border-blue-500 rounded px-4 py-2 hover:border-blue-700 text-blue-500 hover:text-blue-700 transition ease-in-out duration-150 hover:bg-transparent w-64 text-center"
             >
               RESTful Client
