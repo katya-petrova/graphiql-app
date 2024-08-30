@@ -4,6 +4,7 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import MainPage from './MainPage';
 import { useAuth } from '@/context/AuthContext';
 import { useRouter } from 'next/navigation';
+import en from '../../../public/dictionaries/en.json';
 
 vi.mock('@/context/AuthContext', () => ({
   useAuth: vi.fn(),
@@ -29,7 +30,7 @@ describe('MainPage Component', () => {
       user: { name: 'Test User' },
     });
 
-    render(<MainPage />);
+    render(<MainPage t={{ main: en.main, auth: en.auth }} />);
 
     expect(
       screen.getByText('Welcome to our platform. Choose the tool you need:')
@@ -42,7 +43,7 @@ describe('MainPage Component', () => {
   it('displays sign-in prompt if not signed in', () => {
     mockUseAuth.mockReturnValue({ isSignedIn: false, user: null });
 
-    render(<MainPage />);
+    render(<MainPage t={{ main: en.main, auth: en.auth }} />);
 
     expect(
       screen.getByText('Please sign in to access the platform.')

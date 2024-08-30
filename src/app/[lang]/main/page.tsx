@@ -1,6 +1,7 @@
 import React from 'react';
 import { Metadata } from 'next';
 import MainPage from '@/components/MainPage/MainPage';
+import { getDictionary, Locale } from '@/utils/translation/getDictionary';
 
 export const metadata: Metadata = {
   title: 'GraphiQL | Main',
@@ -9,8 +10,14 @@ export const metadata: Metadata = {
   },
 };
 
-const SigninPage: React.FC = () => {
-  return <MainPage />;
+type SigninPageProps = {
+  params: { lang: Locale };
+};
+
+const SigninPage = async ({ params: { lang } }: SigninPageProps) => {
+  const { main, auth } = await getDictionary(lang);
+
+  return <MainPage t={{ main, auth }} />;
 };
 
 export default SigninPage;
