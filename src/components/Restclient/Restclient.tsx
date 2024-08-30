@@ -23,30 +23,18 @@ const Restclient: React.FC = () => {
   }, [user, router]);
 
   const handleRequest = async () => {
-    const encodedUrl = btoa(endpoint);
-    const encodedBody = btoa(body);
+    try {
+      const res = await fetch('/api/sendRequest', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ method, endpoint, headers, body }),
+      });
 
-    const queryParams = headers
-      .map(
-        ([key, value]) =>
-          `${encodeURIComponent(key)}=${encodeURIComponent(value)}`
-      )
-      .join('&');
-
-    const requestUrl = `/${method}/${encodedUrl}?${queryParams}`;
-
-    // Fetch response
-    // const res = await fetch(requestUrl, {
-    //   method,
-    //   headers: headers.reduce((acc, [key, value]) => {
-    //     acc[key] = value;
-    //     return acc;
-    //   }, {}),
-    //   body: method !== 'GET' && method !== 'HEAD' ? body : undefined,
-    // });
-
-    // const data = await res.json();
-    // setResponse(data);
+      const data = await res.json();
+      setResponse(data);
+    } catch (error: unknown) {
+      // setResponse({ error: error.message });
+    }
   };
 
   return (
