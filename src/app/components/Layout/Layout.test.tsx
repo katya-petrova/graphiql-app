@@ -24,10 +24,21 @@ vi.mock('@/context/AuthContext', () => ({
   ),
 }));
 
+const mockT = {
+  messages: {
+    notAuth: 'Please sign in to access the platform.',
+  },
+  links: {
+    signIn: 'Sign in',
+    signUp: 'Sign un',
+    signOut: 'Sign out',
+  },
+};
+
 describe('Layout', () => {
   it('renders the Header, Footer, and children', () => {
     render(
-      <Layout>
+      <Layout t={mockT}>
         <div data-testid="child-content">Child Content</div>
       </Layout>
     );
@@ -41,7 +52,7 @@ describe('Layout', () => {
 
   it('applies the correct margin-top to main based on header height', () => {
     render(
-      <Layout>
+      <Layout t={mockT}>
         <div>Child Content</div>
       </Layout>
     );
@@ -52,7 +63,7 @@ describe('Layout', () => {
 
   it('wraps content with AuthProvider', () => {
     render(
-      <Layout>
+      <Layout t={mockT}>
         <div>Child Content</div>
       </Layout>
     );

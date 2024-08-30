@@ -32,6 +32,16 @@ vi.mock('@/utils/firebase/authService', () => ({
 
 const mockUseAuth = vi.mocked(useAuth);
 const mockLogout = vi.mocked(logout);
+const mockT = {
+  messages: {
+    notAuth: 'Please sign in to access the platform.',
+  },
+  links: {
+    signIn: 'Sign in',
+    signUp: 'Sign up',
+    signOut: 'Sign out',
+  },
+};
 
 describe('Header Component', () => {
   beforeEach(() => {
@@ -44,7 +54,7 @@ describe('Header Component', () => {
       user: null,
     });
 
-    render(<Header setHeaderHeight={vi.fn()} />);
+    render(<Header t={mockT} setHeaderHeight={vi.fn()} />);
 
     expect(screen.getByAltText('GraphQL Logo')).toBeInTheDocument();
     expect(screen.getByText('Language Switcher')).toBeInTheDocument();
@@ -59,7 +69,7 @@ describe('Header Component', () => {
       user: null,
     });
 
-    render(<Header setHeaderHeight={vi.fn()} />);
+    render(<Header t={mockT} setHeaderHeight={vi.fn()} />);
 
     expect(screen.getByText('Sign out')).toBeInTheDocument();
     expect(screen.queryByText('Sign in')).toBeNull();
@@ -72,7 +82,7 @@ describe('Header Component', () => {
       user: null,
     });
 
-    render(<Header setHeaderHeight={vi.fn()} />);
+    render(<Header t={mockT} setHeaderHeight={vi.fn()} />);
 
     fireEvent.click(screen.getByText('Sign out'));
 
@@ -87,7 +97,7 @@ describe('Header Component', () => {
       user: null,
     });
 
-    render(<Header setHeaderHeight={vi.fn()} />);
+    render(<Header t={mockT} setHeaderHeight={vi.fn()} />);
 
     act(() => {
       window.scrollY = 60;
