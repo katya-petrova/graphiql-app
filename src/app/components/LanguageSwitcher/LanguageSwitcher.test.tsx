@@ -2,14 +2,10 @@ import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { describe, it, expect, vi } from 'vitest';
 import { LanguageSwitcher } from './LanguageSwitcher';
 
-vi.mock('next/image', () => ({
-  __esModule: true,
-  default: (props: any) => <img {...props} />,
-}));
-
 vi.mock('next/navigation', () => ({
   useRouter: () => ({
     replace: vi.fn(),
+    refresh: vi.fn(),
   }),
   usePathname: () => 'en/some/path',
 }));

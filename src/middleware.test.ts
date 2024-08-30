@@ -1,6 +1,6 @@
 import { describe, it, expect, vi } from 'vitest';
 import { NextRequest, NextResponse } from 'next/server';
-import { middleware } from './middleware';
+import { i18nCookieName, middleware } from './middleware';
 import Negotiator from 'negotiator';
 import { match } from '@formatjs/intl-localematcher';
 
@@ -30,7 +30,7 @@ describe('middleware', () => {
     expect(response?.headers.get('Location')).toBe('http://localhost/ru/');
   });
 
-  it('should not redirect when the path includes a locale', () => {
+  it('should not redirect and set the locale cookie when the path includes a locale', () => {
     const request = {
       nextUrl: {
         pathname: '/ru/some-page',
@@ -45,7 +45,14 @@ describe('middleware', () => {
 
     const response = middleware(request);
 
-    expect(response).toBeUndefined();
+    expect(response.cookies.get(i18nCookieName)).toEqual({
+      name: i18nCookieName,
+      path: '/',
+      value: 'ru',
+    });
+
+    expect(response.status).toBe(200);
+    expect(response).toBeInstanceOf(NextResponse);
   });
 
   it('should not redirect for public files', () => {
@@ -63,6 +70,6 @@ describe('middleware', () => {
 
     const response = middleware(request);
 
-    expect(response).toBeUndefined();
+    expect(response).toBeInstanceOf(NextResponse);
   });
 });

@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import { usePathname, useRouter } from 'next/navigation';
+import { i18nCookieName } from '@/middleware';
 
 type LanguageOption = {
   code: string;
@@ -15,12 +16,15 @@ const languages: LanguageOption[] = [
 
 export const LanguageSwitcher = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedLanguage, setSelectedLanguage] = useState<LanguageOption>(
-    languages[0]
-  );
-
   const router = useRouter();
   const pathname = usePathname();
+
+  const pathParts = pathname.split('/').filter((part) => part);
+  const currentLocale = pathParts[0] || 'en';
+
+  const [selectedLanguage, setSelectedLanguage] = useState<LanguageOption>(
+    languages.find((lang) => lang.code === currentLocale) ?? languages[0]
+  );
 
   const rootRef = useRef<HTMLDivElement>(null);
 
@@ -40,10 +44,13 @@ export const LanguageSwitcher = () => {
   }, []);
 
   const handleLanguageChange = (language: LanguageOption) => {
-    const newPathname = `/${language.code}${pathname.substring(3)}`;
-    router.replace(newPathname);
+    document.cookie = `${i18nCookieName}=${language.code}; path=/; max-age=31536000; SameSite=Lax`;
     setSelectedLanguage(language);
     setIsOpen(false);
+
+    const newPathname = `/${language.code}${pathname.substring(3)}`;
+    router.replace(newPathname);
+    router.refresh();
   };
 
   return (

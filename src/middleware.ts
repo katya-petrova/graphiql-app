@@ -4,12 +4,12 @@ import { match } from '@formatjs/intl-localematcher';
 
 let locales = ['en', 'ru'];
 let defaultLocale = 'en';
-const cookieName = 'i18nlang';
+export const i18nCookieName = 'i18nlang';
 const PUBLIC_FILE = /\.(.*)$/;
 
 function getLocale(request: NextRequest) {
-  if (request.cookies.has(cookieName)) {
-    return request.cookies.get(cookieName)!.value;
+  if (request.cookies.has(i18nCookieName)) {
+    return request.cookies.get(i18nCookieName)!.value;
   }
 
   const acceptLang = request.headers.get('Accept-Language');
@@ -20,27 +20,29 @@ function getLocale(request: NextRequest) {
 }
 
 export function middleware(request: NextRequest) {
-  if (PUBLIC_FILE.test(request.nextUrl.pathname)) {
-    return;
+  const { pathname } = request.nextUrl;
+
+  if (PUBLIC_FILE.test(pathname) || pathname.startsWith('/_next')) {
+    return NextResponse.next();
   }
 
-  if (request.nextUrl.pathname.startsWith('/_next')) return NextResponse.next();
-
-  const { pathname } = request.nextUrl;
-  const pathnameHasLocale = locales.some(
+  const localeFromURL = locales.find(
     (locale) => pathname.startsWith(`/${locale}/`) || pathname === `/${locale}`
   );
 
-  if (pathnameHasLocale) return;
+  if (localeFromURL) {
+    const response = NextResponse.next();
+    response.cookies.set(i18nCookieName, localeFromURL);
+    return response;
+  }
 
   const locale = getLocale(request);
   request.nextUrl.pathname = `/${locale}${pathname}`;
   const response = NextResponse.redirect(request.nextUrl);
 
-  response.cookies.set(cookieName, locale);
   return response;
 }
 
 export const config = {
-  matcher: ['/((?!_next).*)'],
+  matcher: ['/((?!api|_next/static|_next/image|favicon.ico).*)'],
 };
