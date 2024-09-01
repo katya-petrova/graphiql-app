@@ -5,14 +5,16 @@ import { LanguageSwitcher } from '../LanguageSwitcher';
 import { useAuth } from '@/context/AuthContext';
 import { toast } from 'react-toastify';
 import { logout } from '@/utils/firebase/authService';
+import { Dictionary } from '@/utils/translation/getDictionary';
 
 export const Header_Height = '60px';
 
-export const Header = ({
-  setHeaderHeight,
-}: {
+type HeaderProps = {
   setHeaderHeight: (height: string) => void;
-}) => {
+  t: Dictionary['auth'];
+};
+
+export const Header = ({ setHeaderHeight, t }: HeaderProps) => {
   const [isSticky, setIsSticky] = useState(false);
   const { isSignedIn } = useAuth();
 
@@ -59,12 +61,12 @@ export const Header = ({
             className="px-3 py-1 text-sm  md:px-5 md:py-2 md:text-base rounded-md hover:bg-gray-600"
             onClick={handleSignOut}
           >
-            Sign out
+            {t.links.signOut}
           </button>
         ) : (
           <div className="flex space-x-2">
-            <Link href="/signin">Sign in</Link>
-            <Link href="/signup">Sign up</Link>
+            <Link href="/signin">{t.links.signIn}</Link>
+            <Link href="/signup">{t.links.signUp}</Link>
           </div>
         )}
       </nav>
