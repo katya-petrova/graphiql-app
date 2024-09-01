@@ -3,7 +3,7 @@ import { render, screen } from '@testing-library/react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import Welcome from './Welcome';
 import { useAuth } from '@/context/AuthContext';
-import en from '../../../public/dictionaries/en.json';
+import en from '@/utils/translation/dictionaries/en.json';
 
 vi.mock('@/context/AuthContext', () => ({
   useAuth: vi.fn(),

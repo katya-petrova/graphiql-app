@@ -4,7 +4,7 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import MainPage from './MainPage';
 import { useAuth } from '@/context/AuthContext';
 import { useRouter } from 'next/navigation';
-import en from '../../../public/dictionaries/en.json';
+import en from '@/utils/translation/dictionaries/en.json';
 
 vi.mock('@/context/AuthContext', () => ({
   useAuth: vi.fn(),

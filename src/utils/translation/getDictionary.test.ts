@@ -1,11 +1,11 @@
 import { describe, it, expect, vi } from 'vitest';
 import { getDictionary, Locale } from './getDictionary';
 
-vi.mock('../../../public/dictionaries/en.json', () => ({
+vi.mock('@/utils/translation/dictionaries/en.json', () => ({
   default: { greeting: 'Hello' },
 }));
 
-vi.mock('../../../public/dictionaries/ru.json', () => ({
+vi.mock('@/utils/translation/dictionaries/ru.json', () => ({
   default: { greeting: 'Привет' },
 }));
 
