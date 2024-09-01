@@ -8,11 +8,29 @@
     ],
     "link": "Get started"
   },
+  "main": {
+    "title": "Welcome to our platform. Choose the tool you need:",
+    "links": {
+      "rest": "RESTful Client",
+      "graphiQL": "GraphiQL",
+      "history": "History"
+    }
+  },
   "notFound": {
     "title": "404 Page not found",
     "description": "Could not found requested resource",
     "links": {
       "home": "Home"
+    }
+  },
+  "auth": {
+    "messages": {
+      "notAuth": "Please sign in to access the platform."
+    },
+    "links": {
+      "signIn": "Sign in",
+      "signUp": "Sign up",
+      "signOut": "Sign out"
     }
   }
 }
