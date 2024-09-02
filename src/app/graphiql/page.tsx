@@ -1,6 +1,6 @@
 import React from 'react';
 import { Metadata } from 'next';
-import GraphQLClient from '../components/GraphQLClient/GraphQLClient';
+import GraphQLClient from '@/components/GraphQL/GraphQLClient/GraphQLClient';
 
 export const metadata: Metadata = {
   title: 'GraphQL Client',
@@ -15,6 +15,3 @@ const SigninPage: React.FC = () => {
 };
 
 export default SigninPage;
-function createApolloClient() {
-  throw new Error('Function not implemented.');
-}
