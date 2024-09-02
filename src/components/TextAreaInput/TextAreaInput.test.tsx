@@ -24,7 +24,10 @@ describe('TextAreaInput Component', () => {
 
     expect(screen.getByLabelText(label)).toBeInTheDocument();
     expect(screen.getByPlaceholderText(placeholder)).toBeInTheDocument();
-    expect(screen.getByPlaceholderText(placeholder)).toHaveAttribute('rows', rows.toString());
+    expect(screen.getByPlaceholderText(placeholder)).toHaveAttribute(
+      'rows',
+      rows.toString()
+    );
   });
 
   it('renders with the correct initial value', () => {
@@ -55,6 +58,8 @@ describe('TextAreaInput Component', () => {
 
     const textarea = screen.getByPlaceholderText(placeholder);
 
-    expect(textarea).toHaveClass('w-full p-2 border border-gray-300 bg-white text-gray-700 rounded');
+    expect(textarea).toHaveClass(
+      'w-full p-2 border border-gray-300 bg-white text-gray-700 rounded'
+    );
   });
 });
