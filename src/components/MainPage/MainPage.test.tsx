@@ -3,7 +3,7 @@ import { render, screen, waitFor } from '@testing-library/react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import MainPage from './MainPage';
 import { useAuth } from '@/context/AuthContext';
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 import en from '../../../public/dictionaries/en.json';
 
 vi.mock('@/context/AuthContext', () => ({
@@ -14,6 +14,7 @@ vi.mock('next/navigation', () => ({
   useRouter: () => ({
     push: vi.fn(),
   }),
+  usePathname: () => '/en/',
 }));
 
 const mockUseAuth = useAuth as jest.Mock;
@@ -24,7 +25,7 @@ describe('MainPage Component', () => {
     vi.clearAllMocks();
   });
 
-  it('displays welcome message and links if signed in', () => {
+  it('displays welcome message and links if signed in', async () => {
     mockUseAuth.mockReturnValue({
       isSignedIn: true,
       user: { name: 'Test User' },
@@ -40,7 +41,7 @@ describe('MainPage Component', () => {
     expect(screen.getByText('History')).toBeInTheDocument();
   });
 
-  it('displays sign-in prompt if not signed in', () => {
+  it('displays sign-in prompt if not signed in', async () => {
     mockUseAuth.mockReturnValue({ isSignedIn: false, user: null });
 
     render(<MainPage t={{ main: en.main, auth: en.auth }} />);

@@ -1,12 +1,14 @@
+// page.tsx
 import { getDictionary, Locale } from '@/utils/translation/getDictionary';
 import Link from 'next/link';
 
 export default async function NotFound({
   params: { lang },
 }: {
-  params: { lang: Locale };
+  params: { lang: string };
 }) {
-  const { notFound } = await getDictionary(lang);
+  const locale: Locale = ['en', 'ru'].includes(lang) ? (lang as Locale) : 'en';
+  const { notFound } = await getDictionary(locale);
 
   return (
     <div className="flex flex-col justify-center items-center">

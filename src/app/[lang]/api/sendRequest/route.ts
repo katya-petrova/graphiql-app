@@ -19,8 +19,6 @@ export async function POST(request: NextRequest) {
       }
     }
 
-    console.log('Parsed Body:', parsedBody);
-
     const res = await fetch(endpoint, {
       method,
       headers: Object.fromEntries(headers),

@@ -1,6 +1,6 @@
 'use client';
 import React, { useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 import Link from 'next/link';
 import { useAuth } from '@/context/AuthContext';
 import { Dictionary } from '@/utils/translation/getDictionary';
@@ -12,6 +12,26 @@ type MainPageProps = {
 const MainPage = ({ t }: MainPageProps) => {
   const { isSignedIn, user } = useAuth();
   const router = useRouter();
+  const pathname = usePathname();
+
+  const getLangFromUrlOrCookie = () => {
+    const pathParts = pathname.split('/');
+    const urlLang = pathParts[1];
+
+    if (urlLang) {
+      return urlLang;
+    }
+    const cookies = document.cookie.split(';');
+    for (let cookie of cookies) {
+      const [key, value] = cookie.trim().split('=');
+      if (key === 'i18nlang') {
+        return value;
+      }
+    }
+    return 'en'; // Если язык не найден, по умолчанию используем 'en'
+  };
+
+  const currentLang = getLangFromUrlOrCookie();
 
   useEffect(() => {
     if (!isSignedIn) {
@@ -26,19 +46,19 @@ const MainPage = ({ t }: MainPageProps) => {
           <p>{t.main.title}</p>
           <div className="flex flex-col md:flex-row space-y-4 md:space-x-4 md:space-y-0 mt-8">
             <Link
-              href="/en/restclient"
+              href={`/${currentLang}/restclient/GET`}
               className="border border-blue-500 rounded px-4 py-2 hover:border-blue-700 text-blue-500 hover:text-blue-700 transition ease-in-out duration-150 hover:bg-transparent w-64 text-center"
             >
               {t.main.links.rest}
             </Link>
             <Link
-              href="/graphiql"
+              href={`/graphiql`}
               className="border border-blue-500 rounded px-4 py-2 hover:border-blue-700 text-blue-500 hover:text-blue-700 transition ease-in-out duration-150 hover:bg-transparent w-64 text-center"
             >
               {t.main.links.graphiQL}
             </Link>
             <Link
-              href="/history"
+              href={`/history`}
               className="border border-blue-500 rounded px-4 py-2 hover:border-blue-700 text-blue-500 hover:text-blue-700 transition ease-in-out duration-150 hover:bg-transparent w-64 text-center"
             >
               {t.main.links.history}

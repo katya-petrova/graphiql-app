@@ -20,6 +20,23 @@ const Restclient: React.FC = () => {
   const [body, setBody] = useState('');
   const [response, setResponse] = useState(null);
 
+  const getLangFromUrlOrCookie = (pathname: string) => {
+    const pathParts = pathname.split('/');
+    const urlLang = pathParts[1];
+
+    if (urlLang) {
+      return urlLang;
+    }
+    const cookies = document.cookie.split(';');
+    for (let cookie of cookies) {
+      const [key, value] = cookie.trim().split('=');
+      if (key === 'i18nlang') {
+        return value;
+      }
+    }
+    return 'en';
+  };
+
   useEffect(() => {
     const pathParts = pathname.split('/');
     const method = pathParts[3] || 'GET';
@@ -45,11 +62,10 @@ const Restclient: React.FC = () => {
   }, [pathname, searchParams]);
 
   const updateUrl = () => {
-    console.log('Updating URL with:', { method, endpoint, body, headers });
-
+    const lang = getLangFromUrlOrCookie(pathname); // Use pathname from hook
     const encodedEndpoint = Buffer.from(endpoint).toString('base64');
     const encodedBody = body ? Buffer.from(body).toString('base64') : '';
-    let newUrl = `/en/restclient/${method}/${encodedEndpoint}`;
+    let newUrl = `/${lang}/restclient/${method}/${encodedEndpoint}`;
     if (body) {
       newUrl += `/${encodedBody}`;
     }
@@ -64,22 +80,24 @@ const Restclient: React.FC = () => {
       newUrl += `?${headerParams}`;
     }
 
-    router.replace(newUrl);
+    window.history.replaceState(null, '', newUrl);
   };
 
   useEffect(() => {
     updateUrl();
-  }, [method]);
+  }, [endpoint]);
 
   useEffect(() => {
     updateUrl();
-  }, [headers]);
+  }, [method, headers]);
 
   const handleRequest = async () => {
     updateUrl();
 
+    const lang = getLangFromUrlOrCookie(pathname);
+
     try {
-      const res = await fetch('/api/sendRequest', {
+      const res = await fetch(`/${lang}/api/sendRequest/`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ method, endpoint, headers, body }),
@@ -93,7 +111,7 @@ const Restclient: React.FC = () => {
   };
 
   return (
-    <div className="max-w-4xl mx-auto p-6 bg-white shadow-md rounded-lg space-y-6 text-gray-800">
+    <div className="w-[782px] mx-auto p-6 bg-white shadow-md rounded-lg space-y-6 text-gray-800">
       <MethodSelector method={method} setMethod={setMethod} />
       <EndpointInput
         endpoint={endpoint}
