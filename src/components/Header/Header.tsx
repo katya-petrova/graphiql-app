@@ -6,6 +6,7 @@ import { logout } from '@/utils/firebase/authService';
 import { Dictionary } from '@/utils/translation/getDictionary';
 import { Link } from '../Link';
 import { LanguageSwitcher } from '../LanguageSwitcher';
+import { Button } from '../Button/Button';
 
 export const Header_Height = '60px';
 
@@ -46,7 +47,7 @@ export const Header = ({ setHeaderHeight, t }: HeaderProps) => {
       className={`fixed top-0 left-0 right-0 content-center px-2 md:px-5 bg-blue-600 text-white transition-all duration-300 z-50 ${isSticky ? 'py-1 md:py-1.5' : 'py-3 md:py-5'}`}
     >
       <nav className="px-2 md:px-3 w-full text-center flex justify-between items-center">
-        <Link href="/" external>
+        <Link href="/">
           <Image
             src="/logos/graphql-logo.svg"
             alt="GraphQL Logo"
@@ -57,12 +58,13 @@ export const Header = ({ setHeaderHeight, t }: HeaderProps) => {
         </Link>
         <LanguageSwitcher />
         {isSignedIn ? (
-          <button
-            className="px-3 py-1 text-sm  md:px-5 md:py-2 md:text-base rounded-md hover:bg-gray-600"
+          <Button
+            variant="secondary"
             onClick={handleSignOut}
+            className="rounded-md"
           >
             {t.links.signOut}
-          </button>
+          </Button>
         ) : (
           <div className="flex space-x-2">
             <Link variant="secondary" href="/signin">
