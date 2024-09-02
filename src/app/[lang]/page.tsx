@@ -1,4 +1,4 @@
-import Welcome from '@/components/Welcome/Welcome';
+import Welcome from '@/pagesComponents/Welcome/Welcome';
 import { getDictionary, Locale } from '@/utils/translation/getDictionary';
 import React from 'react';
 

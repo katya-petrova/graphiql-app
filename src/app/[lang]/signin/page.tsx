@@ -1,6 +1,6 @@
 import React from 'react';
 import { Metadata } from 'next';
-import Signin from '@/components/Signin/Signin';
+import Signin from '@/pagesComponents/Signin/Signin';
 import ToastContainer from '@/components/ToastContainer/ToastContainer';
 
 export const metadata: Metadata = {

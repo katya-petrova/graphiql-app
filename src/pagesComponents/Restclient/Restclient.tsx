@@ -2,10 +2,10 @@
 import React, { useEffect } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useRouter } from 'next/navigation';
-import { Button } from '../Button/Button';
+import { toast } from 'react-toastify';
+import { Button } from '@/components/Button/Button';
 import { auth } from '@/utils/firebase/firebaseConfig';
 import { logout } from '@/utils/firebase/authService';
-import { toast } from 'react-toastify';
 
 const Restclient: React.FC = () => {
   const [user] = useAuthState(auth);

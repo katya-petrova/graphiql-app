@@ -1,8 +1,8 @@
 'use client';
 
+import Link from 'next/link';
 import { useAuth } from '@/context/AuthContext';
 import { Dictionary } from '@/utils/translation/getDictionary';
-import Link from 'next/link';
 
 type WelcomeProps = { t: Dictionary['welcome'] };
 

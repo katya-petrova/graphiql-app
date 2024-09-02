@@ -3,7 +3,7 @@ import RestclientPage from './page';
 import { describe, it, expect } from 'vitest';
 import { vi } from 'vitest';
 
-vi.mock('@/components/Restclient/Restclient', () => ({
+vi.mock('@/pagesComponents/Restclient/Restclient', () => ({
   default: () => <div>Restclient Component</div>,
 }));
 
