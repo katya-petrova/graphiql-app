@@ -1,16 +1,17 @@
 import 'server-only';
-import en from '../../../public/dictionaries/en.json';
+import en from '@/utils/translation/dictionaries/en.json';
 
-export type Locale = 'en' | 'ru';
-export type Dictionary = typeof import('../../../public/dictionaries/en.json');
+export type Locale = keyof typeof dictionaries;
+export type Dictionary =
+  typeof import('@/utils/translation/dictionaries/en.json');
 
 const dictionaries = {
   en: (): Promise<typeof en> =>
-    import('../../../public/dictionaries/en.json').then(
+    import('@/utils/translation/dictionaries/en.json').then(
       (module) => module.default
     ),
   ru: (): Promise<typeof en> =>
-    import('../../../public/dictionaries/ru.json').then(
+    import('@/utils/translation/dictionaries/ru.json').then(
       (module) => module.default
     ),
 };

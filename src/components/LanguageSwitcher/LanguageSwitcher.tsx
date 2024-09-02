@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import { usePathname, useRouter } from 'next/navigation';
 import { i18nCookieName } from '@/middleware';
+import { Button } from '../Button';
 
 type LanguageOption = {
   code: string;
@@ -55,16 +56,17 @@ export const LanguageSwitcher = () => {
 
   return (
     <div ref={rootRef} className="relative">
-      <button
+      <Button
         data-testid="language-button"
-        className="flex items-center hover:shadow-[0_8px_10px_theme('colors.blue.800')] font-semibold p-1.5 px-2 rounded-lg border border-white border-1 transition-shadow"
+        variant="secondary"
+        className="flex items-center hover:shadow-[0_8px_10px_theme('colors.blue.800')] font-semibold py-1 px-1.5 md:py-1.5 md:px-2 rounded-lg"
         onClick={() => setIsOpen(!isOpen)}
       >
         <Image
           src={selectedLanguage.flag}
           alt={selectedLanguage.label}
-          width={24}
-          height={24}
+          width={20}
+          height={20}
           className="mr-2"
         />
         <span>{selectedLanguage.label}</span>
@@ -77,7 +79,7 @@ export const LanguageSwitcher = () => {
             isOpen ? 'rotate-180' : 'rotate-0'
           }`}
         />
-      </button>
+      </Button>
 
       <ul
         className={`absolute bg-gray-800 border overflow-hidden rounded-lg mt-1.5 left-0 transition-all duration-300 ease-out transform ${
@@ -86,9 +88,10 @@ export const LanguageSwitcher = () => {
       >
         {languages.map((language) => (
           <li key={language.code}>
-            <button
+            <Button
               onClick={() => handleLanguageChange(language)}
-              className={`flex items-center w-full px-4 py-2 text-left hover:bg-gray-700 ${
+              variant="secondary"
+              className={`flex items-center w-full px-4 py-2 text-left hover:bg-gray-700 border-none ${
                 selectedLanguage.code === language.code
                   ? 'bg-gray-700 text-white'
                   : ''
@@ -97,12 +100,12 @@ export const LanguageSwitcher = () => {
               <Image
                 src={language.flag}
                 alt={language.label}
-                width={24}
-                height={24}
+                width={20}
+                height={20}
                 className="mr-2 border border-gray-600 rounded-full"
               />
               {language.label}
-            </button>
+            </Button>
           </li>
         ))}
       </ul>
