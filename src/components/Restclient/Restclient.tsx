@@ -1,8 +1,7 @@
 'use client';
 import React, { useState, useEffect } from 'react';
-import { useAuthState } from 'react-firebase-hooks/auth';
-import { useRouter, usePathname, useSearchParams } from 'next/navigation';
-import { auth } from '@/utils/firebase/firebaseConfig';
+import { usePathname, useSearchParams } from 'next/navigation';
+import { toast } from 'react-toastify';
 import MethodSelector from './components/MethodSelector/MethodSelector';
 import EndpointInput from './components/EndpointInput/EndpointInput';
 import HeadersEditor from './components/HeadersEditor/HeadersEditor';
@@ -10,8 +9,6 @@ import BodyEditor from './components/BodyEditor/BodyEditor';
 import ResponseViewer from './components/ResponseViewer/ResponseViewer';
 
 const Restclient: React.FC = () => {
-  const [user] = useAuthState(auth);
-  const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const [method, setMethod] = useState('GET');
@@ -19,6 +16,7 @@ const Restclient: React.FC = () => {
   const [headers, setHeaders] = useState<[string, string][]>([]);
   const [body, setBody] = useState('');
   const [response, setResponse] = useState(null);
+  const [history, setHistory] = useState<any[]>([]);
 
   const getLangFromUrlOrCookie = (pathname: string) => {
     const pathParts = pathname.split('/');
@@ -59,10 +57,15 @@ const Restclient: React.FC = () => {
       parsedHeaders.push([key, decodeURIComponent(value)]);
     }
     setHeaders(parsedHeaders);
+
+    const savedHistory = JSON.parse(
+      localStorage.getItem('requestHistory') || '[]'
+    );
+    setHistory(savedHistory);
   }, [pathname, searchParams]);
 
   const updateUrl = () => {
-    const lang = getLangFromUrlOrCookie(pathname); // Use pathname from hook
+    const lang = getLangFromUrlOrCookie(pathname);
     const encodedEndpoint = Buffer.from(endpoint).toString('base64');
     const encodedBody = body ? Buffer.from(body).toString('base64') : '';
     let newUrl = `/${lang}/restclient/${method}/${encodedEndpoint}`;
@@ -79,20 +82,12 @@ const Restclient: React.FC = () => {
         .join('&');
       newUrl += `?${headerParams}`;
     }
-
     window.history.replaceState(null, '', newUrl);
+    return newUrl;
   };
 
-  useEffect(() => {
-    updateUrl();
-  }, [endpoint]);
-
-  useEffect(() => {
-    updateUrl();
-  }, [method, headers]);
-
   const handleRequest = async () => {
-    updateUrl();
+    const newUrl = updateUrl();
 
     const lang = getLangFromUrlOrCookie(pathname);
 
@@ -105,9 +100,27 @@ const Restclient: React.FC = () => {
 
       const data = await res.json();
       setResponse(data);
+
+      saveRestRequestToHistory(newUrl, method, endpoint);
     } catch (error) {
-      console.error('Request Error:', error);
+      toast.error(` Request Error: ${error}`);
     }
+  };
+
+  const saveRestRequestToHistory = (
+    link: string,
+    method: string,
+    endpoint: string
+  ) => {
+    const newEntry = {
+      request_url: `${method} ${endpoint}`,
+      link,
+      time: new Date().toLocaleString(),
+    };
+
+    const updatedHistory = [newEntry, ...history];
+    setHistory(updatedHistory);
+    localStorage.setItem('requestHistory', JSON.stringify(updatedHistory));
   };
 
   return (
