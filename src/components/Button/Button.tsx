@@ -8,7 +8,7 @@ const baseClass =
   'px-3 py-1 text-sm md:px-4 md:py-2 md:text-base border rounded transition ease-in-out duration-150';
 
 const variants = {
-  primary: 'bg-yellow-500 text-white hover:bg-yellow-600',
+  primary: 'bg-blue-500 text-white hover:bg-blue-600',
   secondary:
     'border-gray-100 hover:border-gray-300 text-gray-100 hover:text-gray-300 hover:bg-transparent',
 };
