@@ -3,6 +3,7 @@ import { render, screen } from '@testing-library/react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import Welcome from './Welcome';
 import { useAuth } from '@/context/AuthContext';
+import en from '@/utils/translation/dictionaries/en.json';
 
 vi.mock('@/context/AuthContext', () => ({
   useAuth: vi.fn(),
@@ -21,7 +22,7 @@ describe('Welcome Component', () => {
       user: null,
     });
 
-    render(<Welcome />);
+    render(<Welcome t={en.welcome} />);
 
     expect(screen.getByText('Welcome to GraphiQL!')).toBeInTheDocument();
     expect(
@@ -37,7 +38,7 @@ describe('Welcome Component', () => {
       user: null,
     });
 
-    render(<Welcome />);
+    render(<Welcome t={en.welcome} />);
 
     const link = screen.getByRole('link', { name: /Get started/i });
     expect(link).toHaveAttribute('href', '/signin');
@@ -49,7 +50,7 @@ describe('Welcome Component', () => {
       user: null,
     });
 
-    render(<Welcome />);
+    render(<Welcome t={en.welcome} />);
 
     const link = screen.getByRole('link', { name: /Get started/i });
     expect(link).toHaveAttribute('href', '/main');

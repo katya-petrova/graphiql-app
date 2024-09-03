@@ -1,5 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
+import { usePathname, useRouter } from 'next/navigation';
+import { i18nCookieName } from '@/middleware';
+import { Button } from '../Button';
 
 type LanguageOption = {
   code: string;
@@ -14,8 +17,14 @@ const languages: LanguageOption[] = [
 
 export const LanguageSwitcher = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const router = useRouter();
+  const pathname = usePathname();
+
+  const pathParts = pathname.split('/').filter((part) => part);
+  const currentLocale = pathParts[0] || 'en';
+
   const [selectedLanguage, setSelectedLanguage] = useState<LanguageOption>(
-    languages[0]
+    languages.find((lang) => lang.code === currentLocale) ?? languages[0]
   );
 
   const rootRef = useRef<HTMLDivElement>(null);
@@ -36,21 +45,28 @@ export const LanguageSwitcher = () => {
   }, []);
 
   const handleLanguageChange = (language: LanguageOption) => {
+    document.cookie = `${i18nCookieName}=${language.code}; path=/; max-age=31536000; SameSite=Lax`;
     setSelectedLanguage(language);
     setIsOpen(false);
+
+    const newPathname = `/${language.code}${pathname.substring(3)}`;
+    router.replace(newPathname);
+    router.refresh();
   };
 
   return (
     <div ref={rootRef} className="relative">
-      <button
-        className="flex items-center hover:shadow-[0_8px_10px_theme('colors.blue.800')] font-semibold p-1.5 px-2 rounded-lg border border-white border-1 transition-shadow"
+      <Button
+        data-testid="language-button"
+        variant="secondary"
+        className="flex items-center hover:shadow-[0_8px_10px_theme('colors.blue.800')] font-semibold py-1 px-1.5 md:py-1.5 md:px-2 rounded-lg"
         onClick={() => setIsOpen(!isOpen)}
       >
         <Image
           src={selectedLanguage.flag}
           alt={selectedLanguage.label}
-          width={24}
-          height={24}
+          width={20}
+          height={20}
           className="mr-2"
         />
         <span>{selectedLanguage.label}</span>
@@ -63,7 +79,7 @@ export const LanguageSwitcher = () => {
             isOpen ? 'rotate-180' : 'rotate-0'
           }`}
         />
-      </button>
+      </Button>
 
       <ul
         className={`absolute bg-gray-800 border overflow-hidden rounded-lg mt-1.5 left-0 transition-all duration-300 ease-out transform ${
@@ -72,9 +88,10 @@ export const LanguageSwitcher = () => {
       >
         {languages.map((language) => (
           <li key={language.code}>
-            <button
+            <Button
               onClick={() => handleLanguageChange(language)}
-              className={`flex items-center w-full px-4 py-2 text-left hover:bg-gray-700 ${
+              variant="secondary"
+              className={`flex items-center w-full px-4 py-2 text-left hover:bg-gray-700 border-none ${
                 selectedLanguage.code === language.code
                   ? 'bg-gray-700 text-white'
                   : ''
@@ -83,12 +100,12 @@ export const LanguageSwitcher = () => {
               <Image
                 src={language.flag}
                 alt={language.label}
-                width={24}
-                height={24}
+                width={20}
+                height={20}
                 className="mr-2 border border-gray-600 rounded-full"
               />
               {language.label}
-            </button>
+            </Button>
           </li>
         ))}
       </ul>

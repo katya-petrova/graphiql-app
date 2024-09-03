@@ -1,21 +1,32 @@
-import React from 'react';
+import { ComponentProps } from 'react';
 
-interface ButtonProps {
-  onClick?: () => void;
-  children: React.ReactNode;
-  type?: 'button' | 'submit' | 'reset';
-}
+type ButtonProps = ComponentProps<'button'> & {
+  variant?: keyof typeof variants;
+};
 
-const Button: React.FC<ButtonProps> = ({
+const baseClass =
+  'px-3 py-1 text-sm md:px-4 md:py-2 md:text-base border rounded transition ease-in-out duration-150';
+
+const variants = {
+  primary: 'bg-blue-500 text-white hover:bg-blue-600',
+  secondary:
+    'border-gray-100 hover:border-gray-300 text-gray-100 hover:text-gray-300 hover:bg-transparent',
+};
+
+const Button = ({
   onClick,
   children,
   type = 'button',
-}) => {
+  className,
+  variant = 'primary',
+  ...rest
+}: ButtonProps) => {
   return (
     <button
       type={type}
       onClick={onClick}
-      className="px-4 py-2 border rounded bg-blue-500 text-white hover:bg-blue-600"
+      className={`${baseClass} ${variants[variant]} ${className}`}
+      {...rest}
     >
       {children}
     </button>

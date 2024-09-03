@@ -12,10 +12,13 @@
     "prepare": "husky"
   },
   "dependencies": {
+    "@formatjs/intl-localematcher": "^0.5.4",
+    "@types/negotiator": "^0.6.3",
     "@apollo/client": "^3.11.4",
     "atob": "^2.1.2",
     "firebase": "^10.13.0",
     "graphql": "^16.9.0",
+    "negotiator": "^0.6.3",
     "next": "14.2.5",
     "react": "^18",
     "react-dom": "^18",
