@@ -9,11 +9,11 @@ type HomePageProps = {
 };
 
 const HomePage = async ({ params: { lang } }: HomePageProps) => {
-  const { welcome } = await getDictionary(lang);
+  const { welcome, auth } = await getDictionary(lang);
 
   return (
     <div>
-      <Welcome t={welcome} />
+      <Welcome t={{ welcome, auth }} />
     </div>
   );
 };
