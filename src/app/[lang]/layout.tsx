@@ -20,16 +20,19 @@ export async function generateStaticParams() {
 
 type RootLayoutProps = Readonly<{
   children: React.ReactNode;
-  params: { lang: Locale };
+  params: { lang: string };
 }>;
 
 export default async function RootLayout({
   children,
   params: { lang },
 }: RootLayoutProps) {
-  const { auth } = await getDictionary(lang);
+  const locale: Locale = lang === 'en' || lang === 'ru' ? lang : 'en';
+
+  const { auth } = await getDictionary(locale);
+
   return (
-    <html lang={lang}>
+    <html lang={locale}>
       <body className={inter.className}>
         <div className="min-h-screen flex flex-col justify-between">
           <Layout t={auth}>{children}</Layout>
