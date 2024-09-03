@@ -1,9 +1,9 @@
 'use client';
 import React, { useEffect } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
-import Link from 'next/link';
 import { useAuth } from '@/context/AuthContext';
 import { Dictionary } from '@/utils/translation/getDictionary';
+import { Link } from '../Link';
 
 type MainPageProps = {
   t: Pick<Dictionary, 'main' | 'auth'>;
@@ -28,7 +28,7 @@ const MainPage = ({ t }: MainPageProps) => {
         return value;
       }
     }
-    return 'en'; // Если язык не найден, по умолчанию используем 'en'
+    return 'en';
   };
 
   const currentLang = getLangFromUrlOrCookie();
@@ -46,21 +46,16 @@ const MainPage = ({ t }: MainPageProps) => {
           <p>{t.main.title}</p>
           <div className="flex flex-col md:flex-row space-y-4 md:space-x-4 md:space-y-0 mt-8">
             <Link
+              variant="primary"
               href={`/${currentLang}/restclient/GET`}
-              className="border border-blue-500 rounded px-4 py-2 hover:border-blue-700 text-blue-500 hover:text-blue-700 transition ease-in-out duration-150 hover:bg-transparent w-64 text-center"
+              className="w-64"
             >
               {t.main.links.rest}
             </Link>
-            <Link
-              href={`/graphiql`}
-              className="border border-blue-500 rounded px-4 py-2 hover:border-blue-700 text-blue-500 hover:text-blue-700 transition ease-in-out duration-150 hover:bg-transparent w-64 text-center"
-            >
+            <Link variant="primary" href={`/graphiql`} className="w-64">
               {t.main.links.graphiQL}
             </Link>
-            <Link
-              href={`/history`}
-              className="border border-blue-500 rounded px-4 py-2 hover:border-blue-700 text-blue-500 hover:text-blue-700 transition ease-in-out duration-150 hover:bg-transparent w-64 text-center"
-            >
+            <Link variant="primary" href={`/history`} className="w-64">
               {t.main.links.history}
             </Link>
           </div>
