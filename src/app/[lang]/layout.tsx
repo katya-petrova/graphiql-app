@@ -27,7 +27,7 @@ export default async function RootLayout({
   children,
   params: { lang },
 }: RootLayoutProps) {
-  const locale: Locale = lang === 'en' || lang === 'ru' ? lang : 'en'; // Если значение недопустимо, устанавливаем 'en' по умолчанию
+  const locale: Locale = lang === 'en' || lang === 'ru' ? lang : 'en';
 
   const { auth } = await getDictionary(locale);
 

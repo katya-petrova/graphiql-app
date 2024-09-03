@@ -5,7 +5,7 @@ import SigninPage from './page';
 import { vi } from 'vitest';
 import { getDictionary } from '@/utils/translation/getDictionary';
 
-vi.mock('@/components/MainPage/MainPage', () => ({
+vi.mock('@/pagesComponents/MainPage/MainPage', () => ({
   __esModule: true,
   default: () => <div>Main Page Content</div>,
 }));

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Metadata } from 'next';
-import Restclient from '@/components/Restclient/Restclient';
+import Restclient from '@/pagesComponents/Restclient/Restclient';
 
 export const metadata: Metadata = {
   title: 'RESTfull Client',

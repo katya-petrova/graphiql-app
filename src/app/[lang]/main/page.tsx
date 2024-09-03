@@ -1,6 +1,6 @@
 import React from 'react';
 import { Metadata } from 'next';
-import MainPage from '@/components/MainPage/MainPage';
+import MainPage from '@/pagesComponents/MainPage/MainPage';
 import { getDictionary, Locale } from '@/utils/translation/getDictionary';
 
 export const metadata: Metadata = {
