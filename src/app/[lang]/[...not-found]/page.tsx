@@ -1,12 +1,13 @@
 import { getDictionary, Locale } from '@/utils/translation/getDictionary';
-import { Link } from '@/components/Link';
+import Link from 'next/link';
 
 export default async function NotFound({
   params: { lang },
 }: {
-  params: { lang: Locale };
+  params: { lang: string };
 }) {
-  const { notFound } = await getDictionary(lang);
+  const locale: Locale = ['en', 'ru'].includes(lang) ? (lang as Locale) : 'en';
+  const { notFound } = await getDictionary(locale);
 
   return (
     <div className="flex flex-col justify-center items-center">
@@ -15,8 +16,7 @@ export default async function NotFound({
       <div className="flex gap-4 mb-auto">
         <Link
           href={'/'}
-          variant="primary"
-          className="mt-8 md:mt-16 px-8 md:px-20"
+          className="grow-0 mt-8 border border-blue-500 rounded px-4 py-2 hover:border-blue-700 text-blue-500 hover:text-blue-700 transition ease-in-out duration-150 hover:bg-transparent text-center"
         >
           {notFound.links.home}
         </Link>

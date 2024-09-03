@@ -3,7 +3,7 @@ import React, { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
 import { Dictionary } from '@/utils/translation/getDictionary';
-import { Link } from '../Link';
+import { Link } from '@/components/Link';
 
 type MainPageProps = {
   t: Pick<Dictionary, 'main' | 'auth'>;

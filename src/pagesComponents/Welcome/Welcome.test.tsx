@@ -22,7 +22,7 @@ describe('Welcome Component', () => {
       user: null,
     });
 
-    render(<Welcome t={en.welcome} />);
+    render(<Welcome t={en} />);
 
     expect(screen.getByText('Welcome to GraphiQL!')).toBeInTheDocument();
     expect(
@@ -38,9 +38,9 @@ describe('Welcome Component', () => {
       user: null,
     });
 
-    render(<Welcome t={en.welcome} />);
+    render(<Welcome t={en} />);
 
-    const link = screen.getByRole('link', { name: /Get started/i });
+    const link = screen.getByRole('link', { name: /sign in/i });
     expect(link).toHaveAttribute('href', '/signin');
   });
 
@@ -50,7 +50,7 @@ describe('Welcome Component', () => {
       user: null,
     });
 
-    render(<Welcome t={en.welcome} />);
+    render(<Welcome t={en} />);
 
     const link = screen.getByRole('link', { name: /Get started/i });
     expect(link).toHaveAttribute('href', '/main');

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Metadata } from 'next';
 import ToastContainer from '@/components/ToastContainer/ToastContainer';
-import Signup from '@/components/Signup/Signup';
+import Signup from '@/pagesComponents/Signup/Signup';
 
 export const metadata: Metadata = {
   title: 'Sign Up',

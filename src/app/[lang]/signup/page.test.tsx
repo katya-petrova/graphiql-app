@@ -3,7 +3,7 @@ import SignupPage from './page';
 import { describe, it, expect } from 'vitest';
 import { vi } from 'vitest';
 
-vi.mock('@/components/Signup/Signup', () => ({
+vi.mock('@/pagesComponents/Signup/Signup', () => ({
   default: () => <div>Signup Component</div>,
 }));
 
