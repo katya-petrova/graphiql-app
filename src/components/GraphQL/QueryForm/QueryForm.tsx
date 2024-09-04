@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from 'react';
+import gql from 'graphql-tag';
+import { print } from 'graphql';
 import UrlInput from '../../UrlInput/UrlInput';
 import TextAreaInput from '../../TextAreaInput/TextAreaInput';
 import HeaderInput from '../HeaderInput/HeaderInput';
 import { Button } from '../../Button/Button';
+import { toast } from 'react-toastify';
 
 interface Header {
   key: string;
@@ -70,6 +73,22 @@ const QueryForm: React.FC<QueryFormProps> = ({
     onHeadersChange(JSON.stringify(newHeaderList));
   };
 
+  const handlePrettify = () => {
+    try {
+      const parsedQuery = gql(query);
+      const beautifiedQuery = print(parsedQuery);
+      onQueryChange({
+        target: { value: beautifiedQuery },
+      } as React.ChangeEvent<HTMLTextAreaElement>);
+    } catch (error) {
+      if (error instanceof Error) {
+        toast.error(`Error formatting query: ${error.message}`);
+      } else {
+        toast.error('An unknown error occurred');
+      }
+    }
+  };
+
   return (
     <div>
       <UrlInput
@@ -114,12 +133,17 @@ const QueryForm: React.FC<QueryFormProps> = ({
         placeholder="Enter your GraphQL query"
         rows={8}
       />
+
+      <Button onClick={handlePrettify} className="mt-2 mb-4">
+        Prettify Query
+      </Button>
+
       <TextAreaInput
         label="Variables:"
         value={variables}
         onChange={onVariablesChange}
         placeholder={`{"id": "1", "name": "example"}`}
-        rows={4}
+        rows={1}
       />
 
       <div className="mt-4">
