@@ -12,15 +12,16 @@
     "prepare": "husky"
   },
   "dependencies": {
+    "@apollo/client": "^3.11.4",
     "@codemirror/lang-javascript": "^6.2.2",
     "@codemirror/lang-json": "^6.0.1",
     "@codemirror/lint": "^6.8.1",
+    "@codemirror/state": "^6.4.1",
     "@formatjs/intl-localematcher": "^0.5.4",
     "@heroicons/react": "^2.1.5",
     "@types/negotiator": "^0.6.3",
     "@uiw/codemirror-theme-okaidia": "^4.23.0",
     "@uiw/react-codemirror": "^4.23.0",
-    "@apollo/client": "^3.11.4",
     "atob": "^2.1.2",
     "firebase": "^10.13.0",
     "graphql": "^16.9.0",
