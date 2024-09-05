@@ -6,9 +6,9 @@ import { logout } from '@/utils/firebase/authService';
 import { Dictionary } from '@/utils/translation/getDictionary';
 import { Link } from '../Link';
 import { LanguageSwitcher } from '../LanguageSwitcher';
-import { Button } from '../Button/Button';
+import { Button } from '../Button';
 
-export const Header_Height = '60px';
+export const Header_Height = '82px';
 
 type HeaderProps = {
   setHeaderHeight: (height: string) => void;
