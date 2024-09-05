@@ -10,7 +10,7 @@ const baseClass =
   'border px-3 py-1 text-sm md:px-5 md:py-2 md:text-base rounded-md text-center transition ease-in-out duration-150';
 
 const variants = {
-  default: '',
+  default: 'flex hover:border-blue-700 text-blue-500 hover:text-blue-700',
   primary:
     'border-blue-500 hover:border-blue-700 text-blue-500 hover:text-blue-700 hover:bg-transparent',
   secondary:
