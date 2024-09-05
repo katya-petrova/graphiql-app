@@ -142,7 +142,7 @@ describe('GraphQLClient Component', () => {
     vi.spyOn(console, 'error').mockImplementation(() => {});
     await waitFor(() => {
       expect(
-        screen.getByText('Error executing the query!')
+        screen.getByText(queryError)
       ).toBeInTheDocument();
     });
   });

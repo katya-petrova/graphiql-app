@@ -1,3 +1,4 @@
+// page.tsx
 import { getDictionary, Locale } from '@/utils/translation/getDictionary';
 import Link from 'next/link';
 
