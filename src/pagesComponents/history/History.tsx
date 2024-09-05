@@ -1,107 +1,39 @@
 'use client';
 
+import { useEffect, useState } from 'react';
 import { Link } from '@/components/Link';
 import { Dictionary } from '@/utils/translation/getDictionary';
 
 type HistoryProps = { t: Dictionary['history'] };
 
-export const History = ({ t }: HistoryProps) => {
-  let links = [
-    {
-      type: 'GET',
-      value: 'http://localhost:3000/v1/outlay-rows/entity/create',
-    },
-    {
-      type: 'GET',
-      value: 'http://localhost:3000/v1/outlay-rows/entity/create',
-    },
-    {
-      type: 'GET',
-      value: 'http://localhost:3000/v1/outlay-rows/entity/create',
-    },
-    {
-      type: 'GET',
-      value: 'http://localhost:3000/v1/outlay-rows/entity/create',
-    },
-    {
-      type: 'GET',
-      value: 'http://localhost:3000/v1/outlay-rows/entity/create',
-    },
-    {
-      type: 'GET',
-      value: 'http://localhost:3000/v1/outlay-rows/entity/create',
-    },
-    {
-      type: 'GET',
-      value: 'http://localhost:3000/v1/outlay-rows/entity/create',
-    },
-    {
-      type: 'GET',
-      value: 'http://localhost:3000/v1/outlay-rows/entity/create',
-    },
-    {
-      type: 'GET',
-      value: 'http://localhost:3000/v1/outlay-rows/entity/create',
-    },
-    {
-      type: 'GET',
-      value: 'http://localhost:3000/v1/outlay-rows/entity/create',
-    },
-    {
-      type: 'GET',
-      value: 'http://localhost:3000/v1/outlay-rows/entity/create',
-    },
-    {
-      type: 'GET',
-      value: 'http://localhost:3000/v1/outlay-rows/entity/create',
-    },
-    {
-      type: 'GET',
-      value: 'http://localhost:3000/v1/outlay-rows/entity/create',
-    },
-    {
-      type: 'GET',
-      value: 'http://localhost:3000/v1/outlay-rows/entity/create',
-    },
-    {
-      type: 'GET',
-      value: 'http://localhost:3000/v1/outlay-rows/entity/create',
-    },
-    {
-      type: 'GET',
-      value: 'http://localhost:3000/v1/outlay-rows/entity/create',
-    },
-    {
-      type: 'GET',
-      value: 'http://localhost:3000/v1/outlay-rows/entity/create',
-    },
-    {
-      type: 'GET',
-      value: 'http://localhost:3000/v1/outlay-rows/entity/create',
-    },
-    {
-      type: 'GET',
-      value: 'http://localhost:3000/v1/outlay-rows/entity/create',
-    },
-    {
-      type: 'GET',
-      value: 'http://localhost:3000/v1/outlay-rows/entity/create',
-    },
-    {
-      type: 'GET',
-      value: 'http://localhost:3000/v1/outlay-rows/entity/create',
-    },
-    {
-      type: 'GET',
-      value: 'http://localhost:3000/v1/outlay-rows/entity/create',
-    },
-  ];
+type RequestHistoryItem = {
+  request_url: string;
+  link: string;
+  time: string;
+};
 
-  if (!links || links.length === 0) {
+export const History = ({ t }: HistoryProps) => {
+  const [historyItems, setHistoryItems] = useState<RequestHistoryItem[]>([]);
+
+  useEffect(() => {
+    const storedHistoryItems = localStorage.getItem('requestHistory');
+    if (storedHistoryItems) {
+      const parsedHistoryItems: RequestHistoryItem[] =
+        JSON.parse(storedHistoryItems);
+
+      const sortedHistoryItems = parsedHistoryItems.sort(
+        (a, b) => new Date(b.time).getTime() - new Date(a.time).getTime()
+      );
+
+      setHistoryItems(sortedHistoryItems);
+    }
+  }, []);
+
+  if (historyItems.length === 0) {
     return (
-      <div className="flex flex-col items-center min-w-[400px] mt-40">
+      <div className="flex flex-col flex-grow items-center min-w-[400px] justify-center">
         {t.message.map((p, i) => (
-          <p className="text-lg" key={i}>
+          <p className="text-lg mb-2 text-gray-100" key={i}>
             {p}
           </p>
         ))}
@@ -119,12 +51,11 @@ export const History = ({ t }: HistoryProps) => {
   return (
     <section className="flex flex-col">
       <h1 className="text-xl text-center">{t.title}</h1>
-      <ul className="flex flex-col max-h-[600px] overflow-y-scroll px-8 py-4 gap-3 mt-10 border rounded-lg">
-        {links.map((link, index) => (
-          <li className="" key={index}>
-            <Link className="gap-4" variant="default" href={link.value}>
-              <span>{link.type}</span>
-              <span>{link.value}</span>
+      <ul className="flex flex-col max-h-[600px] overflow-y-auto px-8 py-4 gap-3 mt-10 border rounded-lg">
+        {historyItems.map((item, index) => (
+          <li key={index}>
+            <Link variant="default" href={item.link}>
+              {item.request_url}
             </Link>
           </li>
         ))}
