@@ -25,6 +25,7 @@
     "atob": "^2.1.2",
     "firebase": "^10.13.0",
     "graphql": "^16.9.0",
+    "graphql-tag": "^2.12.6",
     "negotiator": "^0.6.3",
     "next": "14.2.5",
     "react": "^18",

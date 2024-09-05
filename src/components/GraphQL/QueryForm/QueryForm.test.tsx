@@ -1,7 +1,6 @@
-// QueryForm.test.tsx
 import { render, screen, fireEvent } from '@testing-library/react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import QueryForm from './QueryForm'; // Adjust the import path if needed
+import QueryForm from './QueryForm';
 
 vi.mock('../../UrlInput/UrlInput', () => ({
   default: ({ label, value, onChange, placeholder }: any) => (

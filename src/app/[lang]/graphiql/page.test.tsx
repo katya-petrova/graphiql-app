@@ -1,22 +1,15 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import { describe, it, expect, beforeEach } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
 import SigninPage from './page';
-import { vi } from 'vitest';
 
 vi.mock('@/components/GraphQL/GraphQLClient/GraphQLClient', () => ({
-  __esModule: true,
-  default: () => <div>GraphQLClient</div>,
+  default: vi.fn(() => <div>Mocked GraphQLClient</div>),
 }));
 
-describe('SigninPage Component', () => {
-  beforeEach(() => {
-    vi.clearAllMocks();
-  });
-
-  it('renders the GraphQLClient component', async () => {
+describe('SigninPage', () => {
+  it('should render without crashing', () => {
     render(<SigninPage />);
-
-    expect(screen.getByText('GraphQLClient')).toBeInTheDocument();
+    expect(screen.getByText('Mocked GraphQLClient')).toBeInTheDocument();
   });
 });
