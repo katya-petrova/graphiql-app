@@ -45,7 +45,7 @@ const HeadersEditor: React.FC<HeadersEditorProps> = ({
     updateUrl();
   };
 
-  const startEdit = (index: number) => {
+  const startEdit = (index: number) => {    
     setEditIndex(index);
     setEditKey(headers[index][0]);
     setEditValue(headers[index][1]);
@@ -55,7 +55,7 @@ const HeadersEditor: React.FC<HeadersEditorProps> = ({
     if (!editKey || !editValue) {
       setError('Both key and value are required.');
       return;
-    }
+    }    
     if (!headerKeyPattern.test(editKey)) {
       setError(
         'Header key must contain only Latin letters, digits, dashes, underscores, or slashes.'
@@ -144,12 +144,14 @@ const HeadersEditor: React.FC<HeadersEditorProps> = ({
                 </span>
                 <button
                   onClick={() => startEdit(index)}
+                  aria-label={`Edit header ${index}`}
                   className="text-blue-500 hover:text-blue-700 transition"
                 >
                   <PencilIcon className="h-5 w-5" />
                 </button>
                 <button
                   onClick={() => removeHeader(index)}
+                  aria-label={`Remove header ${index}`}
                   className="text-red-500 hover:text-red-700 transition"
                 >
                   <XMarkIcon className="h-5 w-5" />

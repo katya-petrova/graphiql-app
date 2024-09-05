@@ -90,7 +90,7 @@ const Restclient: React.FC = () => {
     const lang = getLangFromUrlOrCookie(pathname);
 
     try {
-      const res = await fetch(`/${lang}/api/sendRequest/`, {
+      const res = await fetch(`/api/sendRequest/`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ method, endpoint, headers, body }),
