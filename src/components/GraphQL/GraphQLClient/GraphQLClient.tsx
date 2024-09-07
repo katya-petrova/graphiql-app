@@ -4,14 +4,14 @@ import React, { useState, useEffect } from 'react';
 import { ApolloProvider, gql } from '@apollo/client';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import useGraphQLClient from '@/utils/graphqjClient/useGraphQLClient';
+import useGraphQLClient from '@/utils/graphqlClient/useGraphQLClient';
 import QueryResult from '../QueryResult/QueryResult';
 import SdlDocumentation from '../SdlDocumentation/SdlDocumentation';
 import QueryForm from '../QueryForm/QueryForm';
 import SdlFetcher from '../SdlFetcher/SdlFetcher';
 import ToastContainer from '../../ToastContainer/ToastContainer';
-import { useRouter } from 'next/navigation';
-import atob from 'atob';
+import { usePathname, useSearchParams } from 'next/navigation';
+import { getLangFromUrlOrCookie } from '@/utils/getCurrentLanguage/getCurrentLanguage';
 
 const GraphQLClient: React.FC = () => {
   const defaultQuery = `query GetCountry($code: ID!) {
@@ -27,20 +27,54 @@ const GraphQLClient: React.FC = () => {
       }
     }
   }`;
+  const defaultVariables = '{"code": "US"}';
 
   const [query, setQuery] = useState<string>(defaultQuery);
-  const [variables, setVariables] = useState<string>('{"code": "US"}');
+  const [variables, setVariables] = useState<string>(defaultVariables);
+  const [url, setUrl] = useState<string>('https://countries.trevorblades.com');
   const [sdlUrl, setSdlUrl] = useState<string>('https://api.github.com/?sdl');
   const [queryResult, setQueryResult] = useState<any>(null);
   const [sdlData, setSdlData] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [statusCode, setStatusCode] = useState<number | null>(null);
-  const [url, setUrl] = useState<string>('https://countries.trevorblades.com');
   const [headersArray, setHeadersArray] = useState<
     { key: string; value: string }[]
   >([]);
-  const router = useRouter();
+  const searchParams = useSearchParams();
+
+  const pathname = usePathname();
+  const [endpoint, setEndpoint] = useState('');
+  const [body, setBody] = useState('');
+
+  useEffect(() => {
+    const pathParts = pathname.split('/');
+    const endpointBase64 = pathParts[3] || '';
+    const bodyBase64 = pathParts[4] || '';
+
+    setEndpoint(endpointBase64 ? atob(endpointBase64) : '');
+    setBody(bodyBase64 ? atob(bodyBase64) : '');
+  }, [pathname]);
+
+  useEffect(() => {
+    const parsedObject = JSON.parse(body || '[]');
+    const { query, variables } = parsedObject;
+
+    query ? setQuery(query) : '';
+    variables ? setVariables(variables) : '';
+    endpoint ? setUrl(endpoint) : '';
+  }, []);
+
+  useEffect(() => {
+    //  {"key": "Authorization", "value": "Bearer token"},
+    // {"key": "Content-Type", "value": "application/json"}
+
+    const headersArray: { key: string; value: string }[] = [];
+    searchParams.forEach((value, key) => {
+      headersArray.push({ key, value });
+    });
+    setHeadersArray(headersArray);
+  }, [searchParams]);
 
   const convertHeadersArrayToObject = (
     headersArray: { key: string; value: string }[]
@@ -62,27 +96,10 @@ const GraphQLClient: React.FC = () => {
     updateClientHeaders(convertHeadersArrayToObject(headersArray));
   }, [url, headersArray, updateClientUrl, updateClientHeaders]);
 
-  useEffect(() => {
-    const queryParams = new URLSearchParams(window.location.search);
-    const endpointUrlBase64encoded = queryParams.get(
-      'endpointUrlBase64encoded'
-    );
-    const bodyBase64encoded = queryParams.get('bodyBase64encoded');
-
-    if (endpointUrlBase64encoded && bodyBase64encoded) {
-      const endpointUrl = atob(endpointUrlBase64encoded);
-      const body = JSON.parse(atob(bodyBase64encoded));
-      setUrl(endpointUrl);
-      setQuery(body.query);
-      setVariables(JSON.stringify(body.variables));
-
-      handleQuery();
-    }
-  }, []);
-
   const handleQuery = async () => {
     setLoading(true);
     setError(null);
+
     try {
       const { data } = await client.query({
         query: gql`
@@ -93,12 +110,6 @@ const GraphQLClient: React.FC = () => {
       setQueryResult(data);
       setStatusCode(200);
       toast.success('Query executed successfully!');
-
-      const endpointUrlBase64 = btoa(url);
-      const bodyBase64 = btoa(JSON.stringify({ query, variables }));
-      router.push(
-        `/graphiql?endpointUrlBase64encoded=${endpointUrlBase64}&bodyBase64encoded=${bodyBase64}`
-      );
     } catch (err) {
       setError('Error fetching data');
       setStatusCode(500);
@@ -106,6 +117,19 @@ const GraphQLClient: React.FC = () => {
     } finally {
       setLoading(false);
     }
+  };
+
+  const handlePush = () => {
+    const lang = getLangFromUrlOrCookie(pathname);
+    const endpointUrlBase64 = btoa(url);
+    const bodyBase64 = btoa(JSON.stringify({ query, variables }));
+    const newUrl = `/${lang}/graphiql/${endpointUrlBase64}/${bodyBase64}?${new URLSearchParams(convertHeadersArrayToObject(headersArray)).toString()}`;
+
+    if (newUrl !== window.location.pathname + window.location.search) {
+      window.history.replaceState(null, '', newUrl);
+    }
+
+    handleQuery();
   };
 
   const handleSdlDataFetch = (data: string) => {
@@ -164,7 +188,7 @@ const GraphQLClient: React.FC = () => {
           onQueryChange={handleQueryChange}
           onVariablesChange={handleVariablesChange}
           onHeadersChange={handleHeadersChange}
-          onQueryExecute={handleQuery}
+          onQueryExecute={handlePush}
         />
         <QueryResult
           queryResult={queryResult}

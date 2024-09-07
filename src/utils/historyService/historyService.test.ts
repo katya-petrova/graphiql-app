@@ -1,5 +1,5 @@
-import { describe, it, expect, vi, beforeEach } from "vitest";
-import { saveRestRequestToHistory } from "./historyService";
+import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { saveRestRequestToHistory } from './historyService';
 
 describe('saveRestRequestToHistory', () => {
   beforeEach(() => {
@@ -15,26 +15,32 @@ describe('saveRestRequestToHistory', () => {
       removeItem: vi.fn(),
       clear: vi.fn(),
       key: vi.fn(),
-      length: 0
+      length: 0,
     };
     global.localStorage = localStorageMock;
 
     const initialHistory = [
-      { request_url: 'GET /old-endpoint', link: 'old-link', time: 'old-time' }
+      { request_url: 'GET /old-endpoint', link: 'old-link', time: 'old-time' },
     ];
     const link = 'new-link';
     const method = 'POST';
     const endpoint = '/new-endpoint';
 
-    saveRestRequestToHistory(link, method, endpoint, initialHistory, setHistoryMock);
+    saveRestRequestToHistory(
+      link,
+      method,
+      endpoint,
+      initialHistory,
+      setHistoryMock
+    );
 
     const expectedHistory = JSON.stringify([
       {
         request_url: 'POST /new-endpoint',
         link: link,
-        time: new Date().toLocaleString() 
+        time: new Date().toLocaleString(),
       },
-      ...initialHistory
+      ...initialHistory,
     ]);
 
     expect(setHistoryMock).toHaveBeenCalledTimes(1);
@@ -42,12 +48,15 @@ describe('saveRestRequestToHistory', () => {
       {
         request_url: 'POST /new-endpoint',
         link,
-        time: new Date().toLocaleString()
+        time: new Date().toLocaleString(),
       },
-      ...initialHistory
+      ...initialHistory,
     ]);
 
     expect(localStorageMock.setItem).toHaveBeenCalledTimes(1);
-    expect(localStorageMock.setItem).toHaveBeenCalledWith('requestHistory', expectedHistory);
+    expect(localStorageMock.setItem).toHaveBeenCalledWith(
+      'requestHistory',
+      expectedHistory
+    );
   });
 });
