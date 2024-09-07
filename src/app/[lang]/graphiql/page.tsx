@@ -1,5 +1,6 @@
-import { Metadata } from 'next';
+import { Suspense } from 'react';
 import GraphQLClient from '@/pagesComponents/GraphQL/GraphQLClient/GraphQLClient';
+import { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'GraphQL Client',
@@ -10,7 +11,11 @@ export const metadata: Metadata = {
 };
 
 const GraphQLClientPage: React.FC = () => {
-  return <GraphQLClient />;
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <GraphQLClient />
+    </Suspense>
+  );
 };
 
 export default GraphQLClientPage;
