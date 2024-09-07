@@ -2,7 +2,7 @@ import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import GraphQLClient from './GraphQLClient';
 import { MockedProvider } from '@apollo/client/testing';
-
+ 
 vi.mock('@/utils/graphqlClient/useGraphQLClient', () => ({
   __esModule: true,
   default: vi.fn(() => ({
@@ -71,7 +71,7 @@ vi.mock('../SdlFetcher/SdlFetcher', () => ({
   ),
 }));
 
-vi.mock('../../ToastContainer/ToastContainer', () => ({
+vi.mock('@/components/ToastContainer/ToastContainer', () => ({
   __esModule: true,
   default: () => <div>ToastContainer Mock</div>,
 }));

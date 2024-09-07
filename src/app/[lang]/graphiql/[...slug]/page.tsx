@@ -1,5 +1,6 @@
+
+import GraphQLClient from '@/pagesComponents/GraphQL/GraphQLClient/GraphQLClient';
 import { Metadata } from 'next';
-import GraphQLClient from '@/components/GraphQL/GraphQLClient/GraphQLClient';
 
 export const metadata: Metadata = {
   title: 'GraphQL Client',

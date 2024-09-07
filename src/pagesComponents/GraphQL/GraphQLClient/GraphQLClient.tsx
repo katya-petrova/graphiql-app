@@ -1,17 +1,17 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { ApolloProvider, gql } from '@apollo/client';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import useGraphQLClient from '@/utils/graphqlClient/useGraphQLClient';
-import QueryResult from '../QueryResult/QueryResult';
-import SdlDocumentation from '../SdlDocumentation/SdlDocumentation';
-import QueryForm from '../QueryForm/QueryForm';
-import SdlFetcher from '../SdlFetcher/SdlFetcher';
-import ToastContainer from '../../ToastContainer/ToastContainer';
 import { usePathname, useSearchParams } from 'next/navigation';
 import { getLangFromUrlOrCookie } from '@/utils/getCurrentLanguage/getCurrentLanguage';
+import ToastContainer from '@/components/ToastContainer/ToastContainer';
+import QueryForm from '../QueryForm/QueryForm';
+import QueryResult from '../QueryResult/QueryResult';
+import SdlFetcher from '../SdlFetcher/SdlFetcher';
+import SdlDocumentation from '../SdlDocumentation/SdlDocumentation';
 
 const GraphQLClient: React.FC = () => {
   const defaultQuery = `query GetCountry($code: ID!) {

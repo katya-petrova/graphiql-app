@@ -3,7 +3,7 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import QueryResult from './QueryResult';
 import { toast } from 'react-toastify';
 
-vi.mock('../../Loader/Loader', () => ({
+vi.mock('@/components/Loader/Loader', () => ({
   default: () => <div>Loading...</div>,
 }));
 
