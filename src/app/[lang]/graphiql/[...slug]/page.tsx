@@ -1,4 +1,3 @@
-
 import GraphQLClient from '@/pagesComponents/GraphQL/GraphQLClient/GraphQLClient';
 import { Metadata } from 'next';
 
