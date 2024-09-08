@@ -59,7 +59,7 @@ export const Header = ({ setHeaderHeight, t }: HeaderProps) => {
             height={isSticky ? 28 : 32}
           />
         </Link>
-        <LanguageSwitcher />
+        <LanguageSwitcher isSlim={isSticky} />
         <div className="justify-self-end flex gap-2 md:gap-4">
           {isSignedIn ? (
             <>
