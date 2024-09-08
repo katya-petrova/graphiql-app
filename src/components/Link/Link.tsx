@@ -7,7 +7,7 @@ type LinkProps = ComponentProps<typeof _Link> & {
 };
 
 const baseClass =
-  'border px-3 py-1 text-sm md:px-5 md:py-2 md:text-base rounded-md text-center transition ease-in-out duration-150';
+  'border px-3 py-1 text-sm md:px-4 md:py-2 md:text-base rounded-md text-center transition-all ease-in-out duration-150';
 
 const variants = {
   default: 'flex hover:border-blue-700 text-blue-500 hover:text-blue-700',
