@@ -10,8 +10,8 @@ export const metadata: Metadata = {
   },
 };
 
-const RestClientPage: React.FC = () => {
+const SigninPage: React.FC = () => {
   return <Restclient />;
 };
 
-export default RestClientPage;
+export default SigninPage;

@@ -7,7 +7,9 @@ vi.mock('@uiw/react-codemirror', () => ({
   __esModule: true,
   default: vi.fn(({ onChange, onBlur, value, extensions }) => {
     const mockExtensions = extensions || [];
-    const linterExtension = mockExtensions.find((ext: { name: string; }) => ext.name === 'linter');
+    const linterExtension = mockExtensions.find(
+      (ext: { name: string }) => ext.name === 'linter'
+    );
 
     return (
       <div>
@@ -38,11 +40,20 @@ describe('BodyEditor Component', () => {
   beforeEach(() => {
     setBodyMock.mockClear();
     updateUrlMock.mockClear();
-    render(<BodyEditor body="" setBody={setBodyMock} updateUrl={updateUrlMock} />);
+    render(
+      <BodyEditor
+        body=""
+        setBody={setBodyMock}
+        updateUrl={updateUrlMock}
+        variables={[]}
+      />
+    );
   });
 
   it('should switch between JSON View and Text View', async () => {
-    const toggleButton = screen.getByRole('button', { name: /Switch to Text View/i });
+    const toggleButton = screen.getByRole('button', {
+      name: /Switch to Text View/i,
+    });
     await userEvent.click(toggleButton);
     expect(toggleButton.textContent).toBe('Switch to JSON View');
 
@@ -57,25 +68,31 @@ describe('BodyEditor Component', () => {
   });
 
   it('should call updateUrl when Text View textarea is blurred', () => {
-    const toggleButton = screen.getByRole('button', { name: /Switch to Text View/i });
+    const toggleButton = screen.getByRole('button', {
+      name: /Switch to Text View/i,
+    });
     userEvent.click(toggleButton);
 
     const textArea = screen.getByRole('textbox');
     fireEvent.blur(textArea);
     expect(updateUrlMock).toHaveBeenCalled();
   });
-  
+
   it('should not display a lint error when valid JSON is entered', async () => {
-    const codeMirrorInput = screen.getByTestId('codemirror') as HTMLTextAreaElement;
-    codeMirrorInput.focus();  
-    await userEvent.paste('{"validJson": true}'); 
-  
+    const codeMirrorInput = screen.getByTestId(
+      'codemirror'
+    ) as HTMLTextAreaElement;
+    codeMirrorInput.focus();
+    await userEvent.paste('{"validJson": true}');
+
     const linterOutput = screen.queryByTestId('linter-output');
-    expect(linterOutput).toBeNull(); 
+    expect(linterOutput).toBeNull();
   });
-    
+
   it('should call setBody when Text View textarea value changes', async () => {
-    const toggleButton = screen.getByRole('button', { name: /Switch to Text View/i });
+    const toggleButton = screen.getByRole('button', {
+      name: /Switch to Text View/i,
+    });
     await userEvent.click(toggleButton);
 
     const textArea = screen.getByRole('textbox');
@@ -83,5 +100,4 @@ describe('BodyEditor Component', () => {
 
     expect(setBodyMock).toHaveBeenCalledWith('A');
   });
-  
 });

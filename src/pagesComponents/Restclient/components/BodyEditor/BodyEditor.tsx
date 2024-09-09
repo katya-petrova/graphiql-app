@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import CodeMirror from '@uiw/react-codemirror';
 import { json } from '@codemirror/lang-json';
 import { okaidia } from '@uiw/codemirror-theme-okaidia';
@@ -8,35 +8,59 @@ type BodyEditorProps = {
   body: string;
   setBody: (body: string) => void;
   updateUrl: () => void;
+  variables: { key: string; value: string }[];
 };
 
 const BodyEditor: React.FC<BodyEditorProps> = ({
   body,
   setBody,
   updateUrl,
+  variables,
 }) => {
   const [isJsonView, setIsJsonView] = useState(true);
+  const [localBody, setLocalBody] = useState(body);
+  const [originalBody, setOriginalBody] = useState(body);
 
-  const toggleView = () => {
-    setIsJsonView(!isJsonView);
-  };
+  useEffect(() => {
+    setLocalBody(body);
+    setOriginalBody(body);
+  }, [body]);
 
   const handleCodeChange = (value: string) => {
+    setLocalBody(value);
+    setOriginalBody(value);
     setBody(value);
+    updateUrl();
   };
 
   const handleBlur = () => {
     updateUrl();
   };
 
+  const toggleView = () => {
+    setIsJsonView(!isJsonView);
+  };
+
+  const replaceVariablesForLinting = (content: string) => {
+    let lintingContent = content;
+    variables.forEach(({ key }) => {
+      const regex = new RegExp(`{{${key}}}`, 'g');
+      lintingContent = lintingContent.replace(regex, `"${key}_placeholder"`);
+    });
+    return lintingContent;
+  };
+
   const jsonLinter = linter((view) => {
     const results: Diagnostic[] = [];
     const content = view.state.doc.toString();
-    if (content.trim() === '') {
+    const lintingContent = replaceVariablesForLinting(content);
+
+    if (lintingContent.trim() === '') {
       return results;
     }
+
     try {
-      JSON.parse(content);
+      JSON.parse(lintingContent);
     } catch (e) {
       results.push({
         from: 0,
@@ -45,6 +69,7 @@ const BodyEditor: React.FC<BodyEditorProps> = ({
         severity: 'error',
       });
     }
+
     return results;
   });
 
@@ -60,7 +85,7 @@ const BodyEditor: React.FC<BodyEditorProps> = ({
       {isJsonView ? (
         <div className="mt-4">
           <CodeMirror
-            value={body}
+            value={localBody}
             height="200px"
             theme={okaidia}
             extensions={[json(), jsonLinter, lintGutter()]}
@@ -71,8 +96,8 @@ const BodyEditor: React.FC<BodyEditorProps> = ({
         </div>
       ) : (
         <textarea
-          value={body}
-          onChange={(e) => setBody(e.target.value)}
+          value={localBody}
+          onChange={(e) => handleCodeChange(e.target.value)}
           onBlur={handleBlur}
           placeholder="Request body"
           className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition duration-300 resize-none h-40"
