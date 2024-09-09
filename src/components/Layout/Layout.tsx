@@ -1,9 +1,9 @@
 'use client';
 import { useState } from 'react';
-import { Header, Header_Height } from '../Header';
-import { Footer } from '../Footer';
 import { AuthProvider } from '@/context/AuthContext';
 import { Dictionary } from '@/utils/translation/getDictionary';
+import { Header, Header_Height } from '../Header';
+import { Footer } from '../Footer';
 
 type LayoutProps = {
   children: React.ReactNode;
@@ -19,7 +19,7 @@ export const Layout = ({ children, t }: LayoutProps) => {
         <Header t={t} setHeaderHeight={setHeaderHeight} />
         <main
           style={{ marginTop: headerHeight }}
-          className="flex flex-col items-center justify-between p-12 md:p-24"
+          className="flex flex-col flex-grow items-center justify-between p-6 md:p-10"
         >
           {children}
         </main>

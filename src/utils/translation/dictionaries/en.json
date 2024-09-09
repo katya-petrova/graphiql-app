@@ -23,6 +23,11 @@
       "home": "Home"
     }
   },
+  "history": {
+    "title": "History requests",
+    "message": ["You haven't executed any requests", "It's empty here. Try:"],
+    "links": { "rest": "REST Client", "graphiQL": "GraphiQL Client" }
+  },
   "auth": {
     "messages": {
       "notAuth": "Please sign in to access the platform."
@@ -30,7 +35,8 @@
     "links": {
       "signIn": "Sign in",
       "signUp": "Sign up",
-      "signOut": "Sign out"
+      "signOut": "Sign out",
+      "main": "Main"
     }
   }
 }
