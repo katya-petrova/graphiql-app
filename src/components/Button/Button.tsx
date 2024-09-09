@@ -5,7 +5,7 @@ type ButtonProps = ComponentProps<'button'> & {
 };
 
 const baseClass =
-  'px-3 py-1 text-sm md:px-4 md:py-2 md:text-base border rounded transition ease-in-out duration-150';
+  'px-3 py-1 text-sm md:px-4 md:py-2 md:text-base border rounded transition-all ease-in-out duration-150';
 
 const variants = {
   primary: 'bg-blue-500 text-white hover:bg-blue-600',

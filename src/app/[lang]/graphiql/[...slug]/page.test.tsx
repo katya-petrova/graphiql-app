@@ -6,7 +6,7 @@ vi.mock('@/pagesComponents/GraphQL/GraphQLClient/GraphQLClient', () => ({
   default: vi.fn(() => <div>Mocked GraphQLClient</div>),
 }));
 
-describe('GraphQLClientPage', () => {
+describe('GraphQLClient', () => {
   it('should render without crashing', () => {
     render(<GraphQLClientPage />);
     expect(screen.getByText('Mocked GraphQLClient')).toBeInTheDocument();

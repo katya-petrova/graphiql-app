@@ -36,7 +36,7 @@ describe('POST function tests', () => {
       json: {
         status: 200,
         statusText: 'OK',
-        headers: { 'content-type': 'application/json', "content-length": "22", },
+        headers: { 'content-type': 'application/json', 'content-length': '22' },
         data: { response: 'success' },
       },
       status: 200,
@@ -48,10 +48,11 @@ describe('POST function tests', () => {
 
   it('should return error for bad request', async () => {
     const request = {
-      json: () => Promise.resolve({
-        method: '',
-        endpoint: '',
-      }),
+      json: () =>
+        Promise.resolve({
+          method: '',
+          endpoint: '',
+        }),
     } as unknown as NextRequest;
 
     const response = await POST(request);

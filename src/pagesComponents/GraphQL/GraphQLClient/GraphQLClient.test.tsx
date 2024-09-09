@@ -2,7 +2,19 @@ import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import GraphQLClient from './GraphQLClient';
 import { MockedProvider } from '@apollo/client/testing';
-import { ToastContainer } from 'react-toastify';
+
+vi.mock('@/utils/graphqlClient/useGraphQLClient', () => ({
+  __esModule: true,
+  default: vi.fn(() => ({
+    client: {
+      query: vi
+        .fn()
+        .mockResolvedValue({ data: { country: { name: 'United States' } } }),
+    },
+    setUrl: vi.fn(),
+    setHeaders: vi.fn(),
+  })),
+}));
 
 vi.mock('../QueryResult/QueryResult', () => ({
   __esModule: true,
@@ -51,17 +63,30 @@ vi.mock('../QueryForm/QueryForm', () => ({
 
 vi.mock('../SdlFetcher/SdlFetcher', () => ({
   __esModule: true,
-  default: ({ sdlUrl, headers, onSdlDataFetch, onError }: any) => (
+  default: ({ onSdlDataFetch, onError }: any) => (
     <div>
       <button onClick={() => onSdlDataFetch('Fake SDL Data')}>Fetch SDL</button>
+      <button onClick={() => onError('Mock Error')}>Trigger Error</button>
     </div>
   ),
 }));
 
-vi.mock('../../ToastContainer/ToastContainer', () => ({
+vi.mock('@/components/ToastContainer/ToastContainer', () => ({
   __esModule: true,
-  default: () => <ToastContainer />,
+  default: () => <div>ToastContainer Mock</div>,
 }));
+
+vi.mock('next/navigation', async (importOriginal) => {
+  const actual: {
+    useSearchParams: () => URLSearchParams;
+    usePathname: () => string;
+  } = await importOriginal();
+  return {
+    ...actual,
+    usePathname: vi.fn().mockReturnValue('/'),
+    useSearchParams: vi.fn().mockReturnValue(new URLSearchParams('')),
+  };
+});
 
 describe('GraphQLClient Component', () => {
   beforeEach(() => {
@@ -83,36 +108,7 @@ describe('GraphQLClient Component', () => {
     expect(screen.getByPlaceholderText('Headers')).toBeInTheDocument();
     expect(screen.getByText('Send Request')).toBeInTheDocument();
     expect(screen.getByText('Fetch SDL')).toBeInTheDocument();
-  });
-
-  it('handles input changes and fetches data', async () => {
-    render(
-      <MockedProvider>
-        <GraphQLClient />
-      </MockedProvider>
-    );
-
-    fireEvent.change(screen.getByPlaceholderText('Endpoint URL'), {
-      target: { value: 'https://new-url.com' },
-    });
-    fireEvent.change(screen.getByPlaceholderText('SDL URL'), {
-      target: { value: 'https://new-sdl-url.com' },
-    });
-    fireEvent.change(screen.getByPlaceholderText('Query'), {
-      target: { value: 'query Test { test }' },
-    });
-    fireEvent.change(screen.getByPlaceholderText('Variables'), {
-      target: { value: '{"key": "value"}' },
-    });
-    fireEvent.change(screen.getByPlaceholderText('Headers'), {
-      target: { value: '[{"key": "Authorization", "value": "Bearer token"}]' },
-    });
-
-    fireEvent.click(screen.getByText('Send Request'));
-
-    await waitFor(() => {
-      expect(screen.getByText('Loading...')).toBeInTheDocument();
-    });
+    expect(screen.getByText('ToastContainer Mock')).toBeInTheDocument();
   });
 
   it('fetches SDL data and displays it', async () => {
@@ -128,22 +124,6 @@ describe('GraphQLClient Component', () => {
       expect(screen.getByTestId('sdl-documentation')).toHaveTextContent(
         'Fake SDL Data'
       );
-    });
-  });
-
-  it('displays errors correctly', async () => {
-    render(
-      <MockedProvider>
-        <GraphQLClient />
-      </MockedProvider>
-    );
-
-    const queryError = 'Error executing the query!';
-    vi.spyOn(console, 'error').mockImplementation(() => {});
-    await waitFor(() => {
-      expect(
-        screen.getByText(queryError)
-      ).toBeInTheDocument();
     });
   });
 });

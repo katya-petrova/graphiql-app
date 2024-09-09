@@ -2,7 +2,6 @@ import { describe, it, expect, vi } from 'vitest';
 import fetchMock from 'fetch-mock';
 import { GET } from './route';
 
-
 vi.mock('next/server', () => ({
   NextResponse: {
     json: vi.fn().mockImplementation((body, opts = { status: 200 }) => ({

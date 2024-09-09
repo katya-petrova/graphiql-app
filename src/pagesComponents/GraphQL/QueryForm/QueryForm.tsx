@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import gql from 'graphql-tag';
 import { print } from 'graphql';
-import UrlInput from '../../UrlInput/UrlInput';
-import TextAreaInput from '../../TextAreaInput/TextAreaInput';
+import UrlInput from '../../../components/UrlInput/UrlInput';
+import TextAreaInput from '../../../components/TextAreaInput/TextAreaInput';
 import HeaderInput from '../HeaderInput/HeaderInput';
-import { Button } from '../../Button/Button';
+import { Button } from '../../../components/Button/Button';
 import { toast } from 'react-toastify';
 
 interface Header {

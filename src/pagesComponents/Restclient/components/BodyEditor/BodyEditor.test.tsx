@@ -10,6 +10,9 @@ vi.mock('@uiw/react-codemirror', () => ({
     const linterExtension = mockExtensions.find(
       (ext: { name: string }) => ext.name === 'linter'
     );
+    const linterExtension = mockExtensions.find(
+      (ext: { name: string }) => ext.name === 'linter'
+    );
 
     return (
       <div>
@@ -54,6 +57,9 @@ describe('BodyEditor Component', () => {
     const toggleButton = screen.getByRole('button', {
       name: /Switch to Text View/i,
     });
+    const toggleButton = screen.getByRole('button', {
+      name: /Switch to Text View/i,
+    });
     await userEvent.click(toggleButton);
     expect(toggleButton.textContent).toBe('Switch to JSON View');
 
@@ -71,6 +77,9 @@ describe('BodyEditor Component', () => {
     const toggleButton = screen.getByRole('button', {
       name: /Switch to Text View/i,
     });
+    const toggleButton = screen.getByRole('button', {
+      name: /Switch to Text View/i,
+    });
     userEvent.click(toggleButton);
 
     const textArea = screen.getByRole('textbox');
@@ -85,11 +94,21 @@ describe('BodyEditor Component', () => {
     codeMirrorInput.focus();
     await userEvent.paste('{"validJson": true}');
 
+    const codeMirrorInput = screen.getByTestId(
+      'codemirror'
+    ) as HTMLTextAreaElement;
+    codeMirrorInput.focus();
+    await userEvent.paste('{"validJson": true}');
+
     const linterOutput = screen.queryByTestId('linter-output');
+    expect(linterOutput).toBeNull();
     expect(linterOutput).toBeNull();
   });
 
   it('should call setBody when Text View textarea value changes', async () => {
+    const toggleButton = screen.getByRole('button', {
+      name: /Switch to Text View/i,
+    });
     const toggleButton = screen.getByRole('button', {
       name: /Switch to Text View/i,
     });
