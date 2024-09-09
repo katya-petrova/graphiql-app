@@ -66,9 +66,6 @@ const GraphQLClient: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    //  {"key": "Authorization", "value": "Bearer token"},
-    // {"key": "Content-Type", "value": "application/json"}
-
     const headersArray: { key: string; value: string }[] = [];
     searchParams.forEach((value, key) => {
       headersArray.push({ key, value });
