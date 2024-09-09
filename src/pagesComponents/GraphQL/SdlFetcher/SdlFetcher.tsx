@@ -1,8 +1,8 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Button } from '../../Button/Button';
-import Loader from '../../Loader/Loader';
+import { Button } from '../../../components/Button/Button';
+import Loader from '../../../components/Loader/Loader';
 import { toast } from 'react-toastify';
 
 interface SdlFetcherProps {

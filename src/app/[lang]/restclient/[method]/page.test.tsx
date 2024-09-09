@@ -1,9 +1,10 @@
 import { describe, it, expect, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
-import RestClientPage from './page'; 
+import RestClientPage from './page';
 
 vi.mock('next/navigation', () => ({
-  usePathname: () => '/en/restclient/GET/L2FwaS90ZXN0?Authorization=Bearer%20token',
+  usePathname: () =>
+    '/en/restclient/GET/L2FwaS90ZXN0?Authorization=Bearer%20token',
   useSearchParams: () => new URLSearchParams('Authorization=Bearer%20token'),
 }));
 

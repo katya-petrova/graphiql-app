@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { toast } from 'react-toastify';
-import Loader from '../../Loader/Loader';
+import Loader from '../../../components/Loader/Loader';
 
 interface QueryResultProps {
   queryResult: any;

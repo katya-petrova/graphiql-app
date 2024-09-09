@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button } from '../../Button/Button';
+import { Button } from '../../../components/Button/Button';
 
 interface HeaderInputProps {
   keyValue: { key: string; value: string };

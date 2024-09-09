@@ -3,11 +3,12 @@ import { render, screen } from '@testing-library/react';
 import ResponseViewer from './ResponseViewer';
 
 vi.mock('@heroicons/react/24/outline', () => ({
-  ExclamationTriangleIcon: (props: any) => <div {...props} data-testid="error-icon" />,
+  ExclamationTriangleIcon: (props: any) => (
+    <div {...props} data-testid="error-icon" />
+  ),
 }));
 
 describe('ResponseViewer Component', () => {
-
   it('should display the correct status color based on the status code', () => {
     const statuses = [
       { status: 200, expectedColor: 'text-green-500' },
@@ -47,5 +48,4 @@ describe('ResponseViewer Component', () => {
     const errorContent = screen.getByText(errorMessage);
     expect(errorContent).toBeInTheDocument();
   });
-
 });

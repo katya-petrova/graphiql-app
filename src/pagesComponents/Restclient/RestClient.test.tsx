@@ -39,7 +39,7 @@ describe('Restclient Component', () => {
       redirected: false,
       statusText: 'OK',
       type: 'default',
-      url: 'fakeurl'
+      url: 'fakeurl',
     } as unknown as Response);
   });
 
@@ -77,7 +77,9 @@ describe('Restclient Component', () => {
     const headersValueInput = screen.getByPlaceholderText('Header Value');
     act(() => {
       fireEvent.change(headersKeyInput, { target: { value: 'Content-Type' } });
-      fireEvent.change(headersValueInput, { target: { value: 'application/json' } });
+      fireEvent.change(headersValueInput, {
+        target: { value: 'application/json' },
+      });
     });
     expect(headersKeyInput).toHaveValue('Content-Type');
     expect(headersValueInput).toHaveValue('application/json');
@@ -88,7 +90,9 @@ describe('Restclient Component', () => {
     const endpointInput = getByPlaceholderText('Enter endpoint');
 
     await act(async () => {
-      fireEvent.change(endpointInput, { target: { value: 'https://api.example.com' } });
+      fireEvent.change(endpointInput, {
+        target: { value: 'https://api.example.com' },
+      });
       fireEvent.click(getByText(/Send Request/i));
     });
 
@@ -104,28 +108,32 @@ describe('Restclient Component', () => {
 
       const headersKeyInput = screen.getByPlaceholderText('Header Key');
       const headersValueInput = screen.getByPlaceholderText('Header Value');
-      
+
       fireEvent.change(headersKeyInput, { target: { value: 'Authorization' } });
-      fireEvent.change(headersValueInput, { target: { value: 'Bearer token' } });
+      fireEvent.change(headersValueInput, {
+        target: { value: 'Bearer token' },
+      });
 
       fireEvent.click(screen.getByText(/Add Header/i));
-      
+
       fireEvent.click(getByText(/Send Request/i));
     });
 
-    const expectedUrl = '/en/restclient/GET/' +
+    const expectedUrl =
+      '/en/restclient/GET/' +
       Buffer.from('/api/test').toString('base64') +
       '?Authorization=Bearer%20token';
-    
-    const replaceStateCalls = (window.history.replaceState as jest.Mock).mock.calls;
+
+    const replaceStateCalls = (window.history.replaceState as jest.Mock).mock
+      .calls;
 
     expect(replaceStateCalls).toEqual(
       expect.arrayContaining([
         expect.arrayContaining([
-          expect.anything(),  
-          expect.anything(), 
-          expectedUrl      
-        ])
+          expect.anything(),
+          expect.anything(),
+          expectedUrl,
+        ]),
       ])
     );
   });
