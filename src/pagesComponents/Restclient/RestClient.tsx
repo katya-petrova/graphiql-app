@@ -9,8 +9,9 @@ import ResponseViewer from './components/ResponseViewer/ResponseViewer';
 import { toast } from 'react-toastify';
 import { getLangFromUrlOrCookie } from '@/utils/getCurrentLanguage/getCurrentLanguage';
 import { saveRestRequestToHistory } from '@/utils/historyService/historyService';
+import { Dictionary } from '@/utils/translation/getDictionary';
 
-const Restclient: React.FC = () => {
+const Restclient: React.FC<{ t: Dictionary['rest'] }> = ({ t }) => {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const [method, setMethod] = useState('GET');
@@ -112,6 +113,7 @@ const Restclient: React.FC = () => {
         endpoint={endpoint}
         setEndpoint={setEndpoint}
         updateUrl={updateUrl}
+        placeholder={t.enterEndpoint}
       />
       <HeadersEditor
         headers={headers}
@@ -123,7 +125,7 @@ const Restclient: React.FC = () => {
         onClick={handleRequest}
         className="w-full bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition duration-300"
       >
-        Send Request
+        {t.sendRequest}
       </button>
       <ResponseViewer response={response} />
     </div>

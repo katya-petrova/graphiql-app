@@ -41,11 +41,25 @@
   },
   "rest": {
     "enterEndpoint": "Enter endpoint",
-    "headerKey": "Header key",
-    "headerValue": "Header value",
+    "headerKey": "Header Key",
+    "headerValue": "Header Value",
     "addHeader": "Add Header",
-    "switchToTextView": "Switch to text view",
-    "sendRequest": "Send Request"
+    "switchToTextView": "Switch to Text View",
+    "switchToJSONView": "Switch to JSON View",
+    "requestBody": "Request body",
+    "sendRequest": "Send Request",
+    "save": "Save",
+    "cancel": "Cancel",
+    "error": "Error",
+    "response": "Response",
+    "status": "Status",
+    "validationErrors": {
+      "header": {
+        "required": "Both key and value are required.",
+        "key": "Header key must contain only Latin letters, digits, dashes, underscores, or slashes.",
+        "value": "Header value contains invalid characters."
+      }
+    }
   },
   "graphiql": {
     "title": "GraphQL Client",

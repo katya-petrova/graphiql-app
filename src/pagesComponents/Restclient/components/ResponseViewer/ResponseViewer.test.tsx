@@ -1,6 +1,8 @@
 import { describe, it, expect, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import ResponseViewer from './ResponseViewer';
+import en from '@/utils/translation/dictionaries/en.json';
+import { TranslationProvider } from '@/context/TranslationContext';
 
 vi.mock('@heroicons/react/24/outline', () => ({
   ExclamationTriangleIcon: (props: any) => (
@@ -18,7 +20,11 @@ describe('ResponseViewer Component', () => {
     ];
 
     statuses.forEach(({ status, expectedColor }) => {
-      render(<ResponseViewer response={{ status, data: null, headers: {} }} />);
+      render(
+        <TranslationProvider t={en}>
+          <ResponseViewer response={{ status, data: null, headers: {} }} />
+        </TranslationProvider>
+      );
 
       const statusText = screen.getByText(`Status: ${status}`);
       expect(statusText).toHaveClass(expectedColor);
@@ -29,14 +35,16 @@ describe('ResponseViewer Component', () => {
     const errorMessage = 'Something went wrong';
 
     render(
-      <ResponseViewer
-        response={{
-          status: 500,
-          data: null,
-          headers: {},
-          error: errorMessage,
-        }}
-      />
+      <TranslationProvider t={en}>
+        <ResponseViewer
+          response={{
+            status: 500,
+            data: null,
+            headers: {},
+            error: errorMessage,
+          }}
+        />
+      </TranslationProvider>
     );
 
     const errorIcon = screen.getByTestId('error-icon');

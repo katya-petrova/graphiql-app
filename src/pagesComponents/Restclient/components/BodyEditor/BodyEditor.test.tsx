@@ -2,6 +2,8 @@ import { describe, it, expect, beforeEach, vi, beforeAll } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import BodyEditor from './BodyEditor';
+import { TranslationProvider } from '@/context/TranslationContext';
+import en from '@/utils/translation/dictionaries/en.json';
 
 vi.mock('@uiw/react-codemirror', () => ({
   __esModule: true,
@@ -41,7 +43,9 @@ describe('BodyEditor Component', () => {
     setBodyMock.mockClear();
     updateUrlMock.mockClear();
     render(
-      <BodyEditor body="" setBody={setBodyMock} updateUrl={updateUrlMock} />
+      <TranslationProvider t={en}>
+        <BodyEditor body="" setBody={setBodyMock} updateUrl={updateUrlMock} />
+      </TranslationProvider>
     );
   });
 

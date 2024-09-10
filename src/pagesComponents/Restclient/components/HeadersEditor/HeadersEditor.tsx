@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { XMarkIcon, PencilIcon } from '@heroicons/react/24/solid';
 import './HederEditor.css';
+import { useTranslation } from '@/context/TranslationContext';
 
 type HeadersEditorProps = {
   headers: [string, string][];
@@ -19,23 +20,22 @@ const HeadersEditor: React.FC<HeadersEditorProps> = ({
   const [editIndex, setEditIndex] = useState<number | null>(null);
   const [editKey, setEditKey] = useState('');
   const [editValue, setEditValue] = useState('');
+  const { rest } = useTranslation();
 
   const headerKeyPattern = /^[\w\-\/]+$/;
   const headerValuePattern = /^[\w\s\-\/\:\,\.]+$/;
 
   const addHeader = () => {
     if (!key || !value) {
-      setError('Both key and value are required.');
+      setError(rest.validationErrors.header.required);
       return;
     }
     if (!headerKeyPattern.test(key)) {
-      setError(
-        'Header key must contain only Latin letters, digits, dashes, underscores, or slashes.'
-      );
+      setError(rest.validationErrors.header.key);
       return;
     }
     if (!headerValuePattern.test(value)) {
-      setError('Header value contains invalid characters.');
+      setError(rest.validationErrors.header.value);
       return;
     }
     setHeaders([...headers, [key, value] as [string, string]]);
@@ -53,17 +53,15 @@ const HeadersEditor: React.FC<HeadersEditorProps> = ({
 
   const saveEdit = () => {
     if (!editKey || !editValue) {
-      setError('Both key and value are required.');
+      setError(rest.validationErrors.header.required);
       return;
     }
     if (!headerKeyPattern.test(editKey)) {
-      setError(
-        'Header key must contain only Latin letters, digits, dashes, underscores, or slashes.'
-      );
+      setError(rest.validationErrors.header.key);
       return;
     }
     if (!headerValuePattern.test(editValue)) {
-      setError('Header value contains invalid characters.');
+      setError(rest.validationErrors.header.value);
       return;
     }
     const updatedHeaders: [string, string][] = headers.map((header, index) =>
@@ -87,14 +85,14 @@ const HeadersEditor: React.FC<HeadersEditorProps> = ({
       <div>
         <input
           type="text"
-          placeholder="Header Key"
+          placeholder={rest.headerKey}
           value={key}
           onChange={(e) => setKey(e.target.value)}
           className="border p-2 m-1 rounded-lg"
         />
         <input
           type="text"
-          placeholder="Header Value"
+          placeholder={rest.headerValue}
           value={value}
           onChange={(e) => setValue(e.target.value)}
           className="border p-2 m-1 rounded-lg"
@@ -103,7 +101,7 @@ const HeadersEditor: React.FC<HeadersEditorProps> = ({
           onClick={addHeader}
           className="bg-blue-500 text-white py-2 px-3 rounded"
         >
-          Add Header
+          {rest.addHeader}
         </button>
         {error && <p className="text-red-500">{error}</p>}
       </div>
@@ -128,13 +126,13 @@ const HeadersEditor: React.FC<HeadersEditorProps> = ({
                   onClick={saveEdit}
                   className="bg-green-500 text-white py-1 px-2 rounded"
                 >
-                  Save
+                  {rest.save}
                 </button>
                 <button
                   onClick={() => setEditIndex(null)}
                   className="bg-gray-500 text-white py-1 px-2 rounded"
                 >
-                  Cancel
+                  {rest.cancel}
                 </button>
               </div>
             ) : (

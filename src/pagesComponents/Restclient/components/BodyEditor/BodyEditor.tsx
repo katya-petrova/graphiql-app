@@ -3,6 +3,7 @@ import CodeMirror from '@uiw/react-codemirror';
 import { json } from '@codemirror/lang-json';
 import { okaidia } from '@uiw/codemirror-theme-okaidia';
 import { linter, lintGutter, Diagnostic } from '@codemirror/lint';
+import { useTranslation } from '@/context/TranslationContext';
 
 type BodyEditorProps = {
   body: string;
@@ -16,6 +17,7 @@ const BodyEditor: React.FC<BodyEditorProps> = ({
   updateUrl,
 }) => {
   const [isJsonView, setIsJsonView] = useState(true);
+  const { rest } = useTranslation();
 
   const toggleView = () => {
     setIsJsonView(!isJsonView);
@@ -54,7 +56,7 @@ const BodyEditor: React.FC<BodyEditorProps> = ({
         onClick={toggleView}
         className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition duration-300"
       >
-        {isJsonView ? 'Switch to Text View' : 'Switch to JSON View'}
+        {isJsonView ? rest.switchToTextView : rest.switchToJSONView}
       </button>
 
       {isJsonView ? (
@@ -74,7 +76,7 @@ const BodyEditor: React.FC<BodyEditorProps> = ({
           value={body}
           onChange={(e) => setBody(e.target.value)}
           onBlur={handleBlur}
-          placeholder="Request body"
+          placeholder={rest.requestBody}
           className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition duration-300 resize-none h-40"
         />
       )}

@@ -1,6 +1,9 @@
 import { describe, it, expect, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import RestClientPage from './page';
+import { getDictionary } from '@/utils/translation/getDictionary';
+import en from '@/utils/translation/dictionaries/en.json';
+import { useTranslation } from '@/context/TranslationContext';
 
 vi.mock('next/navigation', () => ({
   usePathname: () =>
@@ -8,12 +11,20 @@ vi.mock('next/navigation', () => ({
   useSearchParams: () => new URLSearchParams('Authorization=Bearer%20token'),
 }));
 
+vi.mock('@/context/TranslationContext', () => ({
+  useTranslation: () => ({ rest: en.rest }),
+}));
+
 vi.mock('@/utils/translation/getDictionary', () => ({
   getDictionary: vi.fn(),
 }));
 
+beforeEach(() => {
+  (getDictionary as jest.Mock).mockResolvedValue({ rest: en.rest });
+});
+
 describe('Restclient Component', () => {
-  beforeEach(() => {
+  afterEach(() => {
     vi.clearAllMocks();
   });
 
