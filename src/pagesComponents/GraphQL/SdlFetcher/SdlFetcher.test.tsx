@@ -2,6 +2,7 @@ import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { toast } from 'react-toastify';
 import SdlFetcher from './SdlFetcher';
+import en from '@/utils/translation/dictionaries/en.json';
 
 vi.mock('../../Button/Button', () => ({
   Button: ({ onClick }: { onClick: () => void }) => (
@@ -31,6 +32,7 @@ describe('SdlFetcher Component', () => {
         headers={{}}
         onSdlDataFetch={vi.fn()}
         onError={vi.fn()}
+        t={en.graphiql}
       />
     );
 
@@ -55,6 +57,7 @@ describe('SdlFetcher Component', () => {
         headers={{}}
         onSdlDataFetch={mockOnSdlDataFetch}
         onError={mockOnError}
+        t={en.graphiql}
       />
     );
 

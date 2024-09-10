@@ -12,8 +12,9 @@ import QueryForm from '../QueryForm/QueryForm';
 import QueryResult from '../QueryResult/QueryResult';
 import SdlFetcher from '../SdlFetcher/SdlFetcher';
 import SdlDocumentation from '../SdlDocumentation/SdlDocumentation';
+import { Dictionary } from '@/utils/translation/getDictionary';
 
-const GraphQLClient: React.FC = () => {
+const GraphQLClient: React.FC<{ t: Dictionary['graphiql'] }> = ({ t }) => {
   const defaultQuery = `query GetCountry($code: ID!) {
     country(code: $code) {
       name
@@ -106,11 +107,11 @@ const GraphQLClient: React.FC = () => {
       });
       setQueryResult(data);
       setStatusCode(200);
-      toast.success('Query executed successfully!');
+      toast.success(t.successfulMessages.query);
     } catch (err) {
-      setError('Error fetching data');
+      setError(t.errorMessages.fetching);
       setStatusCode(500);
-      toast.error('Error executing the query!');
+      toast.error(t.errorMessages.executing);
     } finally {
       setLoading(false);
     }
@@ -131,13 +132,13 @@ const GraphQLClient: React.FC = () => {
 
   const handleSdlDataFetch = (data: string) => {
     setSdlData(data);
-    toast.success('SDL data fetched successfully!');
+    toast.success(t.successfulMessages.SDL);
   };
 
   const handleError = (message: string) => {
     setError(message);
     setStatusCode(500);
-    toast.error('Error: ' + message);
+    toast.error(`${t.errorMessages.error}: ` + message);
   };
 
   const handleUrlChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -166,14 +167,14 @@ const GraphQLClient: React.FC = () => {
       }[];
       setHeadersArray(headersArray);
     } catch (error) {
-      toast.error('Invalid headers format');
+      toast.error(t.errorMessages.header);
     }
   };
 
   return (
     <ApolloProvider client={client}>
       <div className="p-4 bg-white rounded text-gray-700 min-h-screen">
-        <h1 className="text-3xl font-bold mb-4">GraphQL Client</h1>
+        <h1 className="text-3xl font-bold mb-4">{t.title}</h1>
         <QueryForm
           url={url}
           sdlUrl={sdlUrl}
@@ -186,20 +187,23 @@ const GraphQLClient: React.FC = () => {
           onVariablesChange={handleVariablesChange}
           onHeadersChange={handleHeadersChange}
           onQueryExecute={handlePush}
+          t={t}
         />
         <QueryResult
           queryResult={queryResult}
           error={error}
           statusCode={statusCode}
           loading={loading}
+          t={t}
         />
         <SdlFetcher
           sdlUrl={sdlUrl}
           headers={convertHeadersArrayToObject(headersArray)}
           onSdlDataFetch={handleSdlDataFetch}
           onError={handleError}
+          t={t}
         />
-        <SdlDocumentation sdlData={sdlData} />
+        <SdlDocumentation t={t} sdlData={sdlData} />
         <ToastContainer />
       </div>
     </ApolloProvider>

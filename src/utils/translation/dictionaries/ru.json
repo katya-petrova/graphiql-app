@@ -20,8 +20,7 @@
     "title": "404 Страница не найдена",
     "description": "Не удалось найти запрашиваемый ресурс",
     "links": {
-      "home": "Домой",
-      "back": "Назад"
+      "home": "Домой"
     }
   },
   "history": {
@@ -66,8 +65,8 @@
     }
   },
   "graphiql": {
-    "title": "Клиент GraphQL",
-    "endpointUrl": "URL конечной точки",
+    "title": "GraphQL Клиент ",
+    "endpointUrl": "Адрес конечной точки",
     "headerKey": "Ключ заголовка",
     "headerValue": "Значение заголовка",
     "addHeader": "Добавить заголовок",
@@ -75,7 +74,23 @@
     "prettifyQuery": "Отформатировать запрос",
     "variables": "Переменные",
     "sendRequest": "Отправить запрос",
-    "requestSdl": "Запросить SDL"
+    "requestSdl": "Запросить SDL",
+    "SDLDocumentation": "SDL Документация",
+    "remove": "Удалить",
+    "queryPlaceholder": "Введите ваш GraphQL запрос",
+    "status": "Статус",
+    "errorMessages": {
+      "formatting": "Ошибка форматирования запроса",
+      "unknown": "Произошла неизвестная ошибка",
+      "fetching": "Ошибка получения данных",
+      "executing": "Ошибка выполнения запроса!",
+      "header": "Неверный формат заголовков",
+      "error": "Ошибка"
+    },
+    "successfulMessages": {
+      "query": "Запрос успешно выполнен!",
+      "SDL": "SDL данные успешно получены!"
+    }
   },
   "signIn": {
     "title": "Вход",

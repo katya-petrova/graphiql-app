@@ -1,6 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import { describe, it, expect } from 'vitest';
 import SdlDocumentation from './SdlDocumentation';
+import en from '@/utils/translation/dictionaries/en.json';
 
 describe('SdlDocumentation Component', () => {
   it('renders SDL documentation when sdlData is provided', () => {
@@ -10,14 +11,14 @@ describe('SdlDocumentation Component', () => {
       }
     `;
 
-    render(<SdlDocumentation sdlData={sdlData} />);
+    render(<SdlDocumentation t={en.graphiql} sdlData={sdlData} />);
 
     expect(screen.getByText('SDL Documentation')).toBeInTheDocument();
     expect(screen.getByText(/type Query/)).toBeInTheDocument();
   });
 
   it('does not render anything when sdlData is null', () => {
-    render(<SdlDocumentation sdlData={null} />);
+    render(<SdlDocumentation t={en.graphiql} sdlData={null} />);
 
     expect(screen.queryByText('SDL Documentation')).toBeNull();
     expect(screen.queryByText(/type Query/)).toBeNull();
@@ -30,7 +31,9 @@ describe('SdlDocumentation Component', () => {
       }
     `;
 
-    const { container } = render(<SdlDocumentation sdlData={sdlData} />);
+    const { container } = render(
+      <SdlDocumentation t={en.graphiql} sdlData={sdlData} />
+    );
     const divElement = container.querySelector('div');
 
     expect(divElement).toHaveClass('mt-2 max-w-xl mx-auto');
