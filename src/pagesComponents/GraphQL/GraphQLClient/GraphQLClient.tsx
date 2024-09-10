@@ -172,6 +172,19 @@ const GraphQLClient: React.FC = () => {
         value: string;
       }[];
       setHeadersArray(headersArray);
+
+      const lang = getLangFromUrlOrCookie(pathname);
+      const endpointUrlBase64 = btoa(url);
+      const bodyBase64 = btoa(JSON.stringify({ query, variables }));
+
+      const newSearchParams = new URLSearchParams(
+        convertHeadersArrayToObject(headersArray)
+      );
+      const newUrl = `/${lang}/graphiql/${endpointUrlBase64}/${bodyBase64}?${newSearchParams.toString()}`;
+
+      if (newUrl !== window.location.pathname + window.location.search) {
+        window.history.replaceState(null, '', newUrl);
+      }
     } catch (error) {
       toast.error('Invalid headers format');
     }
