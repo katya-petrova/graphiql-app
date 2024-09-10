@@ -38,5 +38,36 @@
       "signOut": "Sign out",
       "main": "Main"
     }
+  },
+  "rest": {
+    "enterEndpoint": "Enter endpoint",
+    "headerKey": "Header key",
+    "headerValue": "Header value",
+    "addHeader": "Add Header",
+    "switchToTextView": "Switch to text view",
+    "sendRequest": "Send Request"
+  },
+  "graphiql": {
+    "title": "GraphQL Client",
+    "endpointUrl": "Endpoint URL",
+    "headerKey": "Header key",
+    "headerValue": "Header value",
+    "addHeader": "Add Header",
+    "query": "Query",
+    "prettifyQuery": "Prettify Query",
+    "variables": "Variables",
+    "sendRequest": "Send Request",
+    "requestSdl": "Request SDL"
+  },
+  "signIn": {
+    "title": "Sign In",
+    "email": "Email",
+    "password": "Password"
+  },
+  "signUp": {
+    "title": "Sign Up",
+    "name": "Name",
+    "email": "Email",
+    "password": "Password"
   }
 }

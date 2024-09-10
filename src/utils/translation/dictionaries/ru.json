@@ -42,5 +42,36 @@
       "signOut": "Выйти",
       "main": "Главная"
     }
+  },
+  "rest": {
+    "enterEndpoint": "Введите конечную точку",
+    "headerKey": "Ключ заголовка",
+    "headerValue": "Значение заголовка",
+    "addHeader": "Добавить заголовок",
+    "switchToTextView": "Переключиться на текстовый режим",
+    "sendRequest": "Отправить запрос"
+  },
+  "graphiql": {
+    "title": "Клиент GraphQL",
+    "endpointUrl": "URL конечной точки",
+    "headerKey": "Ключ заголовка",
+    "headerValue": "Значение заголовка",
+    "addHeader": "Добавить заголовок",
+    "query": "Запрос",
+    "prettifyQuery": "Отформатировать запрос",
+    "variables": "Переменные",
+    "sendRequest": "Отправить запрос",
+    "requestSdl": "Запросить SDL"
+  },
+  "signIn": {
+    "title": "Вход",
+    "email": "Электронная почта",
+    "password": "Пароль"
+  },
+  "signUp": {
+    "title": "Регистрация",
+    "name": "Имя",
+    "email": "Электронная почта",
+    "password": "Пароль"
   }
 }
