@@ -7,6 +7,8 @@ import { useRouter } from 'next/navigation';
 import { registerWithEmailAndPassword } from '@/utils/firebase/authService';
 import { validateSignupForm } from '@/utils/validation/validateSignupForm';
 import { toast } from 'react-toastify';
+import { TranslationProvider } from '@/context/TranslationContext';
+import en from '@/utils/translation/dictionaries/en.json';
 
 vi.mock('react-firebase-hooks/auth', () => ({
   useAuthState: vi.fn(),
@@ -53,7 +55,11 @@ describe('Signup Component', () => {
     mockValidateSignupForm.mockReturnValue({ isValid: true, errors: {} });
     mockRegister.mockResolvedValue({});
 
-    render(<Signup />);
+    render(
+      <TranslationProvider t={en}>
+        <Signup />
+      </TranslationProvider>
+    );
 
     fireEvent.change(screen.getByLabelText(/name/i), {
       target: { value: 'John Doe' },
@@ -82,7 +88,11 @@ describe('Signup Component', () => {
     mockUseAuthState.mockReturnValue([null, false]);
     mockValidateSignupForm.mockReturnValue({ isValid: true, errors: {} });
 
-    render(<Signup />);
+    render(
+      <TranslationProvider t={en}>
+        <Signup />
+      </TranslationProvider>
+    );
 
     fireEvent.change(screen.getByLabelText(/name/i), {
       target: { value: 'John Doe' },
