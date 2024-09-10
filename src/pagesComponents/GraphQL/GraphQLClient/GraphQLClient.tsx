@@ -14,25 +14,10 @@ import SdlFetcher from '../SdlFetcher/SdlFetcher';
 import SdlDocumentation from '../SdlDocumentation/SdlDocumentation';
 
 const GraphQLClient: React.FC = () => {
-  const defaultQuery = `query GetCountry($code: ID!) {
-    country(code: $code) {
-      name
-      native
-      capital
-      emoji
-      currency
-      languages {
-        code
-        name
-      }
-    }
-  }`;
-  const defaultVariables = '{"code": "US"}';
-
-  const [query, setQuery] = useState<string>(defaultQuery);
-  const [variables, setVariables] = useState<string>(defaultVariables);
-  const [url, setUrl] = useState<string>('https://countries.trevorblades.com');
-  const [sdlUrl, setSdlUrl] = useState<string>('https://api.github.com/?sdl');
+  const [query, setQuery] = useState<string>('');
+  const [variables, setVariables] = useState<string>('');
+  const [url, setUrl] = useState<string>('');
+  const [sdlUrl, setSdlUrl] = useState<string>('');
   const [queryResult, setQueryResult] = useState<any>(null);
   const [sdlData, setSdlData] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -45,7 +30,7 @@ const GraphQLClient: React.FC = () => {
 
   const pathname = usePathname();
   const [endpoint, setEndpoint] = useState('');
-  const [body, setBody] = useState('');
+  const [body, setBody] = useState<string>('');
 
   useEffect(() => {
     const pathParts = pathname.split('/');
@@ -56,14 +41,36 @@ const GraphQLClient: React.FC = () => {
     setBody(bodyBase64 ? atob(bodyBase64) : '');
   }, [pathname]);
 
-  useEffect(() => {
-    const parsedObject = JSON.parse(body || '[]');
-    const { query, variables } = parsedObject;
+  const handleBodyChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setBody(e.target.value);
+  };
 
-    query ? setQuery(query) : '';
-    variables ? setVariables(variables) : '';
-    endpoint ? setUrl(endpoint) : '';
-  }, []);
+  const encodeBase64 = (str: string) => {
+    return btoa(encodeURIComponent(str));
+  };
+
+  const handleBodyBlur = () => {
+    const bodyBase64 = encodeBase64(body);
+    const lang = getLangFromUrlOrCookie(pathname);
+    const newUrl = `/${lang}/graphiql/${btoa(url)}/${bodyBase64}?${new URLSearchParams(convertHeadersArrayToObject(headersArray)).toString()}`;
+
+    if (newUrl !== window.location.pathname + window.location.search) {
+      window.history.replaceState(null, '', newUrl);
+    }
+  };
+
+  useEffect(() => {
+    try {
+      const parsedObject = JSON.parse(body || '{}');
+      const { query, variables } = parsedObject;
+
+      if (query) setQuery(query);
+      if (variables) setVariables(variables);
+      if (endpoint) setUrl(endpoint);
+    } catch (error) {
+      console.error('Invalid JSON in body:', error);
+    }
+  }, [body, endpoint]);
 
   useEffect(() => {
     const headersArray: { key: string; value: string }[] = [];
@@ -185,6 +192,8 @@ const GraphQLClient: React.FC = () => {
           onQueryChange={handleQueryChange}
           onVariablesChange={handleVariablesChange}
           onHeadersChange={handleHeadersChange}
+          onBodyChange={handleBodyChange}
+          onBodyBlur={handleBodyBlur}
           onQueryExecute={handlePush}
         />
         <QueryResult

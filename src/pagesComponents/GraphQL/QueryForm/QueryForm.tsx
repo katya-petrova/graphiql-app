@@ -22,6 +22,8 @@ interface QueryFormProps {
   onSdlUrlChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onQueryChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
   onVariablesChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
+  onBodyChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
+  onBodyBlur: (e: React.FocusEvent<HTMLTextAreaElement>) => void;
   onHeadersChange: (headers: string) => void;
   onQueryExecute: () => void;
 }
@@ -38,6 +40,8 @@ const QueryForm: React.FC<QueryFormProps> = ({
   onVariablesChange,
   onHeadersChange,
   onQueryExecute,
+  onBodyChange,
+  onBodyBlur,
 }) => {
   const [headerKey, setHeaderKey] = useState('');
   const [headerValue, setHeaderValue] = useState('');
@@ -129,13 +133,17 @@ const QueryForm: React.FC<QueryFormProps> = ({
       <TextAreaInput
         label="Query:"
         value={query}
-        onChange={onQueryChange}
+        onChange={(e) => {
+          onQueryChange(e);
+          onBodyChange(e);
+        }}
+        onBlur={onBodyBlur}
         placeholder="Enter your GraphQL query"
         rows={8}
       />
 
       <Button onClick={handlePrettify} className="mt-2 mb-4">
-        Prettify Query
+        Prettify
       </Button>
 
       <TextAreaInput
