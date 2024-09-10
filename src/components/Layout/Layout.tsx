@@ -4,10 +4,11 @@ import { AuthProvider } from '@/context/AuthContext';
 import { Dictionary } from '@/utils/translation/getDictionary';
 import { Header, Header_Height } from '../Header';
 import { Footer } from '../Footer';
+import { TranslationProvider } from '@/context/TranslationContext';
 
 type LayoutProps = {
   children: React.ReactNode;
-  t: Dictionary['auth'];
+  t: Dictionary;
 };
 
 export const Layout = ({ children, t }: LayoutProps) => {
@@ -15,17 +16,19 @@ export const Layout = ({ children, t }: LayoutProps) => {
 
   return (
     <AuthProvider>
-      <div className="min-h-screen flex flex-col justify-between">
-        <Header t={t} setHeaderHeight={setHeaderHeight} />
-        <main
-          style={{ marginTop: headerHeight }}
-          className="flex flex-col flex-grow items-center justify-between p-6 md:p-10"
-        >
-          {children}
-        </main>
+      <TranslationProvider t={t}>
+        <div className="min-h-screen flex flex-col justify-between">
+          <Header t={t['auth']} setHeaderHeight={setHeaderHeight} />
+          <main
+            style={{ marginTop: headerHeight }}
+            className="flex flex-col flex-grow items-center justify-between p-6 md:p-10"
+          >
+            {children}
+          </main>
 
-        <Footer />
-      </div>
+          <Footer />
+        </div>
+      </TranslationProvider>
     </AuthProvider>
   );
 };
