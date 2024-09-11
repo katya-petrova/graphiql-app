@@ -1,6 +1,8 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import { describe, it, expect, vi } from 'vitest';
 import BodyEditor from './BodyEditor';
+import { TranslationProvider } from '@/context/TranslationContext';
+import en from '@/utils/translation/dictionaries/en.json';
 
 describe('BodyEditor Component', () => {
   const mockSetBody = vi.fn();
@@ -9,12 +11,14 @@ describe('BodyEditor Component', () => {
 
   const renderComponent = (body = '') => {
     render(
-      <BodyEditor
-        body={body}
-        setBody={mockSetBody}
-        updateUrl={mockUpdateUrl}
-        variables={mockVariables}
-      />
+      <TranslationProvider t={en}>
+        <BodyEditor
+          body={body}
+          setBody={mockSetBody}
+          updateUrl={mockUpdateUrl}
+          variables={mockVariables}
+        />
+      </TranslationProvider>
     );
   };
 

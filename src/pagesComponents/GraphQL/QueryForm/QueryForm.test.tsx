@@ -1,6 +1,7 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import QueryForm from './QueryForm';
+import en from '@/utils/translation/dictionaries/en.json';
 
 vi.mock('../../UrlInput/UrlInput', () => ({
   default: ({ label, value, onChange, placeholder }: any) => (
@@ -82,6 +83,7 @@ describe('QueryForm Component', () => {
         onVariablesChange={mockOnVariablesChange}
         onHeadersChange={mockOnHeadersChange}
         onQueryExecute={mockOnQueryExecute}
+        t={en.graphiql}
       />
     );
 
@@ -112,6 +114,7 @@ describe('QueryForm Component', () => {
         onVariablesChange={mockOnVariablesChange}
         onHeadersChange={mockOnHeadersChange}
         onQueryExecute={mockOnQueryExecute}
+        t={en.graphiql}
       />
     );
 
@@ -134,6 +137,7 @@ describe('QueryForm Component', () => {
         onVariablesChange={mockOnVariablesChange}
         onHeadersChange={mockOnHeadersChange}
         onQueryExecute={mockOnQueryExecute}
+        t={en.graphiql}
       />
     );
 

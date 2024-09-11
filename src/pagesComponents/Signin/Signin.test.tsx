@@ -6,6 +6,8 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 import { useRouter } from 'next/navigation';
 import { logInWithEmailAndPassword } from '@/utils/firebase/authService';
 import { toast } from 'react-toastify';
+import { TranslationProvider } from '@/context/TranslationContext';
+import en from '@/utils/translation/dictionaries/en.json';
 
 vi.mock('react-firebase-hooks/auth', () => ({
   useAuthState: vi.fn(),
@@ -44,7 +46,11 @@ describe('Signin Component', () => {
     mockUseAuthState.mockReturnValue([null, false]);
     mockLogIn.mockResolvedValue({});
 
-    render(<Signin />);
+    render(
+      <TranslationProvider t={en}>
+        <Signin />
+      </TranslationProvider>
+    );
 
     fireEvent.change(screen.getByLabelText(/email/i), {
       target: { value: 'test@example.com' },
@@ -66,7 +72,11 @@ describe('Signin Component', () => {
 
     console.log = vi.fn();
 
-    render(<Signin />);
+    render(
+      <TranslationProvider t={en}>
+        <Signin />
+      </TranslationProvider>
+    );
 
     fireEvent.change(screen.getByLabelText(/email/i), {
       target: { value: 'test@example.com' },

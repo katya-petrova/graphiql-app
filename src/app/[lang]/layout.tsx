@@ -29,13 +29,13 @@ export default async function RootLayout({
 }: RootLayoutProps) {
   const locale: Locale = lang === 'en' || lang === 'ru' ? lang : 'en';
 
-  const { auth } = await getDictionary(locale);
+  const t = await getDictionary(locale);
 
   return (
     <html lang={locale}>
       <body className={inter.className}>
         <div className="min-h-screen flex flex-col justify-between">
-          <Layout t={auth}>{children}</Layout>
+          <Layout t={t}>{children}</Layout>
         </div>
       </body>
     </html>

@@ -38,5 +38,66 @@
       "signOut": "Sign out",
       "main": "Main"
     }
+  },
+  "rest": {
+    "enterEndpoint": "Enter endpoint",
+    "headerKey": "Header Key",
+    "headerValue": "Header Value",
+    "addHeader": "Add Header",
+    "switchToTextView": "Switch to Text View",
+    "switchToJSONView": "Switch to JSON View",
+    "requestBody": "Request body",
+    "sendRequest": "Send Request",
+    "save": "Save",
+    "cancel": "Cancel",
+    "error": "Error",
+    "response": "Response",
+    "status": "Status",
+    "validationErrors": {
+      "header": {
+        "required": "Both key and value are required.",
+        "key": "Header key must contain only Latin letters, digits, dashes, underscores, or slashes.",
+        "value": "Header value contains invalid characters."
+      }
+    }
+  },
+  "graphiql": {
+    "title": "GraphQL Client",
+    "endpointUrl": "Endpoint URL",
+    "headerKey": "Header Key",
+    "headerValue": "Header Value",
+    "addHeader": "Add Header",
+    "query": "Query",
+    "prettifyQuery": "Prettify Query",
+    "variables": "Variables",
+    "sendRequest": "Send Request",
+    "requestSdl": "Request SDL",
+    "SDLDocumentation": "SDL Documentation",
+    "remove": "Remove",
+    "queryPlaceholder": "Enter your GraphQL query",
+    "status": "Status",
+    "errorMessages": {
+      "formatting": "Error formatting query",
+      "unknown": "An unknown error occurred",
+      "fetching": "Error fetching data",
+      "executing": "Error executing the query!",
+      "header": "Invalid headers format",
+      "error": "Error"
+    },
+    "successfulMessages": {
+      "query": "Query executed successfully!",
+      "SDL": "SDL data fetched successfully!"
+    }
+  },
+  "signIn": {
+    "title": "Sign In",
+    "email": "Email",
+    "password": "Password"
+  },
+  "signUp": {
+    "title": "Sign Up",
+    "name": "Name",
+    "email": "Email",
+    "password": "Password"
   }
 }

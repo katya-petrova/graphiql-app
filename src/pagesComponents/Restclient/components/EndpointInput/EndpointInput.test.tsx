@@ -14,9 +14,8 @@ describe('EndpointInput', () => {
         updateUrl={() => {}}
       />
     );
-    const inputElement = screen.getByPlaceholderText(
-      'Enter endpoint'
-    ) as HTMLInputElement;
+    // Access input by role instead of placeholder text
+    const inputElement = screen.getByRole('textbox') as HTMLInputElement;
     expect(inputElement.value).toBe(endpoint);
   });
 
@@ -31,7 +30,8 @@ describe('EndpointInput', () => {
       />
     );
 
-    const inputElement = screen.getByPlaceholderText('Enter endpoint');
+    // Access input by role instead of placeholder text
+    const inputElement = screen.getByRole('textbox');
     await userEvent.type(inputElement, 'http://newurl.com');
 
     expect(setEndpoint).toHaveBeenCalledTimes(17);
@@ -49,7 +49,8 @@ describe('EndpointInput', () => {
       />
     );
 
-    const inputElement = screen.getByPlaceholderText('Enter endpoint');
+    // Access input by role instead of placeholder text
+    const inputElement = screen.getByRole('textbox');
     fireEvent.change(inputElement, { target: { value: '' } });
 
     expect(setEndpoint).toHaveBeenCalledWith('');

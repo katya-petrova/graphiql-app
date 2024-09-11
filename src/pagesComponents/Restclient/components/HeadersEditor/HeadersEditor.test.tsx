@@ -1,17 +1,22 @@
 import { render, fireEvent, screen } from '@testing-library/react';
 import { describe, it, expect, vi } from 'vitest';
 import HeadersEditor from './HeadersEditor';
+import en from '@/utils/translation/dictionaries/en.json';
+import { useTransition } from 'react';
+import { TranslationProvider } from '@/context/TranslationContext';
 
 describe('HeadersEditor Component', () => {
   it('adds a header when valid key and value are provided', () => {
     const setHeaders = vi.fn();
     const updateUrl = vi.fn();
     render(
-      <HeadersEditor
-        headers={[]}
-        setHeaders={setHeaders}
-        updateUrl={updateUrl}
-      />
+      <TranslationProvider t={en}>
+        <HeadersEditor
+          headers={[]}
+          setHeaders={setHeaders}
+          updateUrl={updateUrl}
+        />
+      </TranslationProvider>
     );
 
     fireEvent.change(screen.getByPlaceholderText('Header Key'), {
@@ -30,7 +35,13 @@ describe('HeadersEditor Component', () => {
 
   it('shows an error when attempting to add a header without key or value', () => {
     render(
-      <HeadersEditor headers={[]} setHeaders={() => {}} updateUrl={() => {}} />
+      <TranslationProvider t={en}>
+        <HeadersEditor
+          headers={[]}
+          setHeaders={() => {}}
+          updateUrl={() => {}}
+        />
+      </TranslationProvider>
     );
 
     fireEvent.click(screen.getByText(/Add Header/i));
@@ -41,7 +52,13 @@ describe('HeadersEditor Component', () => {
 
   it('shows error when a header key or value is invalid on addition', () => {
     render(
-      <HeadersEditor headers={[]} setHeaders={() => {}} updateUrl={() => {}} />
+      <TranslationProvider t={en}>
+        <HeadersEditor
+          headers={[]}
+          setHeaders={() => {}}
+          updateUrl={() => {}}
+        />
+      </TranslationProvider>
     );
 
     fireEvent.change(screen.getByPlaceholderText('Header Key'), {
@@ -64,11 +81,13 @@ describe('HeadersEditor Component', () => {
     const updateUrl = vi.fn();
     const initialHeaders: [string, string][] = [['User-Agent', 'test']];
     render(
-      <HeadersEditor
-        headers={initialHeaders}
-        setHeaders={setHeaders}
-        updateUrl={updateUrl}
-      />
+      <TranslationProvider t={en}>
+        <HeadersEditor
+          headers={initialHeaders}
+          setHeaders={setHeaders}
+          updateUrl={updateUrl}
+        />
+      </TranslationProvider>
     );
 
     fireEvent.click(screen.getByLabelText('Edit header 0'));
@@ -89,11 +108,13 @@ describe('HeadersEditor Component', () => {
     const updateUrl = vi.fn();
     const initialHeaders: [string, string][] = [['User-Agent', 'test']];
     render(
-      <HeadersEditor
-        headers={initialHeaders}
-        setHeaders={setHeaders}
-        updateUrl={updateUrl}
-      />
+      <TranslationProvider t={en}>
+        <HeadersEditor
+          headers={initialHeaders}
+          setHeaders={setHeaders}
+          updateUrl={updateUrl}
+        />
+      </TranslationProvider>
     );
 
     fireEvent.click(screen.getByLabelText('Remove header 0'));

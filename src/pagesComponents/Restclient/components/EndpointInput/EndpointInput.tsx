@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ComponentProps } from 'react';
 
 type EndpointInputProps = {
   endpoint: string;
@@ -6,10 +6,11 @@ type EndpointInputProps = {
   updateUrl: () => void;
 };
 
-const EndpointInput: React.FC<EndpointInputProps> = ({
+const EndpointInput: React.FC<ComponentProps<'input'> & EndpointInputProps> = ({
   endpoint,
   setEndpoint,
   updateUrl,
+  ...props
 }) => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEndpoint(e.target.value);
@@ -21,8 +22,8 @@ const EndpointInput: React.FC<EndpointInputProps> = ({
       type="text"
       value={endpoint}
       onChange={handleChange}
-      placeholder="Enter endpoint"
       className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition duration-300"
+      {...props}
     />
   );
 };

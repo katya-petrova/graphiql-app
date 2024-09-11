@@ -11,6 +11,8 @@ import { toast } from 'react-toastify';
 import { getLangFromUrlOrCookie } from '@/utils/getCurrentLanguage/getCurrentLanguage';
 import { saveRestRequestToHistory } from '@/utils/RestfulClientServices/historyService/historyService';
 import { replaceVariablesInBody } from '@/utils/RestfulClientServices/requestService/requestService';
+import { Dictionary } from '@/utils/translation/getDictionary';
+
 import {
   getFromLocalStorage,
   saveToLocalStorage,
@@ -25,7 +27,8 @@ export type RequestHistoryItem = {
   link: string;
   time: string;
 };
-const Restclient: React.FC = () => {
+
+const Restclient: React.FC<{ t: Dictionary['rest'] }> = ({ t }) => {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const [method, setMethod] = useState('GET');
@@ -40,7 +43,10 @@ const Restclient: React.FC = () => {
   const [initialLoad, setInitialLoad] = useState(true);
 
   useEffect(() => {
+    if (!pathname) return;
+
     const pathParts = pathname.split('/');
+
     setMethod(pathParts[3] || 'GET');
     setEndpoint(decodeBase64(pathParts[4] || ''));
     setBody(decodeBase64(pathParts[5] || ''));
@@ -62,7 +68,7 @@ const Restclient: React.FC = () => {
   }, [pathname, searchParams]);
 
   const updateUrl = () => {
-    const lang = getLangFromUrlOrCookie(pathname);
+    const lang = getLangFromUrlOrCookie(pathname || '');
     const newUrl = buildNewUrl(lang, method, endpoint, body, headers);
 
     if (newUrl !== window.location.pathname + window.location.search) {
@@ -106,6 +112,7 @@ const Restclient: React.FC = () => {
         endpoint={endpoint}
         setEndpoint={setEndpoint}
         updateUrl={updateUrl}
+        placeholder={t.enterEndpoint}
       />
       <HeadersEditor
         headers={headers}
@@ -129,7 +136,7 @@ const Restclient: React.FC = () => {
         onClick={handleRequest}
         className="w-full bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition duration-300"
       >
-        Send Request
+        {t.sendRequest}
       </button>
       <ResponseViewer response={response} />
     </div>

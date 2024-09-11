@@ -4,12 +4,14 @@ import React, { useState } from 'react';
 import { Button } from '../../../components/Button/Button';
 import Loader from '../../../components/Loader/Loader';
 import { toast } from 'react-toastify';
+import { Dictionary } from '@/utils/translation/getDictionary';
 
 interface SdlFetcherProps {
   sdlUrl: string;
   headers: Record<string, string>;
   onSdlDataFetch: (data: string) => void;
   onError: (message: string) => void;
+  t: Dictionary['graphiql'];
 }
 
 const SdlFetcher: React.FC<SdlFetcherProps> = ({
@@ -17,6 +19,7 @@ const SdlFetcher: React.FC<SdlFetcherProps> = ({
   headers,
   onSdlDataFetch,
   onError,
+  t,
 }) => {
   const [loading, setLoading] = useState(false);
 
@@ -44,7 +47,7 @@ const SdlFetcher: React.FC<SdlFetcherProps> = ({
   return (
     <div>
       {loading && <Loader />}
-      <Button onClick={fetchSdlData}>Request SDL</Button>
+      <Button onClick={fetchSdlData}>{t.requestSdl}</Button>
     </div>
   );
 };

@@ -8,12 +8,14 @@ import { Form } from '@/components/Form/Form';
 import Loader from '@/components/Loader/Loader';
 import { auth } from '@/utils/firebase/firebaseConfig';
 import { Button } from '@/components/Button';
+import { useTranslation } from '@/context/TranslationContext';
 
 const Signin: React.FC = () => {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [user, loading] = useAuthState(auth);
   const router = useRouter();
+  const { signIn } = useTranslation();
 
   useEffect(() => {
     if (user) router.push('/main');
@@ -42,11 +44,11 @@ const Signin: React.FC = () => {
 
   return (
     <>
-      <h1 className="text-3xl font-bold mb-6 text-center">Sign In</h1>
+      <h1 className="text-3xl font-bold mb-6 text-center">{signIn.title}</h1>
       <Form onSubmit={login}>
         <div className="flex flex-col mb-4">
           <label htmlFor="email" className="mb-2 text-gray-700">
-            Email:
+            {signIn.email}:
           </label>
           <input
             id="email"
@@ -58,7 +60,7 @@ const Signin: React.FC = () => {
         </div>
         <div className="flex flex-col mb-6">
           <label htmlFor="password" className="mb-2 text-gray-700">
-            Password:
+            {signIn.password}:
           </label>
           <input
             id="password"
@@ -68,7 +70,7 @@ const Signin: React.FC = () => {
             className="p-2 border border-gray-300 rounded"
           />
         </div>
-        <Button type="submit">Sign In</Button>
+        <Button type="submit">{signIn.title}</Button>
       </Form>
     </>
   );
