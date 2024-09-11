@@ -23,7 +23,7 @@ const HeaderList: React.FC<HeaderListProps> = ({ headers, onRemoveHeader }) => {
           </li>
         ))
       ) : (
-        <li></li>
+        <></>
       )}
     </ul>
   );
