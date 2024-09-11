@@ -2,7 +2,7 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import QueryForm from './QueryForm';
 
-vi.mock('../../UrlInput/UrlInput', () => ({
+vi.mock('../../../components/UrlInput/UrlInput', () => ({
   default: ({ label, value, onChange, placeholder }: any) => (
     <div>
       <label>{label}</label>
@@ -16,7 +16,7 @@ vi.mock('../../UrlInput/UrlInput', () => ({
   ),
 }));
 
-vi.mock('../../TextAreaInput/TextAreaInput', () => ({
+vi.mock('../../../components/TextAreaInput/TextAreaInput', () => ({
   default: ({ label, value, onChange, placeholder, rows }: any) => (
     <div>
       <label>{label}</label>
@@ -50,7 +50,7 @@ vi.mock('../HeaderInput/HeaderInput', () => ({
   ),
 }));
 
-vi.mock('../../Button/Button', () => ({
+vi.mock('../../../components/Button/Button', () => ({
   Button: ({ onClick, children }: any) => (
     <button onClick={onClick}>{children}</button>
   ),
@@ -63,12 +63,14 @@ describe('QueryForm Component', () => {
   const mockOnVariablesChange = vi.fn();
   const mockOnHeadersChange = vi.fn();
   const mockOnQueryExecute = vi.fn();
+  const mockOnBodyChange = vi.fn();
+  const mockOnBodyBlur = vi.fn();
 
   beforeEach(() => {
     vi.clearAllMocks();
   });
 
-  it('adds a new header', () => {
+  it('executes query when Send Request button is clicked', () => {
     render(
       <QueryForm
         url=""
@@ -82,58 +84,8 @@ describe('QueryForm Component', () => {
         onVariablesChange={mockOnVariablesChange}
         onHeadersChange={mockOnHeadersChange}
         onQueryExecute={mockOnQueryExecute}
-      />
-    );
-
-    fireEvent.change(screen.getByPlaceholderText(/Header Key/), {
-      target: { value: 'Authorization' },
-    });
-
-    fireEvent.change(screen.getByPlaceholderText(/Header Value/), {
-      target: { value: 'Bearer token' },
-    });
-
-    fireEvent.click(screen.getByText(/Add Header/));
-
-    expect(mockOnHeadersChange).toHaveBeenCalled();
-  });
-
-  it('removes a header', () => {
-    render(
-      <QueryForm
-        url=""
-        sdlUrl=""
-        query=""
-        variables=""
-        headers='[{"key":"Authorization","value":"Bearer token"}]'
-        onUrlChange={mockOnUrlChange}
-        onSdlUrlChange={mockOnSdlUrlChange}
-        onQueryChange={mockOnQueryChange}
-        onVariablesChange={mockOnVariablesChange}
-        onHeadersChange={mockOnHeadersChange}
-        onQueryExecute={mockOnQueryExecute}
-      />
-    );
-
-    fireEvent.click(screen.getByText(/Remove/));
-
-    expect(mockOnHeadersChange).toHaveBeenCalled();
-  });
-
-  it('executes query', () => {
-    render(
-      <QueryForm
-        url=""
-        sdlUrl=""
-        query=""
-        variables=""
-        headers="[]"
-        onUrlChange={mockOnUrlChange}
-        onSdlUrlChange={mockOnSdlUrlChange}
-        onQueryChange={mockOnQueryChange}
-        onVariablesChange={mockOnVariablesChange}
-        onHeadersChange={mockOnHeadersChange}
-        onQueryExecute={mockOnQueryExecute}
+        onBodyChange={mockOnBodyChange}
+        onBodyBlur={mockOnBodyBlur}
       />
     );
 

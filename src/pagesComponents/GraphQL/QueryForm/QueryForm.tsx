@@ -6,6 +6,7 @@ import TextAreaInput from '../../../components/TextAreaInput/TextAreaInput';
 import HeaderInput from '../HeaderInput/HeaderInput';
 import { Button } from '../../../components/Button/Button';
 import { toast } from 'react-toastify';
+import HeaderList from '../HeaderList/HeaderList';
 
 interface Header {
   key: string;
@@ -46,6 +47,7 @@ const QueryForm: React.FC<QueryFormProps> = ({
   const [headerKey, setHeaderKey] = useState('');
   const [headerValue, setHeaderValue] = useState('');
   const [headerList, setHeaderList] = useState<Header[]>([]);
+  const [headersVisible, setHeadersVisible] = useState(false);
 
   useEffect(() => {
     try {
@@ -93,6 +95,10 @@ const QueryForm: React.FC<QueryFormProps> = ({
     }
   };
 
+  const toggleHeadersVisibility = () => {
+    setHeadersVisible(!headersVisible);
+  };
+
   return (
     <div>
       <UrlInput
@@ -108,27 +114,28 @@ const QueryForm: React.FC<QueryFormProps> = ({
         placeholder="https://example.com/graphql?sdl"
       />
 
-      <HeaderInput
-        keyValue={{ key: headerKey, value: headerValue }}
-        onKeyChange={(e) => setHeaderKey(e.target.value)}
-        onValueChange={(e) => setHeaderValue(e.target.value)}
-        onAdd={handleAddHeader}
-      />
+      <button
+        className="bg-gray-200 text-gray-700 py-2 px-4 rounded mb-4"
+        onClick={toggleHeadersVisibility}
+      >
+        {headersVisible ? 'Hide Headers' : 'Show Headers'}
+      </button>
 
-      <ul>
-        {headerList.length > 0 ? (
-          headerList.map((header, index) => (
-            <li key={index} className="mb-2 flex items-center space-x-2">
-              <span className="mr-2">
-                {header.key}: {header.value}
-              </span>
-              <Button onClick={() => handleRemoveHeader(index)}>Remove</Button>
-            </li>
-          ))
-        ) : (
-          <li></li>
-        )}
-      </ul>
+      {headersVisible && (
+        <>
+          <HeaderInput
+            keyValue={{ key: headerKey, value: headerValue }}
+            onKeyChange={(e) => setHeaderKey(e.target.value)}
+            onValueChange={(e) => setHeaderValue(e.target.value)}
+            onAdd={handleAddHeader}
+          />
+
+          <HeaderList
+            headers={headerList}
+            onRemoveHeader={handleRemoveHeader}
+          />
+        </>
+      )}
 
       <TextAreaInput
         label="Query:"
