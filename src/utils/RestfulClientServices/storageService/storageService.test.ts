@@ -33,7 +33,7 @@ describe('localStorage utils', () => {
 
       localStorage.getItem = vi.fn(() => storedValue);
 
-      const result = getFromLocalStorage(key);
+      const result = getFromLocalStorage(key, []);
       expect(result).toEqual({ name: 'John', age: 30 });
       expect(localStorage.getItem).toHaveBeenCalledWith(key);
     });
@@ -53,7 +53,7 @@ describe('localStorage utils', () => {
       const key = 'nonexistentKey';
       localStorage.getItem = vi.fn(() => null);
 
-      const result = getFromLocalStorage(key);
+      const result = getFromLocalStorage(key, []);
       expect(result).toEqual([]);
     });
   });

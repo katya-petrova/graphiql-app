@@ -1,122 +1,60 @@
-import { describe, it, expect, beforeEach, vi, beforeAll } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+import { describe, it, expect, vi } from 'vitest';
 import BodyEditor from './BodyEditor';
 
-vi.mock('@uiw/react-codemirror', () => ({
-  __esModule: true,
-  default: vi.fn(({ onChange, onBlur, value, extensions }) => {
-    const mockExtensions = extensions || [];
-    const linterExtension = mockExtensions.find(
-      (ext: { name: string }) => ext.name === 'linter'
-    );
-    const linterExtension = mockExtensions.find(
-      (ext: { name: string }) => ext.name === 'linter'
-    );
-
-    return (
-      <div>
-        <textarea
-          data-testid="codemirror"
-          value={value}
-          onChange={(e) => onChange && onChange(e.target.value)}
-          onBlur={onBlur}
-        />
-        {linterExtension && linterExtension.callback && (
-          <div data-testid="linter-output">
-            {linterExtension.callback(value)}
-          </div>
-        )}
-      </div>
-    );
-  }),
-}));
-
-beforeAll(() => {
-  document.elementFromPoint = () => document.createElement('div');
-});
-
 describe('BodyEditor Component', () => {
-  const setBodyMock = vi.fn();
-  const updateUrlMock = vi.fn();
+  const mockSetBody = vi.fn();
+  const mockUpdateUrl = vi.fn();
+  const mockVariables = [{ key: 'variable1', value: 'value1' }];
 
-  beforeEach(() => {
-    setBodyMock.mockClear();
-    updateUrlMock.mockClear();
+  const renderComponent = (body = '') => {
     render(
       <BodyEditor
-        body=""
-        setBody={setBodyMock}
-        updateUrl={updateUrlMock}
-        variables={[]}
+        body={body}
+        setBody={mockSetBody}
+        updateUrl={mockUpdateUrl}
+        variables={mockVariables}
       />
     );
+  };
+
+  it('renders the component with default JSON view', () => {
+    renderComponent();
+
+    const switchButton = screen.getByRole('button', {
+      name: /switch to text view/i,
+    });
+    expect(switchButton).toBeInTheDocument();
+    expect(screen.getByRole('textbox')).toBeInTheDocument();
   });
 
-  it('should switch between JSON View and Text View', async () => {
-    const toggleButton = screen.getByRole('button', {
-      name: /Switch to Text View/i,
-    });
-    const toggleButton = screen.getByRole('button', {
-      name: /Switch to Text View/i,
-    });
-    await userEvent.click(toggleButton);
-    expect(toggleButton.textContent).toBe('Switch to JSON View');
+  it('toggles between JSON view and Text view', () => {
+    renderComponent();
 
-    await userEvent.click(toggleButton);
-    expect(toggleButton.textContent).toBe('Switch to Text View');
+    const switchButton = screen.getByRole('button', {
+      name: /switch to text view/i,
+    });
+
+    fireEvent.click(switchButton);
+    expect(
+      screen.getByRole('button', { name: /switch to json view/i })
+    ).toBeInTheDocument();
+    expect(screen.getByPlaceholderText('Request body')).toBeInTheDocument();
   });
 
-  it('should call updateUrl when CodeMirror is blurred', () => {
-    const codeMirrorInput = screen.getByTestId('codemirror');
-    fireEvent.blur(codeMirrorInput);
-    expect(updateUrlMock).toHaveBeenCalled();
-  });
-
-  it('should call updateUrl when Text View textarea is blurred', () => {
-    const toggleButton = screen.getByRole('button', {
-      name: /Switch to Text View/i,
+  it('calls setBody and updateUrl on blur if the body changes', () => {
+    renderComponent('Initial body');
+    const switchButton = screen.getByRole('button', {
+      name: /switch to text view/i,
     });
-    const toggleButton = screen.getByRole('button', {
-      name: /Switch to Text View/i,
-    });
-    userEvent.click(toggleButton);
 
-    const textArea = screen.getByRole('textbox');
-    fireEvent.blur(textArea);
-    expect(updateUrlMock).toHaveBeenCalled();
-  });
+    fireEvent.click(switchButton);
 
-  it('should not display a lint error when valid JSON is entered', async () => {
-    const codeMirrorInput = screen.getByTestId(
-      'codemirror'
-    ) as HTMLTextAreaElement;
-    codeMirrorInput.focus();
-    await userEvent.paste('{"validJson": true}');
+    const textBox = screen.getByRole('textbox');
+    fireEvent.change(textBox, { target: { value: 'Updated body' } });
+    fireEvent.blur(textBox);
 
-    const codeMirrorInput = screen.getByTestId(
-      'codemirror'
-    ) as HTMLTextAreaElement;
-    codeMirrorInput.focus();
-    await userEvent.paste('{"validJson": true}');
-
-    const linterOutput = screen.queryByTestId('linter-output');
-    expect(linterOutput).toBeNull();
-    expect(linterOutput).toBeNull();
-  });
-
-  it('should call setBody when Text View textarea value changes', async () => {
-    const toggleButton = screen.getByRole('button', {
-      name: /Switch to Text View/i,
-    });
-    const toggleButton = screen.getByRole('button', {
-      name: /Switch to Text View/i,
-    });
-    await userEvent.click(toggleButton);
-
-    const textArea = screen.getByRole('textbox');
-    await userEvent.type(textArea, 'A');
-
-    expect(setBodyMock).toHaveBeenCalledWith('A');
+    expect(mockSetBody).toHaveBeenCalledWith('Updated body');
+    expect(mockUpdateUrl).toHaveBeenCalled();
   });
 });

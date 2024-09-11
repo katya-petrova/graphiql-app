@@ -20,6 +20,11 @@ import {
   buildNewUrl,
 } from '@/utils/RestfulClientServices/urlService/urlService';
 
+export type RequestHistoryItem = {
+  request_url: string;
+  link: string;
+  time: string;
+};
 const Restclient: React.FC = () => {
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -28,7 +33,7 @@ const Restclient: React.FC = () => {
   const [headers, setHeaders] = useState<[string, string][]>([]);
   const [body, setBody] = useState('');
   const [response, setResponse] = useState(null);
-  const [history, setHistory] = useState<any[]>([]);
+  const [history, setHistory] = useState<RequestHistoryItem[]>([]);
   const [variables, setVariables] = useState<{ key: string; value: string }[]>(
     []
   );
@@ -48,8 +53,10 @@ const Restclient: React.FC = () => {
     }
     setHeaders(parsedHeaders);
 
-    setVariables(getFromLocalStorage('variables'));
-    setHistory(getFromLocalStorage('requestHistory'));
+    setVariables(
+      getFromLocalStorage<{ key: string; value: string }[]>('variables', [])
+    );
+    setHistory(getFromLocalStorage<RequestHistoryItem[]>('requestHistory', []));
 
     setInitialLoad(false);
   }, [pathname, searchParams]);

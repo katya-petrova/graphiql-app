@@ -2,8 +2,8 @@ import { NextRequest, NextResponse } from 'next/server';
 import Negotiator from 'negotiator';
 import { match } from '@formatjs/intl-localematcher';
 
-let locales = ['en', 'ru'];
-let defaultLocale = 'en';
+const locales = ['en', 'ru'];
+const defaultLocale = 'en';
 export const i18nCookieName = 'i18nlang';
 const PUBLIC_FILE = /\.(.*)$/;
 

@@ -8,9 +8,18 @@ export default defineConfig({
     alias: {
       '@': path.resolve(__dirname, 'src'),
       'server-only': path.resolve(__dirname, '__mocks__/server-only.ts'),
-      '@codemirror/state': path.resolve(__dirname, 'node_modules/@codemirror/state/dist/index.cjs'),
-      '@codemirror/lang-json': path.resolve(__dirname, 'node_modules/@codemirror/lang-json/dist/index.cjs'),
-      '@codemirror/lint': path.resolve(__dirname, 'node_modules/@codemirror/lint/dist/index.cjs') 
+      '@codemirror/state': path.resolve(
+        __dirname,
+        'node_modules/@codemirror/state/dist/index.cjs'
+      ),
+      '@codemirror/lang-json': path.resolve(
+        __dirname,
+        'node_modules/@codemirror/lang-json/dist/index.cjs'
+      ),
+      '@codemirror/lint': path.resolve(
+        __dirname,
+        'node_modules/@codemirror/lint/dist/index.cjs'
+      ),
     },
   },
   test: {

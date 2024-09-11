@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import CodeMirror from '@uiw/react-codemirror';
 import { json } from '@codemirror/lang-json';
 import { okaidia } from '@uiw/codemirror-theme-okaidia';
-import { linter, lintGutter, Diagnostic } from '@codemirror/lint';
+import { lintGutter } from '@codemirror/lint';
+import { jsonLinter } from '@/utils/RestfulClientServices/codemirrorService/codemirrorService';
 
 type BodyEditorProps = {
   body: string;
@@ -19,59 +20,25 @@ const BodyEditor: React.FC<BodyEditorProps> = ({
 }) => {
   const [isJsonView, setIsJsonView] = useState(true);
   const [localBody, setLocalBody] = useState(body);
-  const [originalBody, setOriginalBody] = useState(body);
 
   useEffect(() => {
     setLocalBody(body);
-    setOriginalBody(body);
   }, [body]);
 
   const handleCodeChange = (value: string) => {
     setLocalBody(value);
-    setOriginalBody(value);
-    setBody(value);
-    updateUrl();
   };
 
   const handleBlur = () => {
-    updateUrl();
+    if (localBody !== body) {
+      setBody(localBody);
+      updateUrl();
+    }
   };
 
   const toggleView = () => {
     setIsJsonView(!isJsonView);
   };
-
-  const replaceVariablesForLinting = (content: string) => {
-    let lintingContent = content;
-    variables.forEach(({ key }) => {
-      const regex = new RegExp(`{{${key}}}`, 'g');
-      lintingContent = lintingContent.replace(regex, `"${key}_placeholder"`);
-    });
-    return lintingContent;
-  };
-
-  const jsonLinter = linter((view) => {
-    const results: Diagnostic[] = [];
-    const content = view.state.doc.toString();
-    const lintingContent = replaceVariablesForLinting(content);
-
-    if (lintingContent.trim() === '') {
-      return results;
-    }
-
-    try {
-      JSON.parse(lintingContent);
-    } catch (e) {
-      results.push({
-        from: 0,
-        to: view.state.doc.length,
-        message: 'Invalid JSON',
-        severity: 'error',
-      });
-    }
-
-    return results;
-  });
 
   return (
     <div className="space-y-4">
@@ -88,7 +55,11 @@ const BodyEditor: React.FC<BodyEditorProps> = ({
             value={localBody}
             height="200px"
             theme={okaidia}
-            extensions={[json(), jsonLinter, lintGutter()]}
+            extensions={[
+              json(),
+              jsonLinter(variables), // Передаем переменные в jsonLinter
+              lintGutter(),
+            ]}
             onChange={handleCodeChange}
             onBlur={handleBlur}
             className="mt-4 rounded-lg border border-gray-300 overflow-hidden h-40"

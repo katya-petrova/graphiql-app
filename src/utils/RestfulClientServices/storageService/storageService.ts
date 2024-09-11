@@ -1,7 +1,8 @@
-export const getFromLocalStorage = (key: string, defaultValue: any = []) => {
-  return JSON.parse(localStorage.getItem(key) || JSON.stringify(defaultValue));
+export const getFromLocalStorage = <T>(key: string, defaultValue: T): T => {
+  const item = localStorage.getItem(key);
+  return item ? (JSON.parse(item) as T) : defaultValue;
 };
 
-export const saveToLocalStorage = (key: string, value: any) => {
+export const saveToLocalStorage = <T>(key: string, value: T): void => {
   localStorage.setItem(key, JSON.stringify(value));
 };
