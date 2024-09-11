@@ -1,9 +1,9 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Button } from '../../../components/Button/Button';
-import Loader from '../../../components/Loader/Loader';
 import { toast } from 'react-toastify';
+import { Button } from '@/components/Button/Button';
+import Loader from '@/components/Loader/Loader';
 import { Dictionary } from '@/utils/translation/getDictionary';
 
 interface SdlFetcherProps {
@@ -36,8 +36,8 @@ const SdlFetcher: React.FC<SdlFetcherProps> = ({
 
       const sdlText = await response.text();
       onSdlDataFetch(sdlText);
-    } catch {
-      toast.error('Error fetching SDL data');
+    } catch (error) {
+      toast.error(t.errorMessages.fetchSDL);
     } finally {
       setLoading(false);
     }

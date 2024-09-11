@@ -38,7 +38,7 @@ export const Header = ({ setHeaderHeight, t }: HeaderProps) => {
     try {
       logout();
     } catch (error) {
-      toast.error(` Sign out error: ${error}`);
+      toast.error(`${t.errors.signOut}: ${error}`);
     }
   };
 

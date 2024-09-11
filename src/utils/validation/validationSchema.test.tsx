@@ -1,6 +1,9 @@
 import { signupValidationSchema } from './validationSchema';
+import { signUp } from '@/utils/translation/dictionaries/en.json';
 
 describe('signupValidationSchema', () => {
+  const { validationErrors } = signUp;
+
   it('should validate the schema correctly with valid data', async () => {
     const validData = {
       name: 'John Doe',
@@ -8,9 +11,9 @@ describe('signupValidationSchema', () => {
       password: 'Password123!',
     };
 
-    await expect(signupValidationSchema.validate(validData)).resolves.toBe(
-      validData
-    );
+    await expect(
+      signupValidationSchema(validationErrors).validate(validData)
+    ).resolves.toBe(validData);
   });
 
   it('should return an error if name is missing', async () => {
@@ -20,9 +23,9 @@ describe('signupValidationSchema', () => {
       password: 'Password123!',
     };
 
-    await expect(signupValidationSchema.validate(invalidData)).rejects.toThrow(
-      'Name is required'
-    );
+    await expect(
+      signupValidationSchema(validationErrors).validate(invalidData)
+    ).rejects.toThrow('Name is required');
   });
 
   it('should return an error if email is invalid', async () => {
@@ -32,9 +35,9 @@ describe('signupValidationSchema', () => {
       password: 'Password123!',
     };
 
-    await expect(signupValidationSchema.validate(invalidData)).rejects.toThrow(
-      'Invalid email address'
-    );
+    await expect(
+      signupValidationSchema(validationErrors).validate(invalidData)
+    ).rejects.toThrow('Invalid email address');
   });
 
   it('should return an error if password is less than 8 characters', async () => {
@@ -44,9 +47,9 @@ describe('signupValidationSchema', () => {
       password: 'Pass1!',
     };
 
-    await expect(signupValidationSchema.validate(invalidData)).rejects.toThrow(
-      'Password must be at least 8 characters long'
-    );
+    await expect(
+      signupValidationSchema(validationErrors).validate(invalidData)
+    ).rejects.toThrow('Password must be at least 8 characters long');
   });
 
   it('should return an error if password does not contain a letter', async () => {
@@ -56,9 +59,9 @@ describe('signupValidationSchema', () => {
       password: '12345678!',
     };
 
-    await expect(signupValidationSchema.validate(invalidData)).rejects.toThrow(
-      'Password must contain at least one letter'
-    );
+    await expect(
+      signupValidationSchema(validationErrors).validate(invalidData)
+    ).rejects.toThrow('Password must contain at least one letter');
   });
 
   it('should return an error if password does not contain a digit', async () => {
@@ -68,9 +71,9 @@ describe('signupValidationSchema', () => {
       password: 'Password!',
     };
 
-    await expect(signupValidationSchema.validate(invalidData)).rejects.toThrow(
-      'Password must contain at least one digit'
-    );
+    await expect(
+      signupValidationSchema(validationErrors).validate(invalidData)
+    ).rejects.toThrow('Password must contain at least one digit');
   });
 
   it('should return an error if password does not contain a special character', async () => {
@@ -80,8 +83,8 @@ describe('signupValidationSchema', () => {
       password: 'Password123',
     };
 
-    await expect(signupValidationSchema.validate(invalidData)).rejects.toThrow(
-      'Password must contain at least one special character'
-    );
+    await expect(
+      signupValidationSchema(validationErrors).validate(invalidData)
+    ).rejects.toThrow('Password must contain at least one special character');
   });
 });

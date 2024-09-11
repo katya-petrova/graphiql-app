@@ -25,9 +25,7 @@ const Signin: React.FC = () => {
     e.preventDefault();
 
     if (!navigator.onLine) {
-      toast.error(
-        'You are currently offline. Please check your internet connection.'
-      );
+      toast.error(signIn.errorMessages.offline);
       return;
     }
 
