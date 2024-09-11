@@ -48,6 +48,7 @@ const QueryForm: React.FC<QueryFormProps> = ({
   const [headerValue, setHeaderValue] = useState('');
   const [headerList, setHeaderList] = useState<Header[]>([]);
   const [headersVisible, setHeadersVisible] = useState(false);
+  const [variablesVisible, setVariablesVisible] = useState(false);
 
   useEffect(() => {
     try {
@@ -99,6 +100,10 @@ const QueryForm: React.FC<QueryFormProps> = ({
     setHeadersVisible(!headersVisible);
   };
 
+  const toggleVariablesVisibility = () => {
+    setVariablesVisible(!variablesVisible);
+  };
+
   return (
     <div>
       <UrlInput
@@ -115,7 +120,7 @@ const QueryForm: React.FC<QueryFormProps> = ({
       />
 
       <button
-        className="bg-gray-200 text-gray-700 py-2 px-4 rounded mb-4"
+        className="bg-gray-200 text-gray-700 py-2 px-4 rounded mb-4 mr-2"
         onClick={toggleHeadersVisibility}
       >
         {headersVisible ? 'Hide Headers' : 'Show Headers'}
@@ -137,6 +142,23 @@ const QueryForm: React.FC<QueryFormProps> = ({
         </>
       )}
 
+      <button
+        className="bg-gray-200 text-gray-700 py-2 px-4 rounded mb-4 mr-2"
+        onClick={toggleVariablesVisibility}
+      >
+        {variablesVisible ? 'Hide Variables' : 'Show Variables'}
+      </button>
+
+      {variablesVisible && (
+        <TextAreaInput
+          label="Variables:"
+          value={variables}
+          onChange={onVariablesChange}
+          placeholder={`{"id": "1", "name": "example"}`}
+          rows={1}
+        />
+      )}
+
       <TextAreaInput
         label="Query:"
         value={query}
@@ -152,14 +174,6 @@ const QueryForm: React.FC<QueryFormProps> = ({
       <Button onClick={handlePrettify} className="mt-2 mb-4">
         Prettify
       </Button>
-
-      <TextAreaInput
-        label="Variables:"
-        value={variables}
-        onChange={onVariablesChange}
-        placeholder={`{"id": "1", "name": "example"}`}
-        rows={1}
-      />
 
       <div className="mt-4">
         <Button onClick={onQueryExecute}>Send Request</Button>
