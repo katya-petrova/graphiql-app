@@ -12,6 +12,7 @@ import QueryForm from '../QueryForm/QueryForm';
 import QueryResult from '../QueryResult/QueryResult';
 import SdlFetcher from '../SdlFetcher/SdlFetcher';
 import SdlDocumentation from '../SdlDocumentation/SdlDocumentation';
+import { saveRestRequestToHistory } from '@/utils/historyService/historyService';
 
 const GraphQLClient: React.FC = () => {
   const [query, setQuery] = useState<string>('');
@@ -31,6 +32,7 @@ const GraphQLClient: React.FC = () => {
   const pathname = usePathname();
   const [endpoint, setEndpoint] = useState('');
   const [body, setBody] = useState<string>('');
+  const [history, setHistory] = useState<any[]>([]);
 
   useEffect(() => {
     const pathParts = pathname.split('/');
@@ -100,6 +102,13 @@ const GraphQLClient: React.FC = () => {
     updateClientHeaders(convertHeadersArrayToObject(headersArray));
   }, [url, headersArray, updateClientUrl, updateClientHeaders]);
 
+  useEffect(() => {
+    const savedHistory = JSON.parse(
+      localStorage.getItem('requestHistory') || '[]'
+    );
+    setHistory(savedHistory);
+  }, []);
+
   const handleQuery = async () => {
     setLoading(true);
     setError(null);
@@ -112,6 +121,7 @@ const GraphQLClient: React.FC = () => {
         variables: variables ? JSON.parse(variables) : {},
       });
       setQueryResult(data);
+
       setStatusCode(200);
       toast.success('Query executed successfully!');
     } catch (err) {
@@ -134,6 +144,8 @@ const GraphQLClient: React.FC = () => {
     }
 
     handleQuery();
+
+    saveRestRequestToHistory(newUrl, 'GRAPHQL', url, history, setHistory);
   };
 
   const handleSdlDataFetch = (data: string) => {
