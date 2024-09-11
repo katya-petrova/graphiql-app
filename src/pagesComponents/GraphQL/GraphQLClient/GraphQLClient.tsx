@@ -192,7 +192,7 @@ const GraphQLClient: React.FC = () => {
 
   return (
     <ApolloProvider client={client}>
-      <div className="p-4 bg-white rounded text-gray-700 min-h-screen">
+      <div className="w-[782px] p-4 bg-white rounded text-gray-700 min-h-screen">
         <h1 className="text-3xl font-bold mb-4">GraphQL Client</h1>
         <QueryForm
           url={url}
