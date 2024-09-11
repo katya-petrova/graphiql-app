@@ -55,11 +55,7 @@ const BodyEditor: React.FC<BodyEditorProps> = ({
             value={localBody}
             height="200px"
             theme={okaidia}
-            extensions={[
-              json(),
-              jsonLinter(variables), // Передаем переменные в jsonLinter
-              lintGutter(),
-            ]}
+            extensions={[json(), jsonLinter(variables), lintGutter()]}
             onChange={handleCodeChange}
             onBlur={handleBlur}
             className="mt-4 rounded-lg border border-gray-300 overflow-hidden h-40"

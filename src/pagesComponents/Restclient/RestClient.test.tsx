@@ -38,14 +38,12 @@ describe('Restclient component', () => {
   });
 
   test('handles request submission correctly', async () => {
-    // Создаем моки для функций
     const mockReplaceVariablesInBody = vi.fn().mockReturnValue('updated body');
     const mockSaveRestRequestToHistory = vi.fn();
     const mockFetch = vi.fn().mockResolvedValue({
       json: () => Promise.resolve({ success: true }),
     });
 
-    // Мокаем функции
     vi.spyOn(requestService, 'replaceVariablesInBody').mockImplementation(
       mockReplaceVariablesInBody
     );

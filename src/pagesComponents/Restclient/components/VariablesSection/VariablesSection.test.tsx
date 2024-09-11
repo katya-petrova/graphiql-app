@@ -45,7 +45,6 @@ describe('VariablesSection Component', () => {
     userEvent.click(addButton);
 
     await vi.waitFor(() => {
-      // Expect setVariables to be called with a new empty variable
       expect(setVariables).toHaveBeenCalledWith([{ key: '', value: '' }]);
     });
   });
@@ -109,7 +108,6 @@ describe('VariablesSection Component', () => {
     await userEvent.clear(valueInput);
     await userEvent.type(valueInput, 'newValue');
 
-    // The last expected call verification
     expect(
       setVariables.mock.calls[setVariables.mock.calls.length - 1][0]
     ).toEqual([{ key: 'var1', value: 'value1e' }]);
