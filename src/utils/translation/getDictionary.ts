@@ -16,4 +16,7 @@ const dictionaries = {
     ),
 };
 
-export const getDictionary = async (locale: Locale) => dictionaries[locale]();
+export const getDictionary = async (locale: string) => {
+  if (!Object.keys(dictionaries).includes(locale)) return dictionaries['en']();
+  return dictionaries[locale as Locale]();
+};

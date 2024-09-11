@@ -6,6 +6,7 @@ import TextAreaInput from '../../../components/TextAreaInput/TextAreaInput';
 import HeaderInput from '../HeaderInput/HeaderInput';
 import { Button } from '../../../components/Button/Button';
 import { toast } from 'react-toastify';
+import { Dictionary } from '@/utils/translation/getDictionary';
 
 interface Header {
   key: string;
@@ -24,6 +25,7 @@ interface QueryFormProps {
   onVariablesChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
   onHeadersChange: (headers: string) => void;
   onQueryExecute: () => void;
+  t: Dictionary['graphiql'];
 }
 
 const QueryForm: React.FC<QueryFormProps> = ({
@@ -38,6 +40,7 @@ const QueryForm: React.FC<QueryFormProps> = ({
   onVariablesChange,
   onHeadersChange,
   onQueryExecute,
+  t,
 }) => {
   const [headerKey, setHeaderKey] = useState('');
   const [headerValue, setHeaderValue] = useState('');
@@ -82,9 +85,9 @@ const QueryForm: React.FC<QueryFormProps> = ({
       } as React.ChangeEvent<HTMLTextAreaElement>);
     } catch (error) {
       if (error instanceof Error) {
-        toast.error(`Error formatting query: ${error.message}`);
+        toast.error(`${t.errorMessages.formatting}: ${error.message}`);
       } else {
-        toast.error('An unknown error occurred');
+        toast.error(t.errorMessages.unknown);
       }
     }
   };
@@ -92,7 +95,7 @@ const QueryForm: React.FC<QueryFormProps> = ({
   return (
     <div>
       <UrlInput
-        label="Endpoint URL:"
+        label={`${t.endpointUrl}:`}
         value={url}
         onChange={onUrlChange}
         placeholder="https://example.com/graphql"
@@ -109,6 +112,7 @@ const QueryForm: React.FC<QueryFormProps> = ({
         onKeyChange={(e) => setHeaderKey(e.target.value)}
         onValueChange={(e) => setHeaderValue(e.target.value)}
         onAdd={handleAddHeader}
+        t={t}
       />
 
       <ul>
@@ -118,7 +122,9 @@ const QueryForm: React.FC<QueryFormProps> = ({
               <span className="mr-2">
                 {header.key}: {header.value}
               </span>
-              <Button onClick={() => handleRemoveHeader(index)}>Remove</Button>
+              <Button onClick={() => handleRemoveHeader(index)}>
+                {t.remove}
+              </Button>
             </li>
           ))
         ) : (
@@ -127,19 +133,19 @@ const QueryForm: React.FC<QueryFormProps> = ({
       </ul>
 
       <TextAreaInput
-        label="Query:"
+        label={`${t.query}:`}
         value={query}
         onChange={onQueryChange}
-        placeholder="Enter your GraphQL query"
+        placeholder={t.queryPlaceholder}
         rows={8}
       />
 
       <Button onClick={handlePrettify} className="mt-2 mb-4">
-        Prettify Query
+        {t.prettifyQuery}
       </Button>
 
       <TextAreaInput
-        label="Variables:"
+        label={`${t.variables}:`}
         value={variables}
         onChange={onVariablesChange}
         placeholder={`{"id": "1", "name": "example"}`}
@@ -147,7 +153,7 @@ const QueryForm: React.FC<QueryFormProps> = ({
       />
 
       <div className="mt-4">
-        <Button onClick={onQueryExecute}>Send Request</Button>
+        <Button onClick={onQueryExecute}>{t.sendRequest}</Button>
       </div>
     </div>
   );

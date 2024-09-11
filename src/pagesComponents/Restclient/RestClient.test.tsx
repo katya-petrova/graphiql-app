@@ -1,6 +1,8 @@
 import { render, screen, fireEvent, act } from '@testing-library/react';
 import { describe, it, vi, beforeEach, afterEach } from 'vitest';
 import Restclient from './RestClient';
+import { TranslationProvider } from '@/context/TranslationContext';
+import en from '@/utils/translation/dictionaries/en.json';
 
 vi.mock('next/navigation', () => ({
   usePathname: () => '/en/restclient/GET/',
@@ -48,13 +50,21 @@ describe('Restclient Component', () => {
   });
 
   it('renders without crashing', () => {
-    render(<Restclient />);
+    render(
+      <TranslationProvider t={en}>
+        <Restclient t={en.rest} />
+      </TranslationProvider>
+    );
     const button = screen.getByText(/Send Request/i);
     expect(button).toBeInTheDocument();
   });
 
   it('updates method when MethodSelector is changed', () => {
-    render(<Restclient />);
+    render(
+      <TranslationProvider t={en}>
+        <Restclient t={en.rest} />
+      </TranslationProvider>
+    );
     const methodSelect = screen.getByRole('combobox');
     act(() => {
       fireEvent.change(methodSelect, { target: { value: 'POST' } });
@@ -63,7 +73,11 @@ describe('Restclient Component', () => {
   });
 
   it('updates endpoint when EndpointInput is changed', () => {
-    render(<Restclient />);
+    render(
+      <TranslationProvider t={en}>
+        <Restclient t={en.rest} />
+      </TranslationProvider>
+    );
     const input = screen.getByPlaceholderText('Enter endpoint');
     act(() => {
       fireEvent.change(input, { target: { value: 'https://api.example.com' } });
@@ -72,7 +86,11 @@ describe('Restclient Component', () => {
   });
 
   it('updates headers when HeadersEditor is changed', () => {
-    render(<Restclient />);
+    render(
+      <TranslationProvider t={en}>
+        <Restclient t={en.rest} />
+      </TranslationProvider>
+    );
     const headersKeyInput = screen.getByPlaceholderText('Header Key');
     const headersValueInput = screen.getByPlaceholderText('Header Value');
     act(() => {
@@ -86,7 +104,11 @@ describe('Restclient Component', () => {
   });
 
   it('checks URL update through the updateUrl method', async () => {
-    const { getByText, getByPlaceholderText } = render(<Restclient />);
+    const { getByText, getByPlaceholderText } = render(
+      <TranslationProvider t={en}>
+        <Restclient t={en.rest} />
+      </TranslationProvider>
+    );
     const endpointInput = getByPlaceholderText('Enter endpoint');
 
     await act(async () => {
@@ -100,7 +122,11 @@ describe('Restclient Component', () => {
   });
 
   it('should add headers to the URL when headers are present', async () => {
-    const { getByText, getByPlaceholderText } = render(<Restclient />);
+    const { getByText, getByPlaceholderText } = render(
+      <TranslationProvider t={en}>
+        <Restclient t={en.rest} />
+      </TranslationProvider>
+    );
     const endpointInput = getByPlaceholderText('Enter endpoint');
 
     await act(async () => {

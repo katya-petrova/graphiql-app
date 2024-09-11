@@ -3,6 +3,7 @@ import CodeMirror from '@uiw/react-codemirror';
 import { ExclamationTriangleIcon } from '@heroicons/react/24/outline';
 import { json } from '@codemirror/lang-json';
 import { okaidia } from '@uiw/codemirror-theme-okaidia';
+import { useTranslation } from '@/context/TranslationContext';
 
 type ApiResponse = {
   status: number;
@@ -16,6 +17,8 @@ type ResponseViewerProps = {
 };
 
 const ResponseViewer: React.FC<ResponseViewerProps> = ({ response }) => {
+  const { rest } = useTranslation();
+
   if (!response) return null;
 
   const formattedData = response.data
@@ -37,14 +40,14 @@ const ResponseViewer: React.FC<ResponseViewerProps> = ({ response }) => {
       {response.error ? (
         <div className="text-red-500 mt-4 flex flex-col items-center">
           <ExclamationTriangleIcon className="h-10 w-10" />
-          <h4>Error:</h4>
+          <h4>{rest.error}:</h4>
           <p>{response.error}</p>
         </div>
       ) : (
         <>
-          <h3 className="font-semibold">Response</h3>
+          <h3 className="font-semibold">{rest.response}</h3>
           <p className={`font-semibold ${statusColor}`}>
-            Status: {response.status}
+            {rest.status}: {response.status}
           </p>
 
           <CodeMirror

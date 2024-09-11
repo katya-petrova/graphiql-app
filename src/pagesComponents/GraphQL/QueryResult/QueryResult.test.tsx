@@ -2,6 +2,7 @@ import { render, screen, waitFor } from '@testing-library/react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import QueryResult from './QueryResult';
 import { toast } from 'react-toastify';
+import en from '@/utils/translation/dictionaries/en.json';
 
 vi.mock('@/components/Loader/Loader', () => ({
   default: () => <div>Loading...</div>,
@@ -25,6 +26,7 @@ describe('QueryResult Component', () => {
         error={null}
         statusCode={null}
         loading={true}
+        t={en.graphiql}
       />
     );
 
@@ -40,6 +42,7 @@ describe('QueryResult Component', () => {
         error={errorMessage}
         statusCode={null}
         loading={false}
+        t={en.graphiql}
       />
     );
 
@@ -55,6 +58,7 @@ describe('QueryResult Component', () => {
         error={null}
         statusCode={404}
         loading={false}
+        t={en.graphiql}
       />
     );
 
@@ -68,6 +72,7 @@ describe('QueryResult Component', () => {
         error={null}
         statusCode={null}
         loading={false}
+        t={en.graphiql}
       />
     );
 
