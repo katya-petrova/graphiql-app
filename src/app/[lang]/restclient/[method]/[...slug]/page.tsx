@@ -15,11 +15,11 @@ type RestClientPageProps = {
   params: { lang: string };
 };
 
-const RestClientPage: React.FC<RestClientPageProps> = async ({
+const RestClient: React.FC<RestClientPageProps> = async ({
   params: { lang },
 }) => {
   const { rest } = await getDictionary(lang);
   return <Restclient t={rest} />;
 };
 
-export default RestClientPage;
+export default RestClient;

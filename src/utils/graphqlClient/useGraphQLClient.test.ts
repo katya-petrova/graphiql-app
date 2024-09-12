@@ -1,5 +1,5 @@
 import { renderHook, act } from '@testing-library/react';
-import { ApolloClient, InMemoryCache } from '@apollo/client';
+import { ApolloClient } from '@apollo/client';
 import useGraphQLClient from './useGraphQLClient';
 
 describe('useGraphQLClient', () => {

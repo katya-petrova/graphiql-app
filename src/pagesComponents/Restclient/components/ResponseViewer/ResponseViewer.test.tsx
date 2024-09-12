@@ -1,13 +1,16 @@
 import { describe, it, expect, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import ResponseViewer from './ResponseViewer';
+import { JSX, ClassAttributes, HTMLAttributes } from 'react';
 import en from '@/utils/translation/dictionaries/en.json';
 import { TranslationProvider } from '@/context/TranslationContext';
 
 vi.mock('@heroicons/react/24/outline', () => ({
-  ExclamationTriangleIcon: (props: any) => (
-    <div {...props} data-testid="error-icon" />
-  ),
+  ExclamationTriangleIcon: (
+    props: JSX.IntrinsicAttributes &
+      ClassAttributes<HTMLDivElement> &
+      HTMLAttributes<HTMLDivElement>
+  ) => <div {...props} data-testid="error-icon" />,
 }));
 
 describe('ResponseViewer Component', () => {
