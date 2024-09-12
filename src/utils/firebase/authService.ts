@@ -7,12 +7,17 @@ import {
   sendPasswordResetEmail,
   signOut,
   UserCredential,
+  AuthError,
 } from 'firebase/auth';
 import { auth } from './firebaseConfig';
 import { db } from './firebaseConfig';
 import { collection, query, getDocs, where, addDoc } from 'firebase/firestore';
 
 const googleProvider = new GoogleAuthProvider();
+
+interface FirebaseError extends AuthError {
+  message: string;
+}
 
 const signInWithGoogle = async (): Promise<void> => {
   try {
@@ -29,7 +34,9 @@ const signInWithGoogle = async (): Promise<void> => {
       });
     }
   } catch (err) {
-    toast.error(`${(err as Error).message}`);
+    const error = err as FirebaseError;
+    console.error(error);
+    toast.error(error.message);
   }
 };
 
@@ -40,7 +47,9 @@ const logInWithEmailAndPassword = async (
   try {
     await signInWithEmailAndPassword(auth, email, password);
   } catch (err) {
-    toast.error(`${(err as Error).message}`);
+    const error = err as FirebaseError;
+    console.error(error);
+    toast.error(error.message);
   }
 };
 
@@ -63,7 +72,9 @@ const registerWithEmailAndPassword = async (
       email,
     });
   } catch (err) {
-    toast.error(`${(err as Error).message}`);
+    const error = err as FirebaseError;
+    console.error(error);
+    toast.error(error.message);
   }
 };
 
@@ -72,7 +83,9 @@ const sendPasswordReset = async (email: string): Promise<void> => {
     await sendPasswordResetEmail(auth, email);
     toast.success('Password reset link sent!');
   } catch (err) {
-    toast.error(`${(err as Error).message}`);
+    const error = err as FirebaseError;
+    console.error(error);
+    toast.error(error.message);
   }
 };
 

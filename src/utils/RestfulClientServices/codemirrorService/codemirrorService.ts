@@ -24,7 +24,7 @@ export const jsonLinter = (variables: { key: string; value: string }[]) => {
 
     try {
       JSON.parse(lintingContent);
-    } catch (e) {
+    } catch {
       results.push({
         from: 0,
         to: view.state.doc.length,

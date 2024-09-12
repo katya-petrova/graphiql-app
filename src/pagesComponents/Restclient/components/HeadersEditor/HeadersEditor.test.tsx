@@ -2,7 +2,6 @@ import { render, fireEvent, screen } from '@testing-library/react';
 import { describe, it, expect, vi } from 'vitest';
 import HeadersEditor from './HeadersEditor';
 import en from '@/utils/translation/dictionaries/en.json';
-import { useTransition } from 'react';
 import { TranslationProvider } from '@/context/TranslationContext';
 
 describe('HeadersEditor Component', () => {

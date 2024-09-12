@@ -29,6 +29,13 @@ export default defineConfig({
     coverage: {
       provider: 'istanbul',
       include: ['src/**/*.{ts,tsx}'],
+      exclude: [
+        'src/app/[lang]/page.tsx',
+        'src/app/[lang]/layout.tsx',
+        'src/utils/firebase/**/*',
+        '**/*.test.tsx',
+        '**/*.test.ts',
+      ],
     },
     setupFiles: './vitest.setup.ts',
   },
