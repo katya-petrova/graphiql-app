@@ -1,4 +1,4 @@
-import { renderHook, act } from '@testing-library/react';
+import { renderHook } from '@testing-library/react';
 import { onAuthStateChanged } from 'firebase/auth';
 import { AuthProvider, useAuth } from '@/context/AuthContext';
 import { vi, describe, it, expect, beforeEach } from 'vitest';

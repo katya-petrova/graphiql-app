@@ -132,7 +132,7 @@ describe('GraphQLClient Component', () => {
     __esModule: true,
     default: vi.fn(() => ({
       client: {
-        query: vi.fn().mockImplementation(({ query, variables }) => {
+        query: vi.fn().mockImplementation(({ query }) => {
           if (query.includes('error')) {
             return Promise.reject(new Error('GraphQL Error'));
           }
@@ -160,7 +160,6 @@ describe('GraphQLClient Component', () => {
   }));
 });
 
-
 it('renders component and children correctly', () => {
   render(
     <MockedProvider>
@@ -179,8 +178,6 @@ it('renders component and children correctly', () => {
   expect(screen.getByText('ToastContainer Mock')).toBeInTheDocument();
 });
 
-
-
 it('updates state on input changes', () => {
   render(
     <MockedProvider>
@@ -192,21 +189,24 @@ it('updates state on input changes', () => {
     target: { value: 'http://example.com' },
   });
 
-  expect(screen.getByPlaceholderText('Endpoint URL')).toHaveValue('http://example.com');
+  expect(screen.getByPlaceholderText('Endpoint URL')).toHaveValue(
+    'http://example.com'
+  );
 
   fireEvent.change(screen.getByPlaceholderText('Query'), {
     target: { value: '{ country { name } }' },
   });
 
-  expect(screen.getByPlaceholderText('Query')).toHaveValue('{ country { name } }');
+  expect(screen.getByPlaceholderText('Query')).toHaveValue(
+    '{ country { name } }'
+  );
 });
-
 
 vi.mock('@/utils/graphqlClient/useGraphQLClient', () => ({
   __esModule: true,
   default: vi.fn(() => ({
     client: {
-      query: vi.fn().mockImplementation(({ query, variables }) => {
+      query: vi.fn().mockImplementation(({ query }) => {
         if (query.includes('error')) {
           return Promise.reject(new Error('GraphQL Error'));
         }
@@ -256,7 +256,10 @@ vi.mock('../QueryForm/QueryForm', () => ({
       <input placeholder="SDL URL" onChange={onSdlUrlChange} />
       <textarea placeholder="Query" onChange={onQueryChange} />
       <textarea placeholder="Variables" onChange={onVariablesChange} />
-      <textarea placeholder="Headers" onChange={(e) => onHeadersChange(e.target.value)} />
+      <textarea
+        placeholder="Headers"
+        onChange={(e) => onHeadersChange(e.target.value)}
+      />
       <button onClick={onQueryExecute}>Send Request</button>
     </div>
   ),
@@ -310,12 +313,16 @@ describe('GraphQLClient Component', () => {
     fireEvent.change(screen.getByPlaceholderText('Endpoint URL'), {
       target: { value: 'http://example.com' },
     });
-    expect(screen.getByPlaceholderText('Endpoint URL')).toHaveValue('http://example.com');
+    expect(screen.getByPlaceholderText('Endpoint URL')).toHaveValue(
+      'http://example.com'
+    );
 
     fireEvent.change(screen.getByPlaceholderText('Query'), {
       target: { value: '{ country { name } }' },
     });
-    expect(screen.getByPlaceholderText('Query')).toHaveValue('{ country { name } }');
+    expect(screen.getByPlaceholderText('Query')).toHaveValue(
+      '{ country { name } }'
+    );
   });
 
   it('fetches SDL data and displays it', async () => {
@@ -328,9 +335,9 @@ describe('GraphQLClient Component', () => {
     fireEvent.click(screen.getByText('Fetch SDL'));
 
     await waitFor(() => {
-      expect(screen.getByTestId('sdl-documentation')).toHaveTextContent('Fake SDL Data');
+      expect(screen.getByTestId('sdl-documentation')).toHaveTextContent(
+        'Fake SDL Data'
+      );
     });
   });
-
-
 });

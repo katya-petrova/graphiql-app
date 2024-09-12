@@ -20,7 +20,7 @@ const GraphQLClient: React.FC<{ t: Dictionary['graphiql'] }> = ({ t }) => {
   const [variables, setVariables] = useState<string>('');
   const [url, setUrl] = useState<string>('');
   const [sdlUrl, setSdlUrl] = useState<string>('');
-  const [queryResult, setQueryResult] = useState<any>(null);
+  const [queryResult, setQueryResult] = useState<string>('');
   const [sdlData, setSdlData] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
@@ -127,6 +127,7 @@ const GraphQLClient: React.FC<{ t: Dictionary['graphiql'] }> = ({ t }) => {
       toast.success(t.successfulMessages.query);
     } catch (err) {
       setError(t.errorMessages.fetching);
+      toast.error(`${(err as Error).message}`);
       setStatusCode(500);
       toast.error(t.errorMessages.executing);
     } finally {
@@ -152,12 +153,6 @@ const GraphQLClient: React.FC<{ t: Dictionary['graphiql'] }> = ({ t }) => {
   const handleSdlDataFetch = (data: string) => {
     setSdlData(data);
     toast.success(t.successfulMessages.SDL);
-  };
-
-  const handleError = (message: string) => {
-    setError(message);
-    setStatusCode(500);
-    toast.error(`${t.errorMessages.error}: ` + message);
   };
 
   const handleUrlChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -203,6 +198,7 @@ const GraphQLClient: React.FC<{ t: Dictionary['graphiql'] }> = ({ t }) => {
       }
     } catch (error) {
       toast.error(t.errorMessages.header);
+      toast.error(`${(error as Error).message}`);
     }
   };
 
@@ -237,7 +233,6 @@ const GraphQLClient: React.FC<{ t: Dictionary['graphiql'] }> = ({ t }) => {
           sdlUrl={sdlUrl}
           headers={convertHeadersArrayToObject(headersArray)}
           onSdlDataFetch={handleSdlDataFetch}
-          onError={handleError}
           t={t}
         />
         <SdlDocumentation t={t} sdlData={sdlData} />

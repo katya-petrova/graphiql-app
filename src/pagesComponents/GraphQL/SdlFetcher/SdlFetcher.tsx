@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Button } from '../../../components/Button/Button';
 import Loader from '../../../components/Loader/Loader';
 import { toast } from 'react-toastify';
@@ -10,7 +10,6 @@ interface SdlFetcherProps {
   sdlUrl: string;
   headers: Record<string, string>;
   onSdlDataFetch: (data: string) => void;
-  onError: (message: string) => void;
   t: Dictionary['graphiql'];
 }
 
@@ -18,7 +17,6 @@ const SdlFetcher: React.FC<SdlFetcherProps> = ({
   sdlUrl,
   headers,
   onSdlDataFetch,
-  onError,
   t,
 }) => {
   const [loading, setLoading] = useState(false);
@@ -38,7 +36,7 @@ const SdlFetcher: React.FC<SdlFetcherProps> = ({
       const sdlText = await response.text();
       onSdlDataFetch(sdlText);
     } catch (error) {
-      toast.error('Error fetching SDL data');
+      toast.error(`Error fetching SDL data: ${(error as Error).message}`);
     } finally {
       setLoading(false);
     }

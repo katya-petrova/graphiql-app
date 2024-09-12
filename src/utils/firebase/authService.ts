@@ -28,9 +28,8 @@ const signInWithGoogle = async (): Promise<void> => {
         email: user.email,
       });
     }
-  } catch (err: any) {
-    console.error(err);
-    toast.error(err.message);
+  } catch (err) {
+    toast.error(`${(err as Error).message}`);
   }
 };
 
@@ -40,9 +39,8 @@ const logInWithEmailAndPassword = async (
 ): Promise<void> => {
   try {
     await signInWithEmailAndPassword(auth, email, password);
-  } catch (err: any) {
-    console.error(err);
-    toast.error(err.message);
+  } catch (err) {
+    toast.error(`${(err as Error).message}`);
   }
 };
 
@@ -64,9 +62,8 @@ const registerWithEmailAndPassword = async (
       authProvider: 'local',
       email,
     });
-  } catch (err: any) {
-    console.error(err);
-    toast.error(err.message);
+  } catch (err) {
+    toast.error(`${(err as Error).message}`);
   }
 };
 
@@ -74,9 +71,8 @@ const sendPasswordReset = async (email: string): Promise<void> => {
   try {
     await sendPasswordResetEmail(auth, email);
     toast.success('Password reset link sent!');
-  } catch (err: any) {
-    console.error(err);
-    toast.error(err.message);
+  } catch (err) {
+    toast.error(`${(err as Error).message}`);
   }
 };
 

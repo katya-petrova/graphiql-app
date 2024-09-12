@@ -51,8 +51,13 @@ vi.mock('../HeaderInput/HeaderInput', () => ({
   ),
 }));
 
+interface ButtonProps {
+  onClick: () => void;
+  children: React.ReactNode;
+}
+
 vi.mock('../../Button/Button', () => ({
-  Button: ({ onClick, children }: any) => (
+  Button: ({ onClick, children }: ButtonProps) => (
     <button onClick={onClick}>{children}</button>
   ),
 }));
@@ -142,9 +147,6 @@ describe('QueryForm Component', () => {
     expect(mockProps.onBodyBlur).toHaveBeenCalled();
   });
 
-
-  
-
   describe('QueryForm Component Additional Tests', () => {
     const mockProps = {
       url: 'https://example.com/graphql',
@@ -162,14 +164,13 @@ describe('QueryForm Component', () => {
       onQueryExecute: vi.fn(),
       t: en.graphiql,
     };
-  
-  
+
     it('should prettify the query when Prettify Query is clicked', () => {
       render(<QueryForm {...mockProps} />);
-  
+
       const prettifyButton = screen.getByText('Prettify Query');
       fireEvent.click(prettifyButton);
-  
+
       expect(mockProps.onQueryChange).toHaveBeenCalled();
     });
   });
