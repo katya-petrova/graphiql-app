@@ -3,8 +3,15 @@ import { describe, it, expect, vi } from 'vitest';
 import QueryForm from './QueryForm';
 import en from '@/utils/translation/dictionaries/en.json';
 
+interface UrlInputProps {
+  label: string;
+  value: string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  placeholder?: string;
+}
+
 vi.mock('../../UrlInput/UrlInput', () => ({
-  default: ({ label, value, onChange, placeholder }: any) => (
+  default: ({ label, value, onChange, placeholder }: UrlInputProps) => (
     <div>
       <label>{label}</label>
       <input
@@ -17,8 +24,22 @@ vi.mock('../../UrlInput/UrlInput', () => ({
   ),
 }));
 
+interface TextAreaInputProps {
+  label: string;
+  value: string;
+  onChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
+  placeholder?: string;
+  rows?: number;
+}
+
 vi.mock('../../TextAreaInput/TextAreaInput', () => ({
-  default: ({ label, value, onChange, placeholder, rows }: any) => (
+  default: ({
+    label,
+    value,
+    onChange,
+    placeholder,
+    rows,
+  }: TextAreaInputProps) => (
     <div>
       <label>{label}</label>
       <textarea
@@ -31,8 +52,25 @@ vi.mock('../../TextAreaInput/TextAreaInput', () => ({
   ),
 }));
 
+interface KeyValue {
+  key: string;
+  value: string;
+}
+
+interface HeaderInputProps {
+  keyValue: KeyValue;
+  onKeyChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onValueChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onAdd: () => void;
+}
+
 vi.mock('../HeaderInput/HeaderInput', () => ({
-  default: ({ keyValue, onKeyChange, onValueChange, onAdd }: any) => (
+  default: ({
+    keyValue,
+    onKeyChange,
+    onValueChange,
+    onAdd,
+  }: HeaderInputProps) => (
     <div>
       <input
         type="text"
@@ -51,8 +89,13 @@ vi.mock('../HeaderInput/HeaderInput', () => ({
   ),
 }));
 
+interface ButtonProps {
+  onClick: () => void;
+  children: React.ReactNode;
+}
+
 vi.mock('../../Button/Button', () => ({
-  Button: ({ onClick, children }: any) => (
+  Button: ({ onClick, children }: ButtonProps) => (
     <button onClick={onClick}>{children}</button>
   ),
 }));
@@ -142,9 +185,6 @@ describe('QueryForm Component', () => {
     expect(mockProps.onBodyBlur).toHaveBeenCalled();
   });
 
-
-  
-
   describe('QueryForm Component Additional Tests', () => {
     const mockProps = {
       url: 'https://example.com/graphql',
@@ -162,14 +202,13 @@ describe('QueryForm Component', () => {
       onQueryExecute: vi.fn(),
       t: en.graphiql,
     };
-  
-  
+
     it('should prettify the query when Prettify Query is clicked', () => {
       render(<QueryForm {...mockProps} />);
-  
+
       const prettifyButton = screen.getByText('Prettify Query');
       fireEvent.click(prettifyButton);
-  
+
       expect(mockProps.onQueryChange).toHaveBeenCalled();
     });
   });
