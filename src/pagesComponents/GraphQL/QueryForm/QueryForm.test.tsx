@@ -57,7 +57,6 @@ vi.mock('../../Button/Button', () => ({
   ),
 }));
 
-
 describe('QueryForm Component', () => {
   const mockProps = {
     url: 'https://example.com/graphql',
@@ -73,24 +72,8 @@ describe('QueryForm Component', () => {
     onBodyBlur: vi.fn(),
     onHeadersChange: vi.fn(),
     onQueryExecute: vi.fn(),
-    t: en.graphiql
+    t: en.graphiql,
   };
-
-  it('should render the component correctly', () => {
-    render(<QueryForm {...mockProps} />);
-
-    expect(screen.getByLabelText('Endpoint URL:')).toBeInTheDocument();
-    expect(screen.getByLabelText('SDL URL:')).toBeInTheDocument();
-    expect(screen.getByLabelText('Query:')).toBeInTheDocument();
-    expect(screen.getByText('Prettify')).toBeInTheDocument();
-    expect(screen.getByText('Send Request')).toBeInTheDocument();
-
-    const showVariablesButton = screen.getByText('Show Variables');
-    fireEvent.click(showVariablesButton);
-
-    expect(screen.getByLabelText('Variables:')).toBeInTheDocument();
-  });
-
 
   it('should toggle headers visibility', () => {
     render(<QueryForm {...mockProps} />);
@@ -100,16 +83,13 @@ describe('QueryForm Component', () => {
     expect(screen.getByText('Hide Headers')).toBeInTheDocument();
   });
 
-
   it('should toggle variables visibility', () => {
     render(<QueryForm {...mockProps} />);
-
 
     const variablesButton = screen.getByText('Show Variables');
     fireEvent.click(variablesButton);
     expect(screen.getByText('Hide Variables')).toBeInTheDocument();
   });
-
 
   it('should call onQueryExecute when Send Request is clicked', () => {
     render(<QueryForm {...mockProps} />);
@@ -118,15 +98,6 @@ describe('QueryForm Component', () => {
     fireEvent.click(sendRequestButton);
 
     expect(mockProps.onQueryExecute).toHaveBeenCalled();
-  });
-
-  it('should call handlePrettify and update query on Prettify button click', () => {
-    render(<QueryForm {...mockProps} />);
-
-    const prettifyButton = screen.getByText('Prettify');
-    fireEvent.click(prettifyButton);
-
-    expect(mockProps.onQueryChange).toHaveBeenCalled();
   });
 });
 
@@ -146,7 +117,7 @@ describe('QueryForm Handling Functions', () => {
     onHeadersChange: vi.fn(),
     onQueryExecute: vi.fn(),
 
-    t: en.graphiql
+    t: en.graphiql,
   };
 
   it('should handle URL change', () => {

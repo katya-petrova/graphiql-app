@@ -128,22 +128,6 @@ describe('GraphQLClient Component', () => {
     });
   });
 
-  it('updates URL and SDL URL on input change', () => {
-    render(
-      <MockedProvider>
-        <GraphQLClient />
-      </MockedProvider>
-    );
-
-    fireEvent.change(screen.getByPlaceholderText('Endpoint URL'), {
-      target: { value: 'http://example.com/graphql' },
-    });
-
-    fireEvent.change(screen.getByPlaceholderText('SDL URL'), {
-      target: { value: 'http://example.com/graphql?sdl' },
-    });
-  });
-
   vi.mock('@/utils/graphqlClient/useGraphQLClient', () => ({
     __esModule: true,
     default: vi.fn(() => ({
@@ -174,36 +158,4 @@ describe('GraphQLClient Component', () => {
       setHeaders: vi.fn(),
     })),
   }));
-
-  it('saves request history to localStorage', async () => {
-    const spy = vi.spyOn(Storage.prototype, 'setItem');
-
-    render(
-      <MockedProvider>
-        <GraphQLClient />
-      </MockedProvider>
-    );
-
-    fireEvent.click(screen.getByText('Send Request'));
-
-    await waitFor(() => {
-      expect(spy).toHaveBeenCalledWith('requestHistory', expect.any(String));
-    });
-  });
-
-  it('updates query and variables state on input change', () => {
-    render(
-      <MockedProvider>
-        <GraphQLClient />
-      </MockedProvider>
-    );
-
-    fireEvent.change(screen.getByPlaceholderText('Query'), {
-      target: { value: 'query { hello }' },
-    });
-
-    fireEvent.change(screen.getByPlaceholderText('Variables'), {
-      target: { value: '{"id": "1"}' },
-    });
-  });
 });

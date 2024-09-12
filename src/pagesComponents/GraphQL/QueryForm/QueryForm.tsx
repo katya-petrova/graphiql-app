@@ -154,13 +154,13 @@ const QueryForm: React.FC<QueryFormProps> = ({
       </button>
 
       {variablesVisible && (
-      <TextAreaInput
-      label={`${t.variables}:`}
-      value={variables}
-      onChange={onVariablesChange}
-      placeholder={`{"id": "1", "name": "example"}`}
-      rows={1}
-    />
+        <TextAreaInput
+          label={`${t.variables}:`}
+          value={variables}
+          onChange={onVariablesChange}
+          placeholder={`{"id": "1", "name": "example"}`}
+          rows={1}
+        />
       )}
 
       <TextAreaInput
@@ -176,10 +176,8 @@ const QueryForm: React.FC<QueryFormProps> = ({
       />
 
       <Button onClick={handlePrettify} className="mt-2 mb-4">
-       {t.prettifyQuery}
+        {t.prettifyQuery}
       </Button>
-
-
 
       <div className="mt-4">
         <Button onClick={onQueryExecute}>{t.sendRequest}</Button>
