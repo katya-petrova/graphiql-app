@@ -1,5 +1,5 @@
 import { render, screen, fireEvent } from '@testing-library/react';
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
 import QueryForm from './QueryForm';
 import en from '@/utils/translation/dictionaries/en.json';
 
@@ -99,26 +99,6 @@ describe('QueryForm Component', () => {
 
     expect(mockProps.onQueryExecute).toHaveBeenCalled();
   });
-});
-
-describe('QueryForm Handling Functions', () => {
-  const mockProps = {
-    url: 'https://example.com/graphql',
-    sdlUrl: 'https://example.com/graphql?sdl',
-    query: 'query { hello }',
-    variables: '{"id": "1"}',
-    headers: '[]',
-    onUrlChange: vi.fn(),
-    onSdlUrlChange: vi.fn(),
-    onQueryChange: vi.fn(),
-    onVariablesChange: vi.fn(),
-    onBodyChange: vi.fn(),
-    onBodyBlur: vi.fn(),
-    onHeadersChange: vi.fn(),
-    onQueryExecute: vi.fn(),
-
-    t: en.graphiql,
-  };
 
   it('should handle URL change', () => {
     render(<QueryForm {...mockProps} />);
@@ -160,5 +140,37 @@ describe('QueryForm Handling Functions', () => {
 
     expect(mockProps.onBodyChange).toHaveBeenCalled();
     expect(mockProps.onBodyBlur).toHaveBeenCalled();
+  });
+
+
+  
+
+  describe('QueryForm Component Additional Tests', () => {
+    const mockProps = {
+      url: 'https://example.com/graphql',
+      sdlUrl: 'https://example.com/graphql?sdl',
+      query: 'query { hello }',
+      variables: '{"id": "1"}',
+      headers: '[]',
+      onUrlChange: vi.fn(),
+      onSdlUrlChange: vi.fn(),
+      onQueryChange: vi.fn(),
+      onVariablesChange: vi.fn(),
+      onBodyChange: vi.fn(),
+      onBodyBlur: vi.fn(),
+      onHeadersChange: vi.fn(),
+      onQueryExecute: vi.fn(),
+      t: en.graphiql,
+    };
+  
+  
+    it('should prettify the query when Prettify Query is clicked', () => {
+      render(<QueryForm {...mockProps} />);
+  
+      const prettifyButton = screen.getByText('Prettify Query');
+      fireEvent.click(prettifyButton);
+  
+      expect(mockProps.onQueryChange).toHaveBeenCalled();
+    });
   });
 });
