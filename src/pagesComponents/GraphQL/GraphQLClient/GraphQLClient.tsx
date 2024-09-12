@@ -14,6 +14,7 @@ import SdlFetcher from '../SdlFetcher/SdlFetcher';
 import SdlDocumentation from '../SdlDocumentation/SdlDocumentation';
 import { Dictionary } from '@/utils/translation/getDictionary';
 import { saveRestRequestToHistory } from '@/utils/RestfulClientServices/historyService/historyService';
+import { RequestHistoryItem } from '@/pagesComponents/Restclient/RestClient';
 
 const GraphQLClient: React.FC<{ t: Dictionary['graphiql'] }> = ({ t }) => {
   const [query, setQuery] = useState<string>('');
@@ -33,7 +34,7 @@ const GraphQLClient: React.FC<{ t: Dictionary['graphiql'] }> = ({ t }) => {
   const pathname = usePathname();
   const [endpoint, setEndpoint] = useState('');
   const [body, setBody] = useState<string>('');
-  const [history, setHistory] = useState<any[]>([]);
+  const [history, setHistory] = useState<RequestHistoryItem[]>([]);
 
   useEffect(() => {
     const pathParts = pathname.split('/');

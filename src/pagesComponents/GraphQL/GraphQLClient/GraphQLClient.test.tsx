@@ -17,9 +17,16 @@ vi.mock('@/utils/graphqlClient/useGraphQLClient', () => ({
   })),
 }));
 
+interface QueryResultProps {
+  queryResult?: any;
+  error?: string;
+  statusCode?: number;
+  loading: boolean;
+}
+
 vi.mock('../QueryResult/QueryResult', () => ({
   __esModule: true,
-  default: ({ queryResult, error, statusCode, loading }: any) => (
+  default: ({ queryResult, error, statusCode, loading }: QueryResultProps) => (
     <div data-testid="query-result">
       {loading && <div>Loading...</div>}
       {error && <div>Error: {error}</div>}
@@ -29,14 +36,27 @@ vi.mock('../QueryResult/QueryResult', () => ({
   ),
 }));
 
+interface SdlDocumentationProps {
+  sdlData?: string;
+}
+
 vi.mock('../SdlDocumentation/SdlDocumentation', () => ({
   __esModule: true,
-  default: ({ sdlData }: any) => (
+  default: ({ sdlData }: SdlDocumentationProps) => (
     <div data-testid="sdl-documentation">
       {sdlData ? <pre>{sdlData}</pre> : 'No SDL Data'}
     </div>
   ),
 }));
+
+interface QueryFormProps {
+  onUrlChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onSdlUrlChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onQueryChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
+  onVariablesChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
+  onHeadersChange: (value: string) => void;
+  onQueryExecute: () => void;
+}
 
 vi.mock('../QueryForm/QueryForm', () => ({
   __esModule: true,
@@ -47,7 +67,7 @@ vi.mock('../QueryForm/QueryForm', () => ({
     onVariablesChange,
     onHeadersChange,
     onQueryExecute,
-  }: any) => (
+  }: QueryFormProps) => (
     <div>
       <input placeholder="Endpoint URL" onChange={onUrlChange} />
       <input placeholder="SDL URL" onChange={onSdlUrlChange} />
@@ -62,15 +82,25 @@ vi.mock('../QueryForm/QueryForm', () => ({
   ),
 }));
 
+interface SdlFetcherProps {
+  onSdlDataFetch: (data: string) => void;
+  onError: (error: string) => void;
+}
+
 vi.mock('../SdlFetcher/SdlFetcher', () => ({
   __esModule: true,
-  default: ({ onSdlDataFetch, onError }: any) => (
+  default: ({ onSdlDataFetch, onError }: SdlFetcherProps) => (
     <div>
       <button onClick={() => onSdlDataFetch('Fake SDL Data')}>Fetch SDL</button>
       <button onClick={() => onError('Mock Error')}>Trigger Error</button>
     </div>
   ),
 }));
+
+
+
+
+
 
 vi.mock('@/components/ToastContainer/ToastContainer', () => ({
   __esModule: true,
