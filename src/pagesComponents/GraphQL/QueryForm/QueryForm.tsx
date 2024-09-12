@@ -126,7 +126,7 @@ const QueryForm: React.FC<QueryFormProps> = ({
         className="bg-gray-200 text-gray-700 py-2 px-4 rounded mb-4 mr-2"
         onClick={toggleHeadersVisibility}
       >
-        {headersVisible ? 'Hide Headers' : 'Show Headers'}
+        {headersVisible ? t.hideHeaders : t.showHeaders}
       </button>
 
       {headersVisible && (
@@ -150,7 +150,7 @@ const QueryForm: React.FC<QueryFormProps> = ({
         className="bg-gray-200 text-gray-700 py-2 px-4 rounded mb-4 mr-2"
         onClick={toggleVariablesVisibility}
       >
-        {variablesVisible ? 'Hide Variables' : 'Show Variables'}
+        {variablesVisible ? t.hideVariables : t.showVariables}
       </button>
 
       {variablesVisible && (

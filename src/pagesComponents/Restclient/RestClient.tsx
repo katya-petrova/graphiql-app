@@ -125,6 +125,7 @@ const Restclient: React.FC<{ t: Dictionary['rest'] }> = ({ t }) => {
         updateBodyWithVariables={() =>
           setBody(replaceVariablesInBody(body, variables))
         }
+        t={t}
       />
       <BodyEditor
         body={body}
