@@ -126,9 +126,7 @@ const GraphQLClient: React.FC<{ t: Dictionary['graphiql'] }> = ({ t }) => {
 
       setStatusCode(200);
       toast.success(t.successfulMessages.query);
-    } catch (err) {
-      setError(t.errorMessages.fetching);
-      toast.error(`${(err as Error).message}`);
+    } catch {
       setStatusCode(500);
       toast.error(t.errorMessages.executing);
     } finally {
@@ -139,7 +137,18 @@ const GraphQLClient: React.FC<{ t: Dictionary['graphiql'] }> = ({ t }) => {
   const handlePush = () => {
     const lang = getLangFromUrlOrCookie(pathname);
     const endpointUrlBase64 = btoa(url);
-    const bodyBase64 = btoa(JSON.stringify({ query, variables }));
+
+    let bodyBase64;
+
+    try {
+      bodyBase64 = btoa(
+        encodeURIComponent(JSON.stringify({ query, variables }))
+      );
+    } catch (error) {
+      toast.error(`Error encoding request body: ${error}`);
+      return;
+    }
+
     const newUrl = `/${lang}/graphiql/${endpointUrlBase64}/${bodyBase64}?${new URLSearchParams(convertHeadersArrayToObject(headersArray)).toString()}`;
 
     if (newUrl !== window.location.pathname + window.location.search) {
