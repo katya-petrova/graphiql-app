@@ -3,8 +3,13 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import HeaderInput from './HeaderInput';
 import en from '@/utils/translation/dictionaries/en.json';
 
+interface ButtonProps {
+  onClick: () => void;
+  children: React.ReactNode;
+}
+
 vi.mock('../../Button/Button', () => ({
-  Button: ({ onClick, children }: any) => (
+  Button: ({ onClick, children }: ButtonProps) => (
     <button onClick={onClick}>{children}</button>
   ),
 }));

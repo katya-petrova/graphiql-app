@@ -7,12 +7,17 @@ import {
   sendPasswordResetEmail,
   signOut,
   UserCredential,
+  AuthError,
 } from 'firebase/auth';
 import { auth } from './firebaseConfig';
 import { db } from './firebaseConfig';
 import { collection, query, getDocs, where, addDoc } from 'firebase/firestore';
 
 const googleProvider = new GoogleAuthProvider();
+
+interface FirebaseError extends AuthError {
+  message: string;
+}
 
 const signInWithGoogle = async (): Promise<void> => {
   try {
@@ -28,9 +33,10 @@ const signInWithGoogle = async (): Promise<void> => {
         email: user.email,
       });
     }
-  } catch (err: any) {
-    console.error(err);
-    toast.error(err.message);
+  } catch (err) {
+    const error = err as FirebaseError;
+    console.error(error);
+    toast.error(error.message);
   }
 };
 
@@ -40,9 +46,10 @@ const logInWithEmailAndPassword = async (
 ): Promise<void> => {
   try {
     await signInWithEmailAndPassword(auth, email, password);
-  } catch (err: any) {
-    console.error(err);
-    toast.error(err.message);
+  } catch (err) {
+    const error = err as FirebaseError;
+    console.error(error);
+    toast.error(error.message);
   }
 };
 
@@ -64,9 +71,10 @@ const registerWithEmailAndPassword = async (
       authProvider: 'local',
       email,
     });
-  } catch (err: any) {
-    console.error(err);
-    toast.error(err.message);
+  } catch (err) {
+    const error = err as FirebaseError;
+    console.error(error);
+    toast.error(error.message);
   }
 };
 
@@ -74,9 +82,10 @@ const sendPasswordReset = async (email: string): Promise<void> => {
   try {
     await sendPasswordResetEmail(auth, email);
     toast.success('Password reset link sent!');
-  } catch (err: any) {
-    console.error(err);
-    toast.error(err.message);
+  } catch (err) {
+    const error = err as FirebaseError;
+    console.error(error);
+    toast.error(error.message);
   }
 };
 

@@ -18,7 +18,6 @@ const SdlFetcher: React.FC<SdlFetcherProps> = ({
   sdlUrl,
   headers,
   onSdlDataFetch,
-  onError,
   t,
 }) => {
   const [loading, setLoading] = useState(false);
@@ -37,7 +36,7 @@ const SdlFetcher: React.FC<SdlFetcherProps> = ({
 
       const sdlText = await response.text();
       onSdlDataFetch(sdlText);
-    } catch (error) {
+    } catch {
       toast.error('Error fetching SDL data');
     } finally {
       setLoading(false);
