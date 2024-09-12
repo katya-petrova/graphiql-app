@@ -1,5 +1,5 @@
 import { render, screen, fireEvent } from '@testing-library/react';
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
 import QueryForm from './QueryForm';
 import en from '@/utils/translation/dictionaries/en.json';
 
@@ -58,91 +58,119 @@ vi.mock('../../Button/Button', () => ({
 }));
 
 describe('QueryForm Component', () => {
-  const mockOnUrlChange = vi.fn();
-  const mockOnSdlUrlChange = vi.fn();
-  const mockOnQueryChange = vi.fn();
-  const mockOnVariablesChange = vi.fn();
-  const mockOnHeadersChange = vi.fn();
-  const mockOnQueryExecute = vi.fn();
+  const mockProps = {
+    url: 'https://example.com/graphql',
+    sdlUrl: 'https://example.com/graphql?sdl',
+    query: 'query { hello }',
+    variables: '{"id": "1"}',
+    headers: '[]',
+    onUrlChange: vi.fn(),
+    onSdlUrlChange: vi.fn(),
+    onQueryChange: vi.fn(),
+    onVariablesChange: vi.fn(),
+    onBodyChange: vi.fn(),
+    onBodyBlur: vi.fn(),
+    onHeadersChange: vi.fn(),
+    onQueryExecute: vi.fn(),
+    t: en.graphiql,
+  };
 
-  beforeEach(() => {
-    vi.clearAllMocks();
+  it('should toggle headers visibility', () => {
+    render(<QueryForm {...mockProps} />);
+
+    const headersButton = screen.getByText('Show Headers');
+    fireEvent.click(headersButton);
+    expect(screen.getByText('Hide Headers')).toBeInTheDocument();
   });
 
-  it('adds a new header', () => {
-    render(
-      <QueryForm
-        url=""
-        sdlUrl=""
-        query=""
-        variables=""
-        headers="[]"
-        onUrlChange={mockOnUrlChange}
-        onSdlUrlChange={mockOnSdlUrlChange}
-        onQueryChange={mockOnQueryChange}
-        onVariablesChange={mockOnVariablesChange}
-        onHeadersChange={mockOnHeadersChange}
-        onQueryExecute={mockOnQueryExecute}
-        t={en.graphiql}
-      />
-    );
+  it('should toggle variables visibility', () => {
+    render(<QueryForm {...mockProps} />);
 
-    fireEvent.change(screen.getByPlaceholderText(/Header Key/), {
-      target: { value: 'Authorization' },
+    const variablesButton = screen.getByText('Show Variables');
+    fireEvent.click(variablesButton);
+    expect(screen.getByText('Hide Variables')).toBeInTheDocument();
+  });
+
+  it('should call onQueryExecute when Send Request is clicked', () => {
+    render(<QueryForm {...mockProps} />);
+
+    const sendRequestButton = screen.getByText('Send Request');
+    fireEvent.click(sendRequestButton);
+
+    expect(mockProps.onQueryExecute).toHaveBeenCalled();
+  });
+
+  it('should handle URL change', () => {
+    render(<QueryForm {...mockProps} />);
+
+    const urlInput = screen.getByLabelText('Endpoint URL:');
+    fireEvent.change(urlInput, {
+      target: { value: 'https://new-url.com/graphql' },
     });
 
-    fireEvent.change(screen.getByPlaceholderText(/Header Value/), {
-      target: { value: 'Bearer token' },
+    expect(mockProps.onUrlChange).toHaveBeenCalled();
+  });
+
+  it('should handle SDL URL change', () => {
+    render(<QueryForm {...mockProps} />);
+
+    const sdlUrlInput = screen.getByLabelText('SDL URL:');
+    fireEvent.change(sdlUrlInput, {
+      target: { value: 'https://new-sdl-url.com/graphql?sdl' },
     });
 
-    fireEvent.click(screen.getByText(/Add Header/));
-
-    expect(mockOnHeadersChange).toHaveBeenCalled();
+    expect(mockProps.onSdlUrlChange).toHaveBeenCalled();
   });
 
-  it('removes a header', () => {
-    render(
-      <QueryForm
-        url=""
-        sdlUrl=""
-        query=""
-        variables=""
-        headers='[{"key":"Authorization","value":"Bearer token"}]'
-        onUrlChange={mockOnUrlChange}
-        onSdlUrlChange={mockOnSdlUrlChange}
-        onQueryChange={mockOnQueryChange}
-        onVariablesChange={mockOnVariablesChange}
-        onHeadersChange={mockOnHeadersChange}
-        onQueryExecute={mockOnQueryExecute}
-        t={en.graphiql}
-      />
-    );
+  it('should handle query change', () => {
+    render(<QueryForm {...mockProps} />);
 
-    fireEvent.click(screen.getByText(/Remove/));
+    const queryInput = screen.getByLabelText('Query:');
+    fireEvent.change(queryInput, { target: { value: 'query { newQuery }' } });
 
-    expect(mockOnHeadersChange).toHaveBeenCalled();
+    expect(mockProps.onQueryChange).toHaveBeenCalled();
   });
 
-  it('executes query', () => {
-    render(
-      <QueryForm
-        url=""
-        sdlUrl=""
-        query=""
-        variables=""
-        headers="[]"
-        onUrlChange={mockOnUrlChange}
-        onSdlUrlChange={mockOnSdlUrlChange}
-        onQueryChange={mockOnQueryChange}
-        onVariablesChange={mockOnVariablesChange}
-        onHeadersChange={mockOnHeadersChange}
-        onQueryExecute={mockOnQueryExecute}
-        t={en.graphiql}
-      />
-    );
+  it('should handle body change and blur', () => {
+    render(<QueryForm {...mockProps} />);
 
-    fireEvent.click(screen.getByText(/Send Request/));
+    const queryInput = screen.getByLabelText('Query:');
+    fireEvent.change(queryInput, { target: { value: 'query { changed }' } });
+    fireEvent.blur(queryInput);
 
-    expect(mockOnQueryExecute).toHaveBeenCalled();
+    expect(mockProps.onBodyChange).toHaveBeenCalled();
+    expect(mockProps.onBodyBlur).toHaveBeenCalled();
+  });
+
+
+  
+
+  describe('QueryForm Component Additional Tests', () => {
+    const mockProps = {
+      url: 'https://example.com/graphql',
+      sdlUrl: 'https://example.com/graphql?sdl',
+      query: 'query { hello }',
+      variables: '{"id": "1"}',
+      headers: '[]',
+      onUrlChange: vi.fn(),
+      onSdlUrlChange: vi.fn(),
+      onQueryChange: vi.fn(),
+      onVariablesChange: vi.fn(),
+      onBodyChange: vi.fn(),
+      onBodyBlur: vi.fn(),
+      onHeadersChange: vi.fn(),
+      onQueryExecute: vi.fn(),
+      t: en.graphiql,
+    };
+  
+  
+    it('should prettify the query when Prettify Query is clicked', () => {
+      render(<QueryForm {...mockProps} />);
+  
+      const prettifyButton = screen.getByText('Prettify Query');
+      fireEvent.click(prettifyButton);
+  
+      expect(mockProps.onQueryChange).toHaveBeenCalled();
+    });
   });
 });

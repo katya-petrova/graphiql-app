@@ -122,29 +122,4 @@ describe('Restclient component', () => {
       expect(mockSaveRestRequestToHistory).toHaveBeenCalled();
     });
   });
-
-  //   // Mocking fetch to throw an error
-  //   global.fetch = vi.fn(() =>
-  //     Promise.reject(new Error('Network error'))
-  //   ) as jest.Mock;
-
-  //   render(
-  //     <TranslationProvider t={en}>
-  //       <Restclient t={en.rest} />
-  //     </TranslationProvider>
-  //   );
-
-  //   const sendRequestButton = screen.getByRole('button', {
-  //     name: /Send Request/i,
-  //   });
-
-  //   fireEvent.click(sendRequestButton);
-
-  //   await waitFor(() => {
-  //     expect(vi.mocked(fetch)).toHaveBeenCalled();
-  //     expect(vi.mocked(toast.error)).toHaveBeenCalledWith(
-  //       'Request Error: Error: Network error'
-  //     );
-  //   });
-  // });
 });

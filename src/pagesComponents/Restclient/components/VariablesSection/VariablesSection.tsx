@@ -20,11 +20,7 @@ const VariablesSection: React.FC<VariablesSectionProps> = ({
   setVariables,
   updateBodyWithVariables,
 }) => {
-  const handleVariableChange = (
-    index: number,
-    key: string,
-    value: string
-  ) => {
+  const handleVariableChange = (index: number, key: string, value: string) => {
     const updatedVariables = [...variables];
     updatedVariables[index] = { key, value };
     setVariables(updatedVariables);
@@ -42,10 +38,12 @@ const VariablesSection: React.FC<VariablesSectionProps> = ({
   };
 
   return (
-    <Accordion sx={{
+    <Accordion
+      sx={{
         borderRadius: '0.25rem',
         overflow: 'hidden',
-      }}>
+      }}
+    >
       <AccordionSummary
         expandIcon={<ExpandMoreIcon />}
         aria-controls="variables-content"

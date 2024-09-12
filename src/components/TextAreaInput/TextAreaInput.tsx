@@ -4,6 +4,7 @@ interface TextAreaInputProps {
   onChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
   placeholder: string;
   rows: number;
+  onBlur?: (e: React.FocusEvent<HTMLTextAreaElement>) => void;
 }
 
 const TextAreaInput: React.FC<TextAreaInputProps> = ({
@@ -12,6 +13,7 @@ const TextAreaInput: React.FC<TextAreaInputProps> = ({
   onChange,
   placeholder,
   rows,
+  onBlur,
 }) => {
   return (
     <div className="mb-4">
@@ -23,6 +25,7 @@ const TextAreaInput: React.FC<TextAreaInputProps> = ({
           onChange={onChange}
           placeholder={placeholder}
           className="w-full p-2 border border-gray-300 bg-white text-gray-700 rounded"
+          onBlur={onBlur}
         />
       </label>
     </div>

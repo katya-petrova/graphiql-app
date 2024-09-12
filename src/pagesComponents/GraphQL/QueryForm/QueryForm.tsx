@@ -6,6 +6,7 @@ import TextAreaInput from '../../../components/TextAreaInput/TextAreaInput';
 import HeaderInput from '../HeaderInput/HeaderInput';
 import { Button } from '../../../components/Button/Button';
 import { toast } from 'react-toastify';
+import HeaderList from '../HeaderList/HeaderList';
 import { Dictionary } from '@/utils/translation/getDictionary';
 
 interface Header {
@@ -23,6 +24,8 @@ interface QueryFormProps {
   onSdlUrlChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onQueryChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
   onVariablesChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
+  onBodyChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
+  onBodyBlur: (e: React.FocusEvent<HTMLTextAreaElement>) => void;
   onHeadersChange: (headers: string) => void;
   onQueryExecute: () => void;
   t: Dictionary['graphiql'];
@@ -40,11 +43,15 @@ const QueryForm: React.FC<QueryFormProps> = ({
   onVariablesChange,
   onHeadersChange,
   onQueryExecute,
+  onBodyChange,
+  onBodyBlur,
   t,
 }) => {
   const [headerKey, setHeaderKey] = useState('');
   const [headerValue, setHeaderValue] = useState('');
   const [headerList, setHeaderList] = useState<Header[]>([]);
+  const [headersVisible, setHeadersVisible] = useState(false);
+  const [variablesVisible, setVariablesVisible] = useState(false);
 
   useEffect(() => {
     try {
@@ -92,6 +99,14 @@ const QueryForm: React.FC<QueryFormProps> = ({
     }
   };
 
+  const toggleHeadersVisibility = () => {
+    setHeadersVisible(!headersVisible);
+  };
+
+  const toggleVariablesVisibility = () => {
+    setVariablesVisible(!variablesVisible);
+  };
+
   return (
     <div>
       <UrlInput
@@ -107,35 +122,55 @@ const QueryForm: React.FC<QueryFormProps> = ({
         placeholder="https://example.com/graphql?sdl"
       />
 
-      <HeaderInput
-        keyValue={{ key: headerKey, value: headerValue }}
-        onKeyChange={(e) => setHeaderKey(e.target.value)}
-        onValueChange={(e) => setHeaderValue(e.target.value)}
-        onAdd={handleAddHeader}
-        t={t}
-      />
+      <button
+        className="bg-gray-200 text-gray-700 py-2 px-4 rounded mb-4 mr-2"
+        onClick={toggleHeadersVisibility}
+      >
+        {headersVisible ? 'Hide Headers' : 'Show Headers'}
+      </button>
 
-      <ul>
-        {headerList.length > 0 ? (
-          headerList.map((header, index) => (
-            <li key={index} className="mb-2 flex items-center space-x-2">
-              <span className="mr-2">
-                {header.key}: {header.value}
-              </span>
-              <Button onClick={() => handleRemoveHeader(index)}>
-                {t.remove}
-              </Button>
-            </li>
-          ))
-        ) : (
-          <li></li>
-        )}
-      </ul>
+      {headersVisible && (
+        <>
+          <HeaderInput
+            keyValue={{ key: headerKey, value: headerValue }}
+            onKeyChange={(e) => setHeaderKey(e.target.value)}
+            onValueChange={(e) => setHeaderValue(e.target.value)}
+            onAdd={handleAddHeader}
+            t={t}
+          />
+
+          <HeaderList
+            headers={headerList}
+            onRemoveHeader={handleRemoveHeader}
+          />
+        </>
+      )}
+
+      <button
+        className="bg-gray-200 text-gray-700 py-2 px-4 rounded mb-4 mr-2"
+        onClick={toggleVariablesVisibility}
+      >
+        {variablesVisible ? 'Hide Variables' : 'Show Variables'}
+      </button>
+
+      {variablesVisible && (
+        <TextAreaInput
+          label={`${t.variables}:`}
+          value={variables}
+          onChange={onVariablesChange}
+          placeholder={`{"id": "1", "name": "example"}`}
+          rows={1}
+        />
+      )}
 
       <TextAreaInput
         label={`${t.query}:`}
         value={query}
-        onChange={onQueryChange}
+        onChange={(e) => {
+          onQueryChange(e);
+          onBodyChange(e);
+        }}
+        onBlur={onBodyBlur}
         placeholder={t.queryPlaceholder}
         rows={8}
       />
@@ -143,14 +178,6 @@ const QueryForm: React.FC<QueryFormProps> = ({
       <Button onClick={handlePrettify} className="mt-2 mb-4">
         {t.prettifyQuery}
       </Button>
-
-      <TextAreaInput
-        label={`${t.variables}:`}
-        value={variables}
-        onChange={onVariablesChange}
-        placeholder={`{"id": "1", "name": "example"}`}
-        rows={1}
-      />
 
       <div className="mt-4">
         <Button onClick={onQueryExecute}>{t.sendRequest}</Button>
