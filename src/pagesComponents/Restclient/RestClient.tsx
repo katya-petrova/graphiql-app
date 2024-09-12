@@ -101,7 +101,7 @@ const Restclient: React.FC<{ t: Dictionary['rest'] }> = ({ t }) => {
 
       saveRestRequestToHistory(newUrl, method, endpoint, history, setHistory);
     } catch (error) {
-      toast.error(`Request Error: ${error}`);
+      toast.error(`${t.requestError}: ${error}`);
     }
   };
 
@@ -125,6 +125,7 @@ const Restclient: React.FC<{ t: Dictionary['rest'] }> = ({ t }) => {
         updateBodyWithVariables={() =>
           setBody(replaceVariablesInBody(body, variables))
         }
+        t={t}
       />
       <BodyEditor
         body={body}

@@ -3,6 +3,7 @@ import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { Dictionary } from '@/utils/translation/getDictionary';
 
 type Variable = {
   key: string;
@@ -13,12 +14,14 @@ type VariablesSectionProps = {
   variables: Variable[];
   setVariables: (variables: Variable[]) => void;
   updateBodyWithVariables: (variables: Variable[]) => void;
+  t: Dictionary['rest'];
 };
 
 const VariablesSection: React.FC<VariablesSectionProps> = ({
   variables,
   setVariables,
   updateBodyWithVariables,
+  t,
 }) => {
   const handleVariableChange = (index: number, key: string, value: string) => {
     const updatedVariables = [...variables];
@@ -49,7 +52,7 @@ const VariablesSection: React.FC<VariablesSectionProps> = ({
         aria-controls="variables-content"
         id="variables-header"
       >
-        Variables
+        {t.variables}
       </AccordionSummary>
       <AccordionDetails>
         <div className="space-y-4">
@@ -57,7 +60,7 @@ const VariablesSection: React.FC<VariablesSectionProps> = ({
             <div key={index} className="flex space-x-4 mb-2">
               <input
                 type="text"
-                placeholder="Key"
+                placeholder={t.key}
                 value={variable.key}
                 onChange={(e) =>
                   handleVariableChange(index, e.target.value, variable.value)
@@ -66,7 +69,7 @@ const VariablesSection: React.FC<VariablesSectionProps> = ({
               />
               <input
                 type="text"
-                placeholder="Value"
+                placeholder={t.value}
                 value={variable.value}
                 onChange={(e) =>
                   handleVariableChange(index, variable.key, e.target.value)
@@ -77,7 +80,7 @@ const VariablesSection: React.FC<VariablesSectionProps> = ({
                 onClick={() => removeVariable(index)}
                 className="bg-red-500 text-white py-1 px-3 rounded hover:bg-red-600 transition duration-300"
               >
-                Remove
+                {t.remove}
               </button>
             </div>
           ))}
@@ -85,7 +88,7 @@ const VariablesSection: React.FC<VariablesSectionProps> = ({
             onClick={addVariable}
             className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition duration-300"
           >
-            Add Variable
+            {t.addVariable}
           </button>
         </div>
       </AccordionDetails>

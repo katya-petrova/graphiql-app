@@ -37,13 +37,21 @@
       "signUp": "Sign up",
       "signOut": "Sign out",
       "main": "Main"
+    },
+    "errors": {
+      "signOut": "Sign out error"
     }
   },
   "rest": {
     "enterEndpoint": "Enter endpoint",
     "headerKey": "Header Key",
     "headerValue": "Header Value",
+    "key": "Key",
+    "value": "Value",
+    "variables": "Variables",
+    "addVariable": "Add Variable",
     "addHeader": "Add Header",
+    "remove": "Remove",
     "switchToTextView": "Switch to Text View",
     "switchToJSONView": "Switch to JSON View",
     "requestBody": "Request body",
@@ -51,6 +59,7 @@
     "save": "Save",
     "cancel": "Cancel",
     "error": "Error",
+    "requestError": "Request Error",
     "response": "Response",
     "status": "Status",
     "validationErrors": {
@@ -66,6 +75,10 @@
     "endpointUrl": "Endpoint URL",
     "headerKey": "Header Key",
     "headerValue": "Header Value",
+    "showHeaders": "Show Headers",
+    "hideHeaders": "Hide Headers",
+    "showVariables": "Show Variables",
+    "hideVariables": "Hide Variables",
     "addHeader": "Add Header",
     "query": "Query",
     "prettifyQuery": "Prettify Query",
@@ -82,7 +95,8 @@
       "fetching": "Error fetching data",
       "executing": "Error executing the query!",
       "header": "Invalid headers format",
-      "error": "Error"
+      "error": "Error",
+      "fetchSDL": "Error fetching SDL data"
     },
     "successfulMessages": {
       "query": "Query executed successfully!",
@@ -92,12 +106,36 @@
   "signIn": {
     "title": "Sign In",
     "email": "Email",
-    "password": "Password"
+    "password": "Password",
+    "errorMessages": {
+      "offline": "You are currently offline. Please check your internet connection.",
+      "unexpected": "An unexpected error occurred. Please try again."
+    }
   },
   "signUp": {
     "title": "Sign Up",
     "name": "Name",
     "email": "Email",
-    "password": "Password"
+    "password": "Password",
+    "errorMessages": {
+      "offline": "You are currently offline. Please check your internet connection.",
+      "unexpected": "An unexpected error occurred. Please try again."
+    },
+    "validationErrors": {
+      "name": {
+        "required": "Name is required"
+      },
+      "email": {
+        "valid": "Invalid email address",
+        "required": "Email is required"
+      },
+      "password": {
+        "required": "Password is required",
+        "min": "Password must be at least 8 characters long",
+        "matchesLetter": "Password must contain at least one letter",
+        "matchesDigit": "Password must contain at least one digit",
+        "matchesSymbol": "Password must contain at least one special character"
+      }
+    }
   }
 }

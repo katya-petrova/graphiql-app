@@ -1,6 +1,9 @@
 import { validateSignupForm } from './validateSignupForm';
+import { signUp } from '@/utils/translation/dictionaries/en.json';
 
 describe('validateSignupForm', () => {
+  const { validationErrors } = signUp;
+
   it('should return valid if all fields are correct', () => {
     const values = {
       name: 'John Doe',
@@ -8,7 +11,7 @@ describe('validateSignupForm', () => {
       password: 'Password123!',
     };
 
-    const result = validateSignupForm(values);
+    const result = validateSignupForm(values, validationErrors);
 
     expect(result.isValid).toBe(true);
     expect(result.errors).toEqual({});
@@ -21,7 +24,7 @@ describe('validateSignupForm', () => {
       password: 'Password123!',
     };
 
-    const result = validateSignupForm(values);
+    const result = validateSignupForm(values, validationErrors);
 
     expect(result.isValid).toBe(false);
     expect(result.errors).toHaveProperty('name', 'Name is required');
@@ -34,7 +37,7 @@ describe('validateSignupForm', () => {
       password: 'Password123!',
     };
 
-    const result = validateSignupForm(values);
+    const result = validateSignupForm(values, validationErrors);
 
     expect(result.isValid).toBe(false);
     expect(result.errors).toHaveProperty('email', 'Invalid email address');
@@ -47,7 +50,7 @@ describe('validateSignupForm', () => {
       password: 'Pass1!',
     };
 
-    const result = validateSignupForm(values);
+    const result = validateSignupForm(values, validationErrors);
 
     expect(result.isValid).toBe(false);
     expect(result.errors).toHaveProperty(
@@ -63,7 +66,7 @@ describe('validateSignupForm', () => {
       password: '12345678!',
     };
 
-    const result = validateSignupForm(values);
+    const result = validateSignupForm(values, validationErrors);
 
     expect(result.isValid).toBe(false);
     expect(result.errors).toHaveProperty(
@@ -79,7 +82,7 @@ describe('validateSignupForm', () => {
       password: 'Password!',
     };
 
-    const result = validateSignupForm(values);
+    const result = validateSignupForm(values, validationErrors);
 
     expect(result.isValid).toBe(false);
     expect(result.errors).toHaveProperty(
@@ -95,7 +98,7 @@ describe('validateSignupForm', () => {
       password: 'Password123',
     };
 
-    const result = validateSignupForm(values);
+    const result = validateSignupForm(values, validationErrors);
 
     expect(result.isValid).toBe(false);
     expect(result.errors).toHaveProperty(

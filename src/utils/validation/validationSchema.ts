@@ -1,17 +1,16 @@
 import * as Yup from 'yup';
+import { Dictionary } from '../translation/getDictionary';
 
-export const signupValidationSchema = Yup.object({
-  name: Yup.string().required('Name is required'),
-  email: Yup.string()
-    .email('Invalid email address')
-    .required('Email is required'),
-  password: Yup.string()
-    .min(8, 'Password must be at least 8 characters long')
-    .matches(/[a-zA-Z]/, 'Password must contain at least one letter')
-    .matches(/\d/, 'Password must contain at least one digit')
-    .matches(
-      /[!@#$%^&*(),.?":{}|<>]/,
-      'Password must contain at least one special character'
-    )
-    .required('Password is required'),
-});
+export const signupValidationSchema = (
+  t: Dictionary['signUp']['validationErrors']
+) =>
+  Yup.object({
+    name: Yup.string().required(t.name.required),
+    email: Yup.string().email(t.email.valid).required(t.email.required),
+    password: Yup.string()
+      .min(8, t.password.min)
+      .matches(/[a-zA-Z]/, t.password.matchesLetter)
+      .matches(/\d/, t.password.matchesDigit)
+      .matches(/[!@#$%^&*(),.?":{}|<>]/, t.password.matchesSymbol)
+      .required(t.password.required),
+  });

@@ -1,13 +1,17 @@
+import { Dictionary } from '../translation/getDictionary';
 import { signupValidationSchema } from './validationSchema';
 import * as Yup from 'yup';
 
-export const validateSignupForm = (values: {
-  name: string;
-  email: string;
-  password: string;
-}) => {
+export const validateSignupForm = (
+  values: {
+    name: string;
+    email: string;
+    password: string;
+  },
+  t: Dictionary['signUp']['validationErrors']
+) => {
   try {
-    signupValidationSchema.validateSync(values, { abortEarly: false });
+    signupValidationSchema(t).validateSync(values, { abortEarly: false });
     return { isValid: true, errors: {} };
   } catch (err) {
     if (err instanceof Yup.ValidationError) {

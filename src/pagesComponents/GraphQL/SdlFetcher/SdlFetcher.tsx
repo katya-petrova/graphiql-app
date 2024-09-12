@@ -1,9 +1,9 @@
 'use client';
 
 import { useState } from 'react';
-import { Button } from '../../../components/Button/Button';
-import Loader from '../../../components/Loader/Loader';
 import { toast } from 'react-toastify';
+import { Button } from '@/components/Button/Button';
+import Loader from '@/components/Loader/Loader';
 import { Dictionary } from '@/utils/translation/getDictionary';
 
 interface SdlFetcherProps {
@@ -45,7 +45,6 @@ const SdlFetcher: React.FC<SdlFetcherProps> = ({
       const sdlText = await response.text();
 
       if (!sdlText.trim()) {
-        // Check if response text is empty or only whitespace
         throw new Error('No data found');
       }
 

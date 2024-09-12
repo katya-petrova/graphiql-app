@@ -2,9 +2,9 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuthState } from 'react-firebase-hooks/auth';
+import { toast } from 'react-toastify';
 import { auth } from '@/utils/firebase/firebaseConfig';
 import { registerWithEmailAndPassword } from '@/utils/firebase/authService';
-import { toast } from 'react-toastify';
 import { Form } from '@/components/Form/Form';
 import { validateSignupForm } from '@/utils/validation/validateSignupForm';
 import Loader from '@/components/Loader/Loader';
@@ -24,7 +24,10 @@ const Signup: React.FC = () => {
   const register = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const { isValid, errors } = validateSignupForm({ name, email, password });
+    const { isValid, errors } = validateSignupForm(
+      { name, email, password },
+      signUp.validationErrors
+    );
 
     if (!isValid) {
       setErrors(errors);
@@ -33,9 +36,7 @@ const Signup: React.FC = () => {
     }
 
     if (!navigator.onLine) {
-      toast.error(
-        'You are currently offline. Please check your internet connection.'
-      );
+      toast.error(signUp.errorMessages.offline);
       return;
     }
 

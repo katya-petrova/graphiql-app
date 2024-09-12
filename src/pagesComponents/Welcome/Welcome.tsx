@@ -19,11 +19,11 @@ const Welcome = ({ t }: WelcomeProps) => {
       </section>
       <div className="flex justify-center mt-20">
         {isSignedIn ? (
-          <Link href={'/main'} variant="primary">
+          <Link href={'/main'} className="min-w-28" variant="primary">
             {t.welcome.link}
           </Link>
         ) : (
-          <Link href={'/signin'} variant="primary">
+          <Link href={'/signin'} className="min-w-28" variant="primary">
             {t.auth.links.signIn}
           </Link>
         )}

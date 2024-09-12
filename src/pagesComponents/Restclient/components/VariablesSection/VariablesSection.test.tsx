@@ -3,6 +3,7 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { describe, it, expect, vi, afterEach } from 'vitest';
 import VariablesSection from './VariablesSection';
+import en from '@/utils/translation/dictionaries/en.json';
 
 afterEach(() => {
   vi.clearAllMocks();
@@ -16,6 +17,7 @@ describe('VariablesSection Component', () => {
         variables={mockVariables}
         setVariables={vi.fn()}
         updateBodyWithVariables={vi.fn()}
+        t={en.rest}
       />
     );
 
@@ -36,6 +38,7 @@ describe('VariablesSection Component', () => {
         variables={[]}
         setVariables={setVariables}
         updateBodyWithVariables={vi.fn()}
+        t={en.rest}
       />
     );
 
@@ -57,6 +60,7 @@ describe('VariablesSection Component', () => {
         variables={mockVariables}
         setVariables={setVariables}
         updateBodyWithVariables={vi.fn()}
+        t={en.rest}
       />
     );
 
@@ -79,6 +83,7 @@ describe('VariablesSection Component', () => {
         variables={mockVariables}
         setVariables={setVariables}
         updateBodyWithVariables={updateBodyWithVariables}
+        t={en.rest}
       />
     );
 
@@ -101,6 +106,7 @@ describe('VariablesSection Component', () => {
         variables={mockVariables}
         setVariables={setVariables}
         updateBodyWithVariables={updateBodyWithVariables}
+        t={en.rest}
       />
     );
 
