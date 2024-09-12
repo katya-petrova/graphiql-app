@@ -1,7 +1,7 @@
 import React from 'react';
 import { Metadata } from 'next';
 import Restclient from '@/pagesComponents/Restclient/RestClient';
-import { getDictionary, Locale } from '@/utils/translation/getDictionary';
+import { getDictionary } from '@/utils/translation/getDictionary';
 
 export const metadata: Metadata = {
   title: 'RESTfull Client',
