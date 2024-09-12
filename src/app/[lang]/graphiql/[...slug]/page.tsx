@@ -1,6 +1,7 @@
 import { Suspense } from 'react';
 import GraphQLClient from '@/pagesComponents/GraphQL/GraphQLClient/GraphQLClient';
 import { Metadata } from 'next';
+import { getDictionary } from '@/utils/translation/getDictionary';
 
 export const metadata: Metadata = {
   title: 'GraphQL Client',
@@ -10,10 +11,18 @@ export const metadata: Metadata = {
   },
 };
 
-const GraphQLClientPage: React.FC = () => {
+type RestClientProps = {
+  params: { lang: string };
+};
+
+const GraphQLClientPage: React.FC<RestClientProps> = async ({
+  params: { lang },
+}) => {
+  const { graphiql } = await getDictionary(lang);
+
   return (
     <Suspense fallback={<div>Loading...</div>}>
-      <GraphQLClient />
+      <GraphQLClient t={graphiql} />
     </Suspense>
   );
 };

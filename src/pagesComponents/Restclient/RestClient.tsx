@@ -5,12 +5,30 @@ import MethodSelector from './components/MethodSelector/MethodSelector';
 import EndpointInput from './components/EndpointInput/EndpointInput';
 import HeadersEditor from './components/HeadersEditor/HeadersEditor';
 import BodyEditor from './components/BodyEditor/BodyEditor';
+import VariablesSection from './components/VariablesSection/VariablesSection';
 import ResponseViewer from './components/ResponseViewer/ResponseViewer';
 import { toast } from 'react-toastify';
 import { getLangFromUrlOrCookie } from '@/utils/getCurrentLanguage/getCurrentLanguage';
-import { saveRestRequestToHistory } from '@/utils/historyService/historyService';
+import { saveRestRequestToHistory } from '@/utils/RestfulClientServices/historyService/historyService';
+import { replaceVariablesInBody } from '@/utils/RestfulClientServices/requestService/requestService';
+import { Dictionary } from '@/utils/translation/getDictionary';
 
-const Restclient: React.FC = () => {
+import {
+  getFromLocalStorage,
+  saveToLocalStorage,
+} from '@/utils/RestfulClientServices/storageService/storageService';
+import {
+  decodeBase64,
+  buildNewUrl,
+} from '@/utils/RestfulClientServices/urlService/urlService';
+
+export type RequestHistoryItem = {
+  request_url: string;
+  link: string;
+  time: string;
+};
+
+const Restclient: React.FC<{ t: Dictionary['rest'] }> = ({ t }) => {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const [method, setMethod] = useState('GET');
@@ -18,58 +36,40 @@ const Restclient: React.FC = () => {
   const [headers, setHeaders] = useState<[string, string][]>([]);
   const [body, setBody] = useState('');
   const [response, setResponse] = useState(null);
-  const [history, setHistory] = useState<any[]>([]);
+  const [history, setHistory] = useState<RequestHistoryItem[]>([]);
+  const [variables, setVariables] = useState<{ key: string; value: string }[]>(
+    []
+  );
   const [initialLoad, setInitialLoad] = useState(true);
 
   useEffect(() => {
+    if (!pathname) return;
+
     const pathParts = pathname.split('/');
-    const initialMethod = pathParts[3] || 'GET';
-    const endpointBase64 = pathParts[4] || '';
-    const bodyBase64 = pathParts[5] || '';
 
-    setMethod(initialMethod);
-    setEndpoint(
-      endpointBase64
-        ? Buffer.from(endpointBase64, 'base64').toString('utf-8')
-        : ''
-    );
-    setBody(
-      bodyBase64 ? Buffer.from(bodyBase64, 'base64').toString('utf-8') : ''
-    );
+    setMethod(pathParts[3] || 'GET');
+    setEndpoint(decodeBase64(pathParts[4] || ''));
+    setBody(decodeBase64(pathParts[5] || ''));
 
-    const headerParams = new URLSearchParams(searchParams.toString());
     const parsedHeaders: [string, string][] = [];
-    for (const [key, value] of headerParams.entries()) {
+    for (const [key, value] of new URLSearchParams(
+      searchParams.toString()
+    ).entries()) {
       parsedHeaders.push([key, decodeURIComponent(value)]);
     }
     setHeaders(parsedHeaders);
 
-    const savedHistory = JSON.parse(
-      localStorage.getItem('requestHistory') || '[]'
+    setVariables(
+      getFromLocalStorage<{ key: string; value: string }[]>('variables', [])
     );
-    setHistory(savedHistory);
+    setHistory(getFromLocalStorage<RequestHistoryItem[]>('requestHistory', []));
 
     setInitialLoad(false);
-  }, []);
+  }, [pathname, searchParams]);
 
   const updateUrl = () => {
-    const lang = getLangFromUrlOrCookie(pathname);
-    const encodedEndpoint = Buffer.from(endpoint).toString('base64');
-    const encodedBody = body ? Buffer.from(body).toString('base64') : '';
-    let newUrl = `/${lang}/restclient/${method}/${encodedEndpoint}`;
-    if (body) {
-      newUrl += `/${encodedBody}`;
-    }
-
-    if (headers.length > 0) {
-      const headerParams = headers
-        .map(
-          ([key, value]) =>
-            `${encodeURIComponent(key)}=${encodeURIComponent(value)}`
-        )
-        .join('&');
-      newUrl += `?${headerParams}`;
-    }
+    const lang = getLangFromUrlOrCookie(pathname || '');
+    const newUrl = buildNewUrl(lang, method, endpoint, body, headers);
 
     if (newUrl !== window.location.pathname + window.location.search) {
       window.history.replaceState(null, '', newUrl);
@@ -81,19 +81,19 @@ const Restclient: React.FC = () => {
   useEffect(() => {
     if (!initialLoad) {
       updateUrl();
+      saveToLocalStorage('variables', variables);
     }
-  }, [method, endpoint, headers, body, initialLoad]);
+  }, [method, endpoint, headers, body, variables, initialLoad]);
 
   const handleRequest = async () => {
+    const updatedBody = replaceVariablesInBody(body, variables);
     const newUrl = updateUrl();
-
-    const lang = getLangFromUrlOrCookie(pathname);
 
     try {
       const res = await fetch(`/api/sendRequest/`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ method, endpoint, headers, body }),
+        body: JSON.stringify({ method, endpoint, headers, body: updatedBody }),
       });
 
       const data = await res.json();
@@ -112,18 +112,31 @@ const Restclient: React.FC = () => {
         endpoint={endpoint}
         setEndpoint={setEndpoint}
         updateUrl={updateUrl}
+        placeholder={t.enterEndpoint}
       />
       <HeadersEditor
         headers={headers}
         setHeaders={setHeaders}
         updateUrl={updateUrl}
       />
-      <BodyEditor body={body} setBody={setBody} updateUrl={updateUrl} />
+      <VariablesSection
+        variables={variables}
+        setVariables={setVariables}
+        updateBodyWithVariables={() =>
+          setBody(replaceVariablesInBody(body, variables))
+        }
+      />
+      <BodyEditor
+        body={body}
+        setBody={setBody}
+        updateUrl={updateUrl}
+        variables={variables}
+      />
       <button
         onClick={handleRequest}
         className="w-full bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition duration-300"
       >
-        Send Request
+        {t.sendRequest}
       </button>
       <ResponseViewer response={response} />
     </div>

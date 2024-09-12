@@ -2,6 +2,7 @@ import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import GraphQLClient from './GraphQLClient';
 import { MockedProvider } from '@apollo/client/testing';
+import en from '@/utils/translation/dictionaries/en.json';
 
 vi.mock('@/utils/graphqlClient/useGraphQLClient', () => ({
   __esModule: true,
@@ -96,7 +97,7 @@ describe('GraphQLClient Component', () => {
   it('renders the component with all children', () => {
     render(
       <MockedProvider>
-        <GraphQLClient />
+        <GraphQLClient t={en.graphiql} />
       </MockedProvider>
     );
 
@@ -114,7 +115,7 @@ describe('GraphQLClient Component', () => {
   it('fetches SDL data and displays it', async () => {
     render(
       <MockedProvider>
-        <GraphQLClient />
+        <GraphQLClient t={en.graphiql} />
       </MockedProvider>
     );
 

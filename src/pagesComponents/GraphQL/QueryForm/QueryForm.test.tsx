@@ -1,6 +1,62 @@
 import { render, screen, fireEvent } from '@testing-library/react';
-import { describe, it, expect, vi } from 'vitest';
-import QueryForm from '../QueryForm/QueryForm';
+import { describe, it, expect, vi, beforeEach } from 'vitest';
+import QueryForm from './QueryForm';
+import en from '@/utils/translation/dictionaries/en.json';
+
+vi.mock('../../UrlInput/UrlInput', () => ({
+  default: ({ label, value, onChange, placeholder }: any) => (
+    <div>
+      <label>{label}</label>
+      <input
+        type="text"
+        value={value}
+        onChange={onChange}
+        placeholder={placeholder}
+      />
+    </div>
+  ),
+}));
+
+vi.mock('../../TextAreaInput/TextAreaInput', () => ({
+  default: ({ label, value, onChange, placeholder, rows }: any) => (
+    <div>
+      <label>{label}</label>
+      <textarea
+        value={value}
+        onChange={onChange}
+        placeholder={placeholder}
+        rows={rows}
+      />
+    </div>
+  ),
+}));
+
+vi.mock('../HeaderInput/HeaderInput', () => ({
+  default: ({ keyValue, onKeyChange, onValueChange, onAdd }: any) => (
+    <div>
+      <input
+        type="text"
+        value={keyValue.key}
+        onChange={onKeyChange}
+        placeholder="Header Key"
+      />
+      <input
+        type="text"
+        value={keyValue.value}
+        onChange={onValueChange}
+        placeholder="Header Value"
+      />
+      <button onClick={onAdd}>Add Header</button>
+    </div>
+  ),
+}));
+
+vi.mock('../../Button/Button', () => ({
+  Button: ({ onClick, children }: any) => (
+    <button onClick={onClick}>{children}</button>
+  ),
+}));
+
 
 describe('QueryForm Component', () => {
   const mockProps = {
@@ -17,6 +73,7 @@ describe('QueryForm Component', () => {
     onBodyBlur: vi.fn(),
     onHeadersChange: vi.fn(),
     onQueryExecute: vi.fn(),
+    t: en.graphiql
   };
 
   it('should render the component correctly', () => {
@@ -34,6 +91,7 @@ describe('QueryForm Component', () => {
     expect(screen.getByLabelText('Variables:')).toBeInTheDocument();
   });
 
+
   it('should toggle headers visibility', () => {
     render(<QueryForm {...mockProps} />);
 
@@ -42,13 +100,16 @@ describe('QueryForm Component', () => {
     expect(screen.getByText('Hide Headers')).toBeInTheDocument();
   });
 
+
   it('should toggle variables visibility', () => {
     render(<QueryForm {...mockProps} />);
+
 
     const variablesButton = screen.getByText('Show Variables');
     fireEvent.click(variablesButton);
     expect(screen.getByText('Hide Variables')).toBeInTheDocument();
   });
+
 
   it('should call onQueryExecute when Send Request is clicked', () => {
     render(<QueryForm {...mockProps} />);
@@ -84,6 +145,8 @@ describe('QueryForm Handling Functions', () => {
     onBodyBlur: vi.fn(),
     onHeadersChange: vi.fn(),
     onQueryExecute: vi.fn(),
+
+    t: en.graphiql
   };
 
   it('should handle URL change', () => {

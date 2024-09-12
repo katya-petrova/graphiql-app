@@ -9,6 +9,7 @@ import { Form } from '@/components/Form/Form';
 import { validateSignupForm } from '@/utils/validation/validateSignupForm';
 import Loader from '@/components/Loader/Loader';
 import { Button } from '@/components/Button';
+import { useTranslation } from '@/context/TranslationContext';
 
 const Signup: React.FC = () => {
   const [name, setName] = useState<string>('');
@@ -16,6 +17,7 @@ const Signup: React.FC = () => {
   const [password, setPassword] = useState<string>('');
   const [user, loading] = useAuthState(auth);
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
+  const { signUp } = useTranslation();
 
   const router = useRouter();
 
@@ -54,11 +56,11 @@ const Signup: React.FC = () => {
 
   return (
     <>
-      <h1 className="text-3xl font-bold mb-6 text-center">Sign Up</h1>
+      <h1 className="text-3xl font-bold mb-6 text-center">{signUp.title}</h1>
       <Form onSubmit={register}>
         <div className="flex flex-col mb-4">
           <label htmlFor="name" className="mb-2 text-gray-700">
-            Name:
+            {signUp.name}:
           </label>
           <input
             id="name"
@@ -71,7 +73,7 @@ const Signup: React.FC = () => {
         </div>
         <div className="flex flex-col mb-4">
           <label htmlFor="email" className="mb-2 text-gray-700">
-            Email:
+            {signUp.email}:
           </label>
           <input
             id="email"
@@ -86,7 +88,7 @@ const Signup: React.FC = () => {
         </div>
         <div className="flex flex-col mb-6">
           <label htmlFor="password" className="mb-2 text-gray-700">
-            Password:
+            {signUp.password}:
           </label>
           <input
             id="password"
@@ -99,7 +101,7 @@ const Signup: React.FC = () => {
             <p className="text-red-500 text-sm">{errors.password}</p>
           )}
         </div>
-        <Button type="submit">Sign Up</Button>
+        <Button type="submit">{signUp.title}</Button>
       </Form>
     </>
   );

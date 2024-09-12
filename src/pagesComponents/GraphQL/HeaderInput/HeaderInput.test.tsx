@@ -1,6 +1,7 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import HeaderInput from './HeaderInput';
+import en from '@/utils/translation/dictionaries/en.json';
 
 vi.mock('../../Button/Button', () => ({
   Button: ({ onClick, children }: any) => (
@@ -24,6 +25,7 @@ describe('HeaderInput Component', () => {
         onKeyChange={mockOnKeyChange}
         onValueChange={mockOnValueChange}
         onAdd={mockOnAdd}
+        t={en.graphiql}
       />
     );
 
@@ -39,6 +41,7 @@ describe('HeaderInput Component', () => {
         onKeyChange={mockOnKeyChange}
         onValueChange={mockOnValueChange}
         onAdd={mockOnAdd}
+        t={en.graphiql}
       />
     );
 

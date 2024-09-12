@@ -1,6 +1,7 @@
 import React from 'react';
 import { Metadata } from 'next';
 import Restclient from '@/pagesComponents/Restclient/RestClient';
+import { getDictionary, Locale } from '@/utils/translation/getDictionary';
 
 export const metadata: Metadata = {
   title: 'RESTfull Client',
@@ -10,8 +11,13 @@ export const metadata: Metadata = {
   },
 };
 
-const RestClientPage: React.FC = () => {
-  return <Restclient />;
+type RestClientProps = {
+  params: { lang: string };
 };
 
-export default RestClientPage;
+const RestClient: React.FC<RestClientProps> = async ({ params: { lang } }) => {
+  const { rest } = await getDictionary(lang);
+  return <Restclient t={rest} />;
+};
+
+export default RestClient;

@@ -7,6 +7,7 @@ import HeaderInput from '../HeaderInput/HeaderInput';
 import { Button } from '../../../components/Button/Button';
 import { toast } from 'react-toastify';
 import HeaderList from '../HeaderList/HeaderList';
+import { Dictionary } from '@/utils/translation/getDictionary';
 
 interface Header {
   key: string;
@@ -27,6 +28,7 @@ interface QueryFormProps {
   onBodyBlur: (e: React.FocusEvent<HTMLTextAreaElement>) => void;
   onHeadersChange: (headers: string) => void;
   onQueryExecute: () => void;
+  t: Dictionary['graphiql'];
 }
 
 const QueryForm: React.FC<QueryFormProps> = ({
@@ -43,6 +45,7 @@ const QueryForm: React.FC<QueryFormProps> = ({
   onQueryExecute,
   onBodyChange,
   onBodyBlur,
+  t,
 }) => {
   const [headerKey, setHeaderKey] = useState('');
   const [headerValue, setHeaderValue] = useState('');
@@ -89,9 +92,9 @@ const QueryForm: React.FC<QueryFormProps> = ({
       } as React.ChangeEvent<HTMLTextAreaElement>);
     } catch (error) {
       if (error instanceof Error) {
-        toast.error(`Error formatting query: ${error.message}`);
+        toast.error(`${t.errorMessages.formatting}: ${error.message}`);
       } else {
-        toast.error('An unknown error occurred');
+        toast.error(t.errorMessages.unknown);
       }
     }
   };
@@ -107,7 +110,7 @@ const QueryForm: React.FC<QueryFormProps> = ({
   return (
     <div>
       <UrlInput
-        label="Endpoint URL:"
+        label={`${t.endpointUrl}:`}
         value={url}
         onChange={onUrlChange}
         placeholder="https://example.com/graphql"
@@ -133,6 +136,7 @@ const QueryForm: React.FC<QueryFormProps> = ({
             onKeyChange={(e) => setHeaderKey(e.target.value)}
             onValueChange={(e) => setHeaderValue(e.target.value)}
             onAdd={handleAddHeader}
+            t={t}
           />
 
           <HeaderList
@@ -150,33 +154,35 @@ const QueryForm: React.FC<QueryFormProps> = ({
       </button>
 
       {variablesVisible && (
-        <TextAreaInput
-          label="Variables:"
-          value={variables}
-          onChange={onVariablesChange}
-          placeholder={`{"id": "1", "name": "example"}`}
-          rows={1}
-        />
+      <TextAreaInput
+      label={`${t.variables}:`}
+      value={variables}
+      onChange={onVariablesChange}
+      placeholder={`{"id": "1", "name": "example"}`}
+      rows={1}
+    />
       )}
 
       <TextAreaInput
-        label="Query:"
+        label={`${t.query}:`}
         value={query}
         onChange={(e) => {
           onQueryChange(e);
           onBodyChange(e);
         }}
         onBlur={onBodyBlur}
-        placeholder="Enter your GraphQL query"
+        placeholder={t.queryPlaceholder}
         rows={8}
       />
 
       <Button onClick={handlePrettify} className="mt-2 mb-4">
-        Prettify
+       {t.prettifyQuery}
       </Button>
 
+
+
       <div className="mt-4">
-        <Button onClick={onQueryExecute}>Send Request</Button>
+        <Button onClick={onQueryExecute}>{t.sendRequest}</Button>
       </div>
     </div>
   );

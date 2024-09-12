@@ -1,9 +1,8 @@
 import React from 'react';
-import { render, screen, waitFor } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import MainPage from './MainPage';
 import { useAuth } from '@/context/AuthContext';
-import { useRouter, usePathname } from 'next/navigation';
 import en from '@/utils/translation/dictionaries/en.json';
 
 vi.mock('@/context/AuthContext', () => ({
@@ -18,7 +17,6 @@ vi.mock('next/navigation', () => ({
 }));
 
 const mockUseAuth = useAuth as jest.Mock;
-const mockPush = vi.mocked(useRouter)().push as jest.Mock;
 
 describe('MainPage Component', () => {
   beforeEach(() => {
