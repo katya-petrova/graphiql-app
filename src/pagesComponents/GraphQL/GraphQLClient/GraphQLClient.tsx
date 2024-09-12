@@ -126,7 +126,7 @@ const GraphQLClient: React.FC<{ t: Dictionary['graphiql'] }> = ({ t }) => {
 
       setStatusCode(200);
       toast.success(t.successfulMessages.query);
-    } catch {
+    } catch (err) {
       setError(t.errorMessages.fetching);
       toast.error(`${(err as Error).message}`);
       setStatusCode(500);
