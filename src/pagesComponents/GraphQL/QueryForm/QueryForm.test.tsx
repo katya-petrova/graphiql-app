@@ -3,8 +3,15 @@ import { describe, it, expect, vi } from 'vitest';
 import QueryForm from './QueryForm';
 import en from '@/utils/translation/dictionaries/en.json';
 
+interface UrlInputProps {
+  label: string;
+  value: string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  placeholder?: string;
+}
+
 vi.mock('../../UrlInput/UrlInput', () => ({
-  default: ({ label, value, onChange, placeholder }: any) => (
+  default: ({ label, value, onChange, placeholder }: UrlInputProps) => (
     <div>
       <label>{label}</label>
       <input
@@ -17,8 +24,22 @@ vi.mock('../../UrlInput/UrlInput', () => ({
   ),
 }));
 
+interface TextAreaInputProps {
+  label: string;
+  value: string;
+  onChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
+  placeholder?: string;
+  rows?: number;
+}
+
 vi.mock('../../TextAreaInput/TextAreaInput', () => ({
-  default: ({ label, value, onChange, placeholder, rows }: any) => (
+  default: ({
+    label,
+    value,
+    onChange,
+    placeholder,
+    rows,
+  }: TextAreaInputProps) => (
     <div>
       <label>{label}</label>
       <textarea
@@ -31,8 +52,25 @@ vi.mock('../../TextAreaInput/TextAreaInput', () => ({
   ),
 }));
 
+interface KeyValue {
+  key: string;
+  value: string;
+}
+
+interface HeaderInputProps {
+  keyValue: KeyValue;
+  onKeyChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onValueChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onAdd: () => void;
+}
+
 vi.mock('../HeaderInput/HeaderInput', () => ({
-  default: ({ keyValue, onKeyChange, onValueChange, onAdd }: any) => (
+  default: ({
+    keyValue,
+    onKeyChange,
+    onValueChange,
+    onAdd,
+  }: HeaderInputProps) => (
     <div>
       <input
         type="text"
