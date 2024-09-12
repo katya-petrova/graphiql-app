@@ -141,9 +141,7 @@ const GraphQLClient: React.FC<{ t: Dictionary['graphiql'] }> = ({ t }) => {
     let bodyBase64;
 
     try {
-      bodyBase64 = btoa(
-        JSON.stringify({ query, variables })
-      );
+      bodyBase64 = btoa(JSON.stringify({ query, variables }));
     } catch (error) {
       toast.error(`Error encoding request body: ${error}`);
       return;
