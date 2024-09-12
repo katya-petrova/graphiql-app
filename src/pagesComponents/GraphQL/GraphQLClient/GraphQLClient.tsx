@@ -188,6 +188,9 @@ const GraphQLClient: React.FC<{ t: Dictionary['graphiql'] }> = ({ t }) => {
 
       const lang = getLangFromUrlOrCookie(pathname);
       const endpointUrlBase64 = btoa(url);
+
+      if (!endpointUrlBase64) return;
+
       const bodyBase64 = btoa(JSON.stringify({ query, variables }));
 
       const newSearchParams = new URLSearchParams(
