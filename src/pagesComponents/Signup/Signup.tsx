@@ -42,8 +42,10 @@ const Signup: React.FC = () => {
 
     try {
       await registerWithEmailAndPassword(name, email, password);
-    } catch (error) {
-      toast.error(signUp.errorMessages.unexpected);
+    } catch (err) {
+      toast.error(
+        `An unexpected error occurred. Please try again. ${(err as Error).message}`
+      );
     }
   };
 

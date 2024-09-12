@@ -4,7 +4,7 @@ import Loader from '../../../components/Loader/Loader';
 import { Dictionary } from '@/utils/translation/getDictionary';
 
 interface QueryResultProps {
-  queryResult: any;
+  queryResult: string;
   error: string | null;
   statusCode: number | null;
   loading: boolean;

@@ -14,13 +14,14 @@ import SdlFetcher from '../SdlFetcher/SdlFetcher';
 import SdlDocumentation from '../SdlDocumentation/SdlDocumentation';
 import { Dictionary } from '@/utils/translation/getDictionary';
 import { saveRestRequestToHistory } from '@/utils/RestfulClientServices/historyService/historyService';
+import { RequestHistoryItem } from '@/pagesComponents/Restclient/RestClient';
 
 const GraphQLClient: React.FC<{ t: Dictionary['graphiql'] }> = ({ t }) => {
   const [query, setQuery] = useState<string>('');
   const [variables, setVariables] = useState<string>('');
   const [url, setUrl] = useState<string>('');
   const [sdlUrl, setSdlUrl] = useState<string>('');
-  const [queryResult, setQueryResult] = useState<any>(null);
+  const [queryResult, setQueryResult] = useState<string>('');
   const [sdlData, setSdlData] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
@@ -33,7 +34,7 @@ const GraphQLClient: React.FC<{ t: Dictionary['graphiql'] }> = ({ t }) => {
   const pathname = usePathname();
   const [endpoint, setEndpoint] = useState('');
   const [body, setBody] = useState<string>('');
-  const [history, setHistory] = useState<any[]>([]);
+  const [history, setHistory] = useState<RequestHistoryItem[]>([]);
 
   useEffect(() => {
     const pathParts = pathname.split('/');
@@ -126,7 +127,6 @@ const GraphQLClient: React.FC<{ t: Dictionary['graphiql'] }> = ({ t }) => {
       setStatusCode(200);
       toast.success(t.successfulMessages.query);
     } catch {
-      setError(t.errorMessages.fetching);
       setStatusCode(500);
       toast.error(t.errorMessages.executing);
     } finally {
@@ -137,7 +137,16 @@ const GraphQLClient: React.FC<{ t: Dictionary['graphiql'] }> = ({ t }) => {
   const handlePush = () => {
     const lang = getLangFromUrlOrCookie(pathname);
     const endpointUrlBase64 = btoa(url);
-    const bodyBase64 = btoa(JSON.stringify({ query, variables }));
+
+    let bodyBase64;
+
+    try {
+      bodyBase64 = btoa(JSON.stringify({ query, variables }));
+    } catch (error) {
+      toast.error(`Error encoding request body: ${error}`);
+      return;
+    }
+
     const newUrl = `/${lang}/graphiql/${endpointUrlBase64}/${bodyBase64}?${new URLSearchParams(convertHeadersArrayToObject(headersArray)).toString()}`;
 
     if (newUrl !== window.location.pathname + window.location.search) {
@@ -152,12 +161,6 @@ const GraphQLClient: React.FC<{ t: Dictionary['graphiql'] }> = ({ t }) => {
   const handleSdlDataFetch = (data: string) => {
     setSdlData(data);
     toast.success(t.successfulMessages.SDL);
-  };
-
-  const handleError = (message: string) => {
-    setError(message);
-    setStatusCode(500);
-    toast.error(`${t.errorMessages.error}: ` + message);
   };
 
   const handleUrlChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -203,6 +206,7 @@ const GraphQLClient: React.FC<{ t: Dictionary['graphiql'] }> = ({ t }) => {
       }
     } catch (error) {
       toast.error(t.errorMessages.header);
+      toast.error(`${(error as Error).message}`);
     }
   };
 
@@ -237,7 +241,6 @@ const GraphQLClient: React.FC<{ t: Dictionary['graphiql'] }> = ({ t }) => {
           sdlUrl={sdlUrl}
           headers={convertHeadersArrayToObject(headersArray)}
           onSdlDataFetch={handleSdlDataFetch}
-          onError={handleError}
           t={t}
         />
         <SdlDocumentation t={t} sdlData={sdlData} />
