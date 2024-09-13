@@ -1,10 +1,10 @@
 'use client';
 
 import { useState } from 'react';
-import { Button } from '../../../components/Button/Button';
-import Loader from '../../../components/Loader/Loader';
 import { toast } from 'react-toastify';
 import { Dictionary } from '@/utils/translation/getDictionary';
+import Loader from '@/components/Loader/Loader';
+import { Button } from '@/components/Button';
 
 interface SdlFetcherProps {
   sdlUrl: string;
