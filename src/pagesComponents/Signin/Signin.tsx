@@ -32,7 +32,9 @@ const Signin: React.FC = () => {
     try {
       await logInWithEmailAndPassword(email, password);
     } catch (error) {
-      console.log(error);
+      if (error instanceof Error) {
+        toast.error(error.message);
+      }
     }
   };
 
