@@ -1,9 +1,9 @@
 'use client';
 
 import { useState } from 'react';
+import { Button } from '../../../components/Button/Button';
+import Loader from '../../../components/Loader/Loader';
 import { toast } from 'react-toastify';
-import { Button } from '@/components/Button/Button';
-import Loader from '@/components/Loader/Loader';
 import { Dictionary } from '@/utils/translation/getDictionary';
 
 interface SdlFetcherProps {
@@ -20,36 +20,45 @@ const SdlFetcher: React.FC<SdlFetcherProps> = ({
   t,
 }) => {
   const [loading, setLoading] = useState(false);
+  const [urlError, setUrlError] = useState<string | null>(null);
+
+  const validateUrl = (url: string): boolean => {
+    const urlPattern = /^(https?:\/\/[^\s$.?#].[^\s]*)$/i;
+    return urlPattern.test(url);
+  };
 
   const fetchSdlData = async () => {
     setLoading(true);
-    try {
-      if (!sdlUrl) {
-        throw new Error('URL is empty');
-      }
+    setUrlError(null);
 
-      const response = await fetch(sdlUrl, {
-        method: 'GET',
-        headers: headers,
+    if (!validateUrl(sdlUrl)) {
+      const errorMessage = 'Invalid URL format';
+      setUrlError(errorMessage);
+      setLoading(false);
+      toast.error(`Error: ${errorMessage}`);
+      return;
+    }
+
+    try {
+      const response = await fetch('/api/graphql-sdl/fetch-sdl', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          sdlUrl,
+          headers,
+        }),
       });
 
       if (!response.ok) {
-        if (response.status === 404) {
-          // Handle 404 error gracefully
-          throw new Error('SDL document not found');
-        } else {
-          throw new Error('Failed to fetch SDL data');
-        }
+        const errorData = await response.json();
+        throw new Error(errorData.message);
       }
 
-      const sdlText = await response.text();
+      const sdlData = await response.json();
 
-      if (!sdlText.trim()) {
-        throw new Error('No data found');
-      }
-
-      onSdlDataFetch(sdlText);
-      toast.success(t.successfulMessages.SDL);
+      onSdlDataFetch(JSON.stringify(sdlData, null, 2));
     } catch (error) {
       toast.error((error as Error).message);
     } finally {
@@ -60,6 +69,7 @@ const SdlFetcher: React.FC<SdlFetcherProps> = ({
   return (
     <div>
       {loading && <Loader />}
+      {urlError && <p className="error">{urlError}</p>}
       <Button onClick={fetchSdlData} disabled={loading}>
         {t.requestSdl}
       </Button>
