@@ -1,4 +1,3 @@
-import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { vi } from 'vitest';
 import Signin from './Signin';
@@ -66,11 +65,9 @@ describe('Signin Component', () => {
     });
   });
 
-  it('handles login errors and logs them', async () => {
+  it('handles login errors and shows an error toast', async () => {
     mockUseAuthState.mockReturnValue([null, false]);
     mockLogIn.mockRejectedValue(new Error('Login failed'));
-
-    console.log = vi.fn();
 
     render(
       <TranslationProvider t={en}>
@@ -88,7 +85,7 @@ describe('Signin Component', () => {
     fireEvent.click(screen.getByRole('button', { name: /Sign In/i }));
 
     await waitFor(() => {
-      expect(console.log).toHaveBeenCalledWith(new Error('Login failed'));
+      expect(mockToastError).toHaveBeenCalledWith('Login failed');
     });
   });
 });
