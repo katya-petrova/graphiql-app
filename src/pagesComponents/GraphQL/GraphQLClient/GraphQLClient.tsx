@@ -43,6 +43,8 @@ const GraphQLClient: React.FC<{ t: Dictionary['graphiql'] }> = ({ t }) => {
 
     setEndpoint(endpointBase64 ? atob(endpointBase64) : '');
     setBody(bodyBase64 ? atob(bodyBase64) : '');
+    
+    setSdlUrl(`${endpointBase64 ? atob(endpointBase64) : ''}?sdl`);
   }, [pathname]);
 
   const handleBodyChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
