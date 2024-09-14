@@ -14,12 +14,12 @@ interface FirebaseConfig {
 
 // Your web app's Firebase configuration
 const firebaseConfig: FirebaseConfig = {
-  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY!,
-  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN!,
-  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID!,
-  storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET!,
-  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID!,
-  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID!,
+  apiKey: 'AIzaSyCnmW5Lm8bh6dawvxRH3OZNJycl1wbbuus',
+  authDomain: 'graphiql-app-dace5.firebaseapp.com',
+  projectId: 'graphiql-app-dace5',
+  storageBucket: 'graphiql-app-dace5.appspot.com',
+  messagingSenderId: '421070176755',
+  appId: '1:421070176755:web:086ba765a942d571ac1286',
 };
 
 // Initialize Firebase
