@@ -1,0 +1,141 @@
+{
+  "welcome": {
+    "title": "Welcome to GraphiQL!",
+    "description": [
+      "Here, you can explore the world of GraphQL APIs with ease. Experiment with different endpoints, craft and test your queries, manage variables and headers, and see the results of your work instantly.",
+      "GraphiQL Playground is built for simplicity and understanding. With its intuitive interface, navigating the power of GraphQL becomes a seamless experience. Your queries will be more straightforward, and the results more accessible.",
+      "Join us in uncovering the potential of GraphQL. GraphiQL Playground is your reliable partner in mastering and using GraphQL APIs. Enjoy the journey with confidence and ease!"
+    ],
+    "link": "Get started"
+  },
+  "main": {
+    "title": "Welcome to our platform. Choose the tool you need:",
+    "links": {
+      "rest": "RESTful Client",
+      "graphiQL": "GraphiQL",
+      "history": "History"
+    }
+  },
+  "notFound": {
+    "title": "404 Page not found",
+    "description": "Could not found requested resource",
+    "links": {
+      "home": "Home"
+    }
+  },
+  "history": {
+    "title": "History requests",
+    "message": ["You haven't executed any requests", "It's empty here. Try:"],
+    "links": { "rest": "REST Client", "graphiQL": "GraphiQL Client" }
+  },
+  "auth": {
+    "messages": {
+      "notAuth": "Please sign in to access the platform."
+    },
+    "links": {
+      "signIn": "Sign in",
+      "signUp": "Sign up",
+      "signOut": "Sign out",
+      "main": "Main"
+    },
+    "errors": {
+      "signOut": "Sign out error"
+    }
+  },
+  "rest": {
+    "enterEndpoint": "Enter endpoint",
+    "headerKey": "Header Key",
+    "headerValue": "Header Value",
+    "key": "Key",
+    "value": "Value",
+    "variables": "Variables",
+    "addVariable": "Add Variable",
+    "addHeader": "Add Header",
+    "remove": "Remove",
+    "switchToTextView": "Switch to Text View",
+    "switchToJSONView": "Switch to JSON View",
+    "requestBody": "Request body",
+    "sendRequest": "Send Request",
+    "save": "Save",
+    "cancel": "Cancel",
+    "error": "Error",
+    "requestError": "Request Error",
+    "response": "Response",
+    "status": "Status",
+    "validationErrors": {
+      "header": {
+        "required": "Both key and value are required.",
+        "key": "Header key must contain only Latin letters, digits, dashes, underscores, or slashes.",
+        "value": "Header value contains invalid characters."
+      }
+    }
+  },
+  "graphiql": {
+    "title": "GraphQL Client",
+    "endpointUrl": "Endpoint URL",
+    "headerKey": "Header Key",
+    "headerValue": "Header Value",
+    "showHeaders": "Show Headers",
+    "hideHeaders": "Hide Headers",
+    "showVariables": "Show Variables",
+    "hideVariables": "Hide Variables",
+    "addHeader": "Add Header",
+    "query": "Query",
+    "prettifyQuery": "Prettify Query",
+    "variables": "Variables",
+    "sendRequest": "Send Request",
+    "requestSdl": "Request SDL",
+    "SDLDocumentation": "SDL Documentation",
+    "remove": "Remove",
+    "queryPlaceholder": "Enter your GraphQL query",
+    "status": "Status",
+    "errorMessages": {
+      "formatting": "Error formatting query",
+      "unknown": "An unknown error occurred",
+      "fetching": "Error fetching data",
+      "executing": "Error executing the query!",
+      "header": "Invalid headers format",
+      "error": "Error",
+      "fetchSDL": "Error fetching SDL data"
+    },
+    "successfulMessages": {
+      "query": "Query executed successfully!",
+      "SDL": "SDL data fetched successfully!"
+    }
+  },
+  "signIn": {
+    "title": "Sign In",
+    "email": "Email",
+    "password": "Password",
+    "errorMessages": {
+      "offline": "You are currently offline. Please check your internet connection.",
+      "unexpected": "An unexpected error occurred. Please try again."
+    }
+  },
+  "signUp": {
+    "title": "Sign Up",
+    "name": "Name",
+    "email": "Email",
+    "password": "Password",
+    "errorMessages": {
+      "offline": "You are currently offline. Please check your internet connection.",
+      "unexpected": "An unexpected error occurred. Please try again."
+    },
+    "validationErrors": {
+      "name": {
+        "required": "Name is required"
+      },
+      "email": {
+        "valid": "Invalid email address",
+        "required": "Email is required"
+      },
+      "password": {
+        "required": "Password is required",
+        "min": "Password must be at least 8 characters long",
+        "matchesLetter": "Password must contain at least one letter",
+        "matchesDigit": "Password must contain at least one digit",
+        "matchesSymbol": "Password must contain at least one special character"
+      }
+    }
+  }
+}

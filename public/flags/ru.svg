@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" shape-rendering="geometricPrecision"
+  text-rendering="geometricPrecision" image-rendering="optimizeQuality" fill-rule="evenodd"
+  clip-rule="evenodd" viewBox="0 0 512 512">
+  <g fill-rule="nonzero">
+    <path fill="#fff"
+      d="M512 256C512 114.616 397.384 0 256 0S0 114.616 0 256s114.616 256 256 256 256-114.616 256-256z" />
+    <path fill="#D52B1E"
+      d="M512 256H0c0 141.384 114.616 256 256 256s256-114.616 256-256z" />
+    <path fill="#0039A6"
+      d="M512 194.048H0c-8.048 22.652-12.444 47.036-12.444 72.451 0 25.586 4.452 50.131 12.606 72.915h512c8.154-22.784 12.606-47.329 12.606-72.915 0-25.415-4.396-49.799-12.444-72.451z" />
+  </g>
+</svg>
