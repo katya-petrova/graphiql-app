@@ -44,7 +44,8 @@ const GraphQLClient: React.FC<{ t: Dictionary['graphiql'] }> = ({ t }) => {
     setEndpoint(endpointBase64 ? atob(endpointBase64) : '');
     setBody(bodyBase64 ? atob(bodyBase64) : '');
 
-    if (endpointBase64) setSdlUrl(`${endpointBase64 ? atob(endpointBase64) : ''}?sdl`);
+    if (endpointBase64)
+      setSdlUrl(`${endpointBase64 ? atob(endpointBase64) : ''}?sdl`);
   }, [pathname]);
 
   const handleBodyChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -66,17 +67,19 @@ const GraphQLClient: React.FC<{ t: Dictionary['graphiql'] }> = ({ t }) => {
   };
 
   useEffect(() => {
+    if (!body) {
+      return;
+    }
     try {
       const parsedObject = JSON.parse(body || '{}');
       const { query, variables } = parsedObject;
-
       if (query) setQuery(query);
       if (variables) setVariables(variables);
       if (endpoint) setUrl(endpoint);
-    } catch (error) {
-      console.error('Invalid JSON in body:', error);
+    } catch {
+      toast.error(t.errorMessages.executing);
     }
-  }, [body, endpoint]);
+  }, [endpoint]);
 
   useEffect(() => {
     const headersArray: { key: string; value: string }[] = [];
@@ -144,8 +147,8 @@ const GraphQLClient: React.FC<{ t: Dictionary['graphiql'] }> = ({ t }) => {
 
     try {
       bodyBase64 = btoa(JSON.stringify({ query, variables }));
-    } catch (error) {
-      toast.error(`Error encoding request body: ${error}`);
+    } catch {
+      toast.error(t.errorMessages.executing);
       return;
     }
 
