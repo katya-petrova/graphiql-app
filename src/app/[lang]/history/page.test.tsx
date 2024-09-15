@@ -15,6 +15,10 @@ vi.mock('@/utils/translation/getDictionary', () => ({
   }),
 }));
 
+vi.mock('@/context/AuthContext', () => ({
+  useAuth: () => ({ isSignedIn: true }),
+}));
+
 describe('HistoryPage', () => {
   beforeEach(() => {
     localStorage.clear();

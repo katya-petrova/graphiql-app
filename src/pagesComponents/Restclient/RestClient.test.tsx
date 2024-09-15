@@ -13,6 +13,9 @@ vi.mock('next/navigation', () => ({
   useSearchParams: vi.fn().mockReturnValue({
     toString: () => '',
   }),
+  useRouter: () => ({
+    push: vi.fn(),
+  }),
 }));
 
 vi.mock('@/utils/storageService/storageService', () => ({
@@ -33,6 +36,10 @@ vi.mock('@/utils/RestfulClientServices/requestService/requestService', () => ({
 
 vi.mock('@/utils/RestfulClientServices/historyService/historyService', () => ({
   saveRestRequestToHistory: vi.fn(),
+}));
+
+vi.mock('@/context/AuthContext', () => ({
+  useAuth: () => ({ isSignedIn: true }),
 }));
 
 describe('Restclient component', () => {

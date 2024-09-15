@@ -1,18 +1,13 @@
 'use client';
 import React, { useState, useEffect } from 'react';
-import { usePathname, useSearchParams } from 'next/navigation';
-import MethodSelector from './components/MethodSelector/MethodSelector';
-import EndpointInput from './components/EndpointInput/EndpointInput';
-import HeadersEditor from './components/HeadersEditor/HeadersEditor';
-import BodyEditor from './components/BodyEditor/BodyEditor';
-import VariablesSection from './components/VariablesSection/VariablesSection';
-import ResponseViewer from './components/ResponseViewer/ResponseViewer';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { toast } from 'react-toastify';
+
 import { getLangFromUrlOrCookie } from '@/utils/getCurrentLanguage/getCurrentLanguage';
+import { Dictionary } from '@/utils/translation/getDictionary';
+import { useAuth } from '@/context/AuthContext';
 import { saveRestRequestToHistory } from '@/utils/RestfulClientServices/historyService/historyService';
 import { replaceVariablesInBody } from '@/utils/RestfulClientServices/requestService/requestService';
-import { Dictionary } from '@/utils/translation/getDictionary';
-
 import {
   getFromLocalStorage,
   saveToLocalStorage,
@@ -22,6 +17,13 @@ import {
   buildNewUrl,
 } from '@/utils/RestfulClientServices/urlService/urlService';
 
+import MethodSelector from './components/MethodSelector/MethodSelector';
+import EndpointInput from './components/EndpointInput/EndpointInput';
+import HeadersEditor from './components/HeadersEditor/HeadersEditor';
+import BodyEditor from './components/BodyEditor/BodyEditor';
+import VariablesSection from './components/VariablesSection/VariablesSection';
+import ResponseViewer from './components/ResponseViewer/ResponseViewer';
+
 export type RequestHistoryItem = {
   request_url: string;
   link: string;
@@ -30,6 +32,8 @@ export type RequestHistoryItem = {
 
 const Restclient: React.FC<{ t: Dictionary['rest'] }> = ({ t }) => {
   const pathname = usePathname();
+  const { isSignedIn } = useAuth();
+  const router = useRouter();
   const searchParams = useSearchParams();
   const [method, setMethod] = useState('GET');
   const [endpoint, setEndpoint] = useState('');
@@ -41,6 +45,12 @@ const Restclient: React.FC<{ t: Dictionary['rest'] }> = ({ t }) => {
     []
   );
   const [initialLoad, setInitialLoad] = useState(true);
+
+  useEffect(() => {
+    if (!isSignedIn) {
+      router.push('/signin');
+    }
+  }, [isSignedIn, router]);
 
   useEffect(() => {
     if (!pathname) return;
