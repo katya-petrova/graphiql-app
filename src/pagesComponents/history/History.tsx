@@ -49,7 +49,7 @@ export const History = ({ t }: HistoryProps) => {
           </p>
         ))}
         <div className="flex flew-wrap gap-8 mt-8">
-          <Link variant="primary" className="w-52" href="rest-client">
+          <Link variant="primary" className="w-52" href="restclient">
             {t.links.rest}
           </Link>
           <Link variant="primary" className="w-52" href="graphiql">
