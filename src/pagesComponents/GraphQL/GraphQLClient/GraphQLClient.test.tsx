@@ -111,8 +111,15 @@ vi.mock('next/navigation', async (importOriginal) => {
     ...actual,
     usePathname: vi.fn().mockReturnValue('/'),
     useSearchParams: vi.fn().mockReturnValue(new URLSearchParams('')),
+    useRouter: () => ({
+      push: vi.fn(),
+    }),
   };
 });
+
+vi.mock('@/context/AuthContext', () => ({
+  useAuth: () => ({ isSignedIn: true }),
+}));
 
 describe('GraphQLClient Component', () => {
   beforeEach(() => {

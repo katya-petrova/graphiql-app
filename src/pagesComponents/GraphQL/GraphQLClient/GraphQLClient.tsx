@@ -1,22 +1,28 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { ApolloProvider, gql } from '@apollo/client';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+
 import useGraphQLClient from '@/utils/graphqlClient/useGraphQLClient';
-import { usePathname, useSearchParams } from 'next/navigation';
 import { getLangFromUrlOrCookie } from '@/utils/getCurrentLanguage/getCurrentLanguage';
 import ToastContainer from '@/components/ToastContainer/ToastContainer';
-import QueryForm from '../QueryForm/QueryForm';
-import QueryResult from '../QueryResult/QueryResult';
-import SdlFetcher from '../SdlFetcher/SdlFetcher';
-import SdlDocumentation from '../SdlDocumentation/SdlDocumentation';
+import { useAuth } from '@/context/AuthContext';
 import { Dictionary } from '@/utils/translation/getDictionary';
 import { saveRestRequestToHistory } from '@/utils/RestfulClientServices/historyService/historyService';
 import { RequestHistoryItem } from '@/pagesComponents/Restclient/RestClient';
 
+import QueryForm from '../QueryForm/QueryForm';
+import QueryResult from '../QueryResult/QueryResult';
+import SdlFetcher from '../SdlFetcher/SdlFetcher';
+import SdlDocumentation from '../SdlDocumentation/SdlDocumentation';
+
 const GraphQLClient: React.FC<{ t: Dictionary['graphiql'] }> = ({ t }) => {
+  const { isSignedIn } = useAuth();
+  const router = useRouter();
+
   const [query, setQuery] = useState<string>('');
   const [variables, setVariables] = useState<string>('');
   const [url, setUrl] = useState<string>('');
@@ -35,6 +41,12 @@ const GraphQLClient: React.FC<{ t: Dictionary['graphiql'] }> = ({ t }) => {
   const [endpoint, setEndpoint] = useState('');
   const [body, setBody] = useState<string>('');
   const [history, setHistory] = useState<RequestHistoryItem[]>([]);
+
+  useEffect(() => {
+    if (!isSignedIn) {
+      router.push('/signin');
+    }
+  }, [isSignedIn, router]);
 
   useEffect(() => {
     const pathParts = pathname.split('/');

@@ -1,8 +1,10 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { Link } from '@/components/Link';
 import { Dictionary } from '@/utils/translation/getDictionary';
+import { useAuth } from '@/context/AuthContext';
 
 type HistoryProps = { t: Dictionary['history'] };
 
@@ -14,6 +16,15 @@ type RequestHistoryItem = {
 
 export const History = ({ t }: HistoryProps) => {
   const [historyItems, setHistoryItems] = useState<RequestHistoryItem[]>([]);
+
+  const { isSignedIn } = useAuth();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!isSignedIn) {
+      router.push('/signin');
+    }
+  }, [isSignedIn, router]);
 
   useEffect(() => {
     const storedHistoryItems = localStorage.getItem('requestHistory');
